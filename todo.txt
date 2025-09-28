@@ -1,0 +1,8 @@
+1.Connect Convex
+2.Add All The Admin Pages | Store Location | Menu Prices | Etc....
+3.Popup For Location Mandatory... 
+4.Take Orders Directly From The Closest Location Ablity To Switch Store As Well 
+5.Order POS System
+6.Auth | Phone Auth | Email | google | Simple 
+7.Real Time Login 
+8.Messaging UI To The Store 
