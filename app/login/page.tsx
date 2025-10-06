@@ -30,8 +30,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <form onSubmit={handleSubmit} className="p-6 rounded-lg shadow-lg bg-white max-w-md w-full">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background-secondary ">
+      <form onSubmit={handleSubmit} className="p-6 rounded-lg shadow-lg bg-background-layer-3-background max-w-md w-full">
         <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
         {["name", "dob", "aadhaar", "pan", "phone"].map((key) => (
           <input

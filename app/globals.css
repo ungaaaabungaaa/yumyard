@@ -37,6 +37,70 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  
+  /* Custom background colors */
+  --color-background-primary: var(--background-primary);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-danger: var(--background-danger);
+  --color-background-light-red: var(--background-light-red);
+  --color-background-grey: var(--background-grey);
+  --color-background-disabled: var(--background-disabled);
+  --color-background-surface-background: var(--background-surface-background);
+  --color-background-element-background: var(--background-element-background);
+  --color-background-layer-1-background: var(--background-layer-1-background);
+  --color-background-layer-2-background: var(--background-layer-2-background);
+  --color-background-layer-3-background: var(--background-layer-3-background);
+  --color-background-background-blur: var(--background-background-blur);
+  --color-background-transparent-nav: var(--background-transparent-nav);
+  --color-background-dark-mode-darkest: var(--background-dark-mode-darkest);
+  
+  /* Custom typography colors */
+  --color-typography-heading: var(--typography-heading);
+  --color-typography-paragraph: var(--typography-paragraph);
+  --color-typography-light-grey: var(--typography-light-grey);
+  --color-typography-inactive: var(--typography-inactive);
+  --color-typography-disabled: var(--typography-disabled);
+  --color-typography-primary: var(--typography-primary);
+  --color-typography-primary-700: var(--typography-primary-700);
+  --color-typography-white: var(--typography-white);
+  --color-typography-danger: var(--typography-danger);
+  
+  /* Custom icon colors */
+  --color-icon-default: var(--icon-default);
+  --color-icon-light: var(--icon-light);
+  --color-icon-disabled: var(--icon-disabled);
+  --color-icon-primary: var(--icon-primary);
+  --color-icon-white: var(--icon-white);
+  --color-icon-red: var(--icon-red);
+  --color-icon-yellow: var(--icon-yellow);
+  --color-icon-blue: var(--icon-blue);
+  --color-icon-orange: var(--icon-orange);
+  --color-icon-dark: var(--icon-dark);
+  
+  /* Borders & Separators colors */
+  --color-borders-separators-default: var(--borders-separators-default);
+  --color-borders-separators-light: var(--borders-separators-light);
+  --color-borders-separators-primary: var(--borders-separators-primary);
+  --color-borders-separators-dark: var(--borders-separators-dark);
+  --color-borders-separators-list: var(--borders-separators-list);
+  --color-borders-separators-white: var(--borders-separators-white);
+  --color-borders-separators-red: var(--borders-separators-red);
+  --color-borders-separators-transparent-white: var(--borders-separators-transparent-white);
+  --color-borders-separators-transparent-primary: var(--borders-separators-transparent-primary);
+  
+  /* Illustration colors */
+  --color-illustration-grey-lightest: var(--illustration-grey-lightest);
+  --color-illustration-grey: var(--illustration-grey);
+  --color-illustration-grey-dark: var(--illustration-grey-dark);
+  
+  /* Gradient colors */
+  --color-gradient-light: var(--gradient-light);
+  --color-gradient-dark: var(--gradient-dark);
+  
+  /* Logo colors */
+  --color-logo-primary: var(--logo-primary);
+  --color-logo-black: var(--logo-black);
+  
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -76,6 +140,69 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  
+  /* Custom background colors - Light mode */
+  --background-primary: #6b9b47;
+  --background-secondary: #e5e5e5;
+  --background-danger: #c55a5a;
+  --background-light-red: #f5e6e6;
+  --background-grey: #808080;
+  --background-disabled: #d3d3d3;
+  --background-surface-background: #ffffff;
+  --background-element-background: #f8f8f8;
+  --background-layer-1-background: #f0f0f0;
+  --background-layer-2-background: #e8e8e8;
+  --background-layer-3-background: #d0d0d0;
+  --background-background-blur: rgba(128, 128, 128, 0.5);
+  --background-transparent-nav: rgba(255, 255, 255, 0.8);
+  --background-dark-mode-darkest: #1a1a1a;
+  
+  /* Custom typography colors - Light mode */
+  --typography-heading: #2d2d2d;
+  --typography-paragraph: #4a4a4a;
+  --typography-light-grey: #6b6b6b;
+  --typography-inactive: #8a8a8a;
+  --typography-disabled: #b3b3b3;
+  --typography-primary: #6b9b47;
+  --typography-primary-700: #5a8a3a;
+  --typography-white: #ffffff;
+  --typography-danger: #c55a5a;
+  
+  /* Custom icon colors - Light mode */
+  --icon-default: #4a4a4a;
+  --icon-light: #8a8a8a;
+  --icon-disabled: #b3b3b3;
+  --icon-primary: #6b9b47;
+  --icon-white: #ffffff;
+  --icon-red: #dc3545;
+  --icon-yellow: #ffc107;
+  --icon-blue: #0ea5e9;
+  --icon-orange: #fd7e14;
+  --icon-dark: #2d2d2d;
+  
+  /* Borders & Separators colors - Light mode */
+  --borders-separators-default: #e5e5e5;
+  --borders-separators-light: #f0f0f0;
+  --borders-separators-primary: #6b9b47;
+  --borders-separators-dark: #2d2d2d;
+  --borders-separators-list: #0ea5e9;
+  --borders-separators-white: #ffffff;
+  --borders-separators-red: #dc3545;
+  --borders-separators-transparent-white: rgba(255, 255, 255, 0.3);
+  --borders-separators-transparent-primary: rgba(107, 155, 71, 0.3);
+  
+  /* Illustration colors - Light mode */
+  --illustration-grey-lightest: #f8f9fa;
+  --illustration-grey: #6c757d;
+  --illustration-grey-dark: #495057;
+  
+  /* Gradient colors - Light mode */
+  --gradient-light: linear-gradient(135deg, #6b9b47 0%, #7ab852 100%);
+  --gradient-dark: linear-gradient(135deg, #5a8a3a 0%, #6b9b47 100%);
+  
+  /* Logo colors - Light mode */
+  --logo-primary: #6b9b47;
+  --logo-black: #2d2d2d;
 }
 
 .dark {
@@ -110,6 +237,69 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  
+  /* Custom background colors - Dark mode */
+  --background-primary: #5a8a3a;
+  --background-secondary: #2a2a2a;
+  --background-danger: #b84a4a;
+  --background-light-red: #3a2525;
+  --background-grey: #606060;
+  --background-disabled: #404040;
+  --background-surface-background: #1a1a1a;
+  --background-element-background: #222222;
+  --background-layer-1-background: #2a2a2a;
+  --background-layer-2-background: #323232;
+  --background-layer-3-background: #3a3a3a;
+  --background-background-blur: rgba(64, 64, 64, 0.5);
+  --background-transparent-nav: rgba(26, 26, 26, 0.8);
+  --background-dark-mode-darkest: #0a0a0a;
+  
+  /* Custom typography colors - Dark mode */
+  --typography-heading: #f0f0f0;
+  --typography-paragraph: #d0d0d0;
+  --typography-light-grey: #a0a0a0;
+  --typography-inactive: #808080;
+  --typography-disabled: #606060;
+  --typography-primary: #7ab852;
+  --typography-primary-700: #6b9b47;
+  --typography-white: #ffffff;
+  --typography-danger: #e06666;
+  
+  /* Custom icon colors - Dark mode */
+  --icon-default: #d0d0d0;
+  --icon-light: #a0a0a0;
+  --icon-disabled: #606060;
+  --icon-primary: #7ab852;
+  --icon-white: #ffffff;
+  --icon-red: #ff6b6b;
+  --icon-yellow: #ffd93d;
+  --icon-blue: #4fc3f7;
+  --icon-orange: #ff9f43;
+  --icon-dark: #f0f0f0;
+  
+  /* Borders & Separators colors - Dark mode */
+  --borders-separators-default: #404040;
+  --borders-separators-light: #2a2a2a;
+  --borders-separators-primary: #7ab852;
+  --borders-separators-dark: #f0f0f0;
+  --borders-separators-list: #4fc3f7;
+  --borders-separators-white: #ffffff;
+  --borders-separators-red: #ff6b6b;
+  --borders-separators-transparent-white: rgba(255, 255, 255, 0.2);
+  --borders-separators-transparent-primary: rgba(122, 184, 82, 0.3);
+  
+  /* Illustration colors - Dark mode */
+  --illustration-grey-lightest: #2a2a2a;
+  --illustration-grey: #a0a0a0;
+  --illustration-grey-dark: #d0d0d0;
+  
+  /* Gradient colors - Dark mode */
+  --gradient-light: linear-gradient(135deg, #7ab852 0%, #8bc862 100%);
+  --gradient-dark: linear-gradient(135deg, #6b9b47 0%, #7ab852 100%);
+  
+  /* Logo colors - Dark mode */
+  --logo-primary: #7ab852;
+  --logo-black: #f0f0f0;
 }
 
 @layer base {
