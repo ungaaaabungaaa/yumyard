@@ -1,0 +1,67 @@
+food-delivery/
+├── app/
+│   ├── (user)/
+│   │   ├── home/page.tsx
+│   │   ├── cart/page.tsx
+│   │   ├── checkout/page.tsx
+│   │   ├── orders/
+│   │   │   ├── [orderId]/page.tsx
+│   │   │   └── page.tsx
+│   │   ├── account/page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── (admin)/
+│   │   ├── dashboard/page.tsx
+│   │   ├── menu/page.tsx
+│   │   ├── orders/page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── (kitchen)/
+│   │   ├── orders/page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── splash/page.tsx
+│   ├── terms/page.tsx
+│   ├── privacy/page.tsx
+│   ├── layout.tsx
+│   └── page.tsx
+│
+├── components/
+│   ├── Navbar.tsx
+│   ├── Sidebar.tsx
+│   ├── MenuItemCard.tsx
+│   ├── OrderCard.tsx
+│   ├── Loader.tsx
+│   └── Footer.tsx
+│
+├── convex/
+│   ├── schema.ts
+│   ├── users.ts
+│   ├── menu.ts
+│   ├── orders.ts
+│   └── index.ts
+│
+├── lib/
+│   ├── convexClient.ts
+│   ├── auth.ts
+│   ├── utils.ts
+│   └── constants.ts
+│
+├── public/
+│   ├── images/
+│   │   ├── logo.png
+│   │   ├── placeholder-food.jpg
+│   │   └── icons/
+│   └── favicon.ico
+│
+├── styles/
+│   ├── globals.css
+│   ├── theme.css
+│   └── animations.css
+│
+├── .env.local
+├── convex.json
+├── package.json
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
