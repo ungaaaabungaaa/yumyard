@@ -1,4 +1,4 @@
-4.Take Orders Directly From The Closest Location Ablity To Switch Store As Well 
-5.Order POS System
-7.Real Time Login 
-8.Messaging UI To The Store 
+1.Admin Page
+->Add Menu | Edit | Delete | Update -> Need Schema
+->  
+
