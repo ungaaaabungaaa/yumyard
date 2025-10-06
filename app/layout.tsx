@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { ConvexClientProvider } from "@/app/provider/ConvexClientProvider";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -20,10 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${poppins.variable} antialiased`}>
-        <ConvexClientProvider>{children}</ConvexClientProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body className={`${poppins.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ConvexClientProvider>{children}</ConvexClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
