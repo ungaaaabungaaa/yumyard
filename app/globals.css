@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -205,102 +204,6 @@
   --logo-black: #2d2d2d;
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-  
-  /* Custom background colors - Dark mode */
-  --background-primary: #5a8a3a;
-  --background-secondary: #2a2a2a;
-  --background-danger: #b84a4a;
-  --background-light-red: #3a2525;
-  --background-grey: #606060;
-  --background-disabled: #404040;
-  --background-surface-background: #1a1a1a;
-  --background-element-background: #222222;
-  --background-layer-1-background: #2a2a2a;
-  --background-layer-2-background: #323232;
-  --background-layer-3-background: #3a3a3a;
-  --background-background-blur: rgba(64, 64, 64, 0.5);
-  --background-transparent-nav: rgba(26, 26, 26, 0.8);
-  --background-dark-mode-darkest: #0a0a0a;
-  
-  /* Custom typography colors - Dark mode */
-  --typography-heading: #f0f0f0;
-  --typography-paragraph: #d0d0d0;
-  --typography-light-grey: #a0a0a0;
-  --typography-inactive: #808080;
-  --typography-disabled: #606060;
-  --typography-primary: #7ab852;
-  --typography-primary-700: #6b9b47;
-  --typography-white: #ffffff;
-  --typography-danger: #e06666;
-  
-  /* Custom icon colors - Dark mode */
-  --icon-default: #d0d0d0;
-  --icon-light: #a0a0a0;
-  --icon-disabled: #606060;
-  --icon-primary: #7ab852;
-  --icon-white: #ffffff;
-  --icon-red: #ff6b6b;
-  --icon-yellow: #ffd93d;
-  --icon-blue: #4fc3f7;
-  --icon-orange: #ff9f43;
-  --icon-dark: #f0f0f0;
-  
-  /* Borders & Separators colors - Dark mode */
-  --borders-separators-default: #404040;
-  --borders-separators-light: #2a2a2a;
-  --borders-separators-primary: #7ab852;
-  --borders-separators-dark: #f0f0f0;
-  --borders-separators-list: #4fc3f7;
-  --borders-separators-white: #ffffff;
-  --borders-separators-red: #ff6b6b;
-  --borders-separators-transparent-white: rgba(255, 255, 255, 0.2);
-  --borders-separators-transparent-primary: rgba(122, 184, 82, 0.3);
-  
-  /* Illustration colors - Dark mode */
-  --illustration-grey-lightest: #2a2a2a;
-  --illustration-grey: #a0a0a0;
-  --illustration-grey-dark: #d0d0d0;
-  
-  /* Gradient colors - Dark mode */
-  --gradient-light: linear-gradient(135deg, #7ab852 0%, #8bc862 100%);
-  --gradient-dark: linear-gradient(135deg, #6b9b47 0%, #7ab852 100%);
-  
-  /* Logo colors - Dark mode */
-  --logo-primary: #7ab852;
-  --logo-black: #f0f0f0;
-}
 
 @layer base {
   * {
