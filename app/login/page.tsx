@@ -29,23 +29,32 @@ export default function LoginPage() {
     }
   };
 
+  const formFields = [
+    { key: "name", placeholder: "FULL NAME" },
+    { key: "dob", placeholder: "DOB: DD | MM | YYYY" },
+    { key: "aadhaar", placeholder: "AADHAAR NO." },
+    { key: "pan", placeholder: "PAN NO." },
+    { key: "phone", placeholder: "PHONE: 10 DIGITS" },
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background-secondary ">
-      <form onSubmit={handleSubmit} className="p-6 rounded-lg shadow-lg bg-background-layer-3-background max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
-        {["name", "dob", "aadhaar", "pan", "phone"].map((key) => (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+      
+      <form onSubmit={handleSubmit} className="py-8 px-4 rounded-2xl bg-white border-none max-w-md w-full">
+      <h1 className="text-4xl font-bold mt-4 mb-8 text-black">Admin Login</h1>
+        {formFields.map((field) => (
           <input
-            key={key}
+            key={field.key}
             type="text"
-            placeholder={key.toUpperCase()}
-            value={form[key as keyof typeof form]}
-            onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-            className="border p-2 rounded w-full mb-2"
+            placeholder={field.placeholder}
+            value={form[field.key as keyof typeof form]}
+            onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
+            className="border py-4 px-8 rounded-2xl w-full mb-2"
             required
           />
         ))}
         {error && <p className="text-red-500 mb-2">{error}</p>}
-        <button type="submit" className="bg-black text-white w-full p-2 rounded">
+        <button type="submit" className="bg-black text-white w-full py-4 px-8 my-4 rounded-4xl">
           Login
         </button>
       </form>
