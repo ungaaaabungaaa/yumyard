@@ -191,10 +191,10 @@ export default function AdminMenu() {
           <h2 className="text-xl font-semibold text-gray-900">Menu Management</h2>
           <button 
             onClick={() => setShowAddForm(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-2"
+            className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2"
           >
             <Plus size={16} />
-            Add New Item
+            Add Item
           </button>
         </div>
 
@@ -207,7 +207,7 @@ export default function AdminMenu() {
               placeholder="Search menu items..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md"
             />
           </div>
           <div className="relative">
@@ -215,9 +215,9 @@ export default function AdminMenu() {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="pl-10 pr-8 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="pl-10 pr-8 py-2 border border-gray-300 rounded-md"
             >
-              <option value="">All Categories</option>
+              <option value="">Categories</option>
               {categories.map((category) => (
                 <option key={category} value={category}>{category}</option>
               ))}
