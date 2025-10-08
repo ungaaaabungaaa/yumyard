@@ -1,28 +1,52 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { User , Logs , AppWindow } from 'lucide-react'
+
 export default function AdminDashboard() {
+  const router = useRouter()
+
+  const dashboardItems = [
+    {
+      title: 'My Earnings',
+      value: '₹52,000',
+      icon: <User className="w-6 h-6" />,
+    },
+    {
+      title: 'My Menu',
+      value: '22 items',
+      icon: <AppWindow className="w-6 h-6" />,
+      onClick: () => router.push('/admin/menu')
+    },
+    {
+      title: 'My Orders',
+      value: '92',
+      icon: <Logs className="w-6 h-6" />,
+      onClick: () => router.push('/admin/orders')
+    }
+  ]
+
   return (
-    <div className="space-y-6">
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Dashboard Overview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h3 className="text-lg font-medium text-blue-900">Total Orders</h3>
-            <p className="text-2xl font-bold text-blue-600">0</p>
+    <div className="space-y-4">
+      {dashboardItems.map((item, index) => (
+        <div
+          key={index}
+          onClick={item.onClick}
+          className="flex items-center justify-between p-6 bg-background-layer-1-background rounded-xl"
+        >
+          <div className="flex items-center">
+            <div className="flex items-center text-colors-icon-default mr-4">
+              {item.icon}
+            </div>
+            <h2 className="text-lg font-light text-black">
+              {item.title}
+            </h2>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg">
-            <h3 className="text-lg font-medium text-green-900">Revenue</h3>
-            <p className="text-2xl font-bold text-green-600">$0</p>
-          </div>
-          <div className="bg-yellow-50 p-4 rounded-lg">
-            <h3 className="text-lg font-medium text-yellow-900">Menu Items</h3>
-            <p className="text-2xl font-bold text-yellow-600">0</p>
+          <div className="text-lg font-light text-black">
+            {item.value}
           </div>
         </div>
-      </div>
-      
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Activity</h2>
-        <p className="text-gray-500">No recent activity to display.</p>
-      </div>
+      ))}
     </div>
   )
 }
