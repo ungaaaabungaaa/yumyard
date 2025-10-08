@@ -196,8 +196,8 @@
   --illustration-grey-dark: #495057;
   
   /* Gradient colors - Light mode */
-  --gradient-light: linear-gradient(135deg, #6b9b47 0%, #7ab852 100%);
-  --gradient-dark: linear-gradient(135deg, #5a8a3a 0%, #6b9b47 100%);
+  --gradient-light: #ffffff;
+  --gradient-dark: #ffffff;
   
   /* Logo colors - Light mode */
   --logo-primary: #6b9b47;
@@ -322,4 +322,32 @@
 
 .glass-form {
   animation: float 6s ease-in-out infinite;
+}
+
+/* ========== Responsive app layout ========== */
+
+/* Mobile & Tablet: default (full width) */
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+/* Desktop: center app with gradient background */
+@media (min-width: 1024px) {
+  html, body {
+    min-height: 100vh;
+    background: var(--gradient-light); /* or var(--color-gradient-light) if you want the custom one */
+    background-attachment: fixed;
+    display: flex;
+    align-items: flex-start; /* allows scrolling */
+    justify-content: center;
+  }
+
+  .app {
+    width: 420px; /* adjust to your mobile width */
+    min-height: 100vh;
+    background: var(--color-background);
+    overflow: hidden;
+  }
 }
