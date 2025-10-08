@@ -38,10 +38,8 @@ export default function LoginPage() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-black">
-      
+    <div className="flex flex-col items-center justify-center ">
       <form onSubmit={handleSubmit} className="py-8 px-4 rounded-2xl bg-white border-none max-w-md w-full">
-      <h1 className="text-4xl font-bold mt-4 mb-8 text-black">Admin Login</h1>
         {formFields.map((field) => (
           <input
             key={field.key}
