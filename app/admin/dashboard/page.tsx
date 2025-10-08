@@ -5,7 +5,6 @@ import { User , Logs , AppWindow } from 'lucide-react'
 
 export default function AdminDashboard() {
   const router = useRouter()
-
   const dashboardItems = [
     {
       title: 'My Earnings',
