@@ -13,6 +13,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "YumYardCafe",
   description: "Prestige Finsberry Park, Brigade El Dorado Rd, Gummanahalli, Bengaluru, Karnataka 562149",
+  other: {
+    "apple-mobile-web-app-title": "YumYard",
+  },
 };
 
 export default function RootLayout({
