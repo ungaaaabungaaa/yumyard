@@ -5,6 +5,7 @@ export async function POST(req: Request) {
   const body = await req.json();
   const { name, dob, aadhaar, pan, phone } = body;
 
+
   // Validate all details
   const valid =
     name === process.env.ADMIN_NAME &&
@@ -13,7 +14,10 @@ export async function POST(req: Request) {
     pan === process.env.ADMIN_PAN &&
     phone === process.env.ADMIN_PHONE;
 
+
+
   if (!valid) {
+
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
@@ -27,15 +31,16 @@ export async function POST(req: Request) {
     process.env.ADMIN_SECRET!
   );
 
+
   const res = NextResponse.json({ success: true });
   res.cookies.set("admin_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict", // Prevents CSRF attacks
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // Use lax in development
     path: "/",
     maxAge: 60 * 60 * 24, // 1 day in seconds
-    // Remove expires to make it a session cookie that clears on browser close
   });
+
 
   return res;
 }

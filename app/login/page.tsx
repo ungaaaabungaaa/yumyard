@@ -112,16 +112,30 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch("/api/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    
+    // Format the form data with +91 prefix for phone
+    const formData = {
+      ...form,
+      phone: `+91${form.phone}`
+    };
+    
+    
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (res.ok) {
-      router.push("/admin/dashboard");
-    } else {
-      setError("Invalid credentials");
+
+      if (res.ok) {
+        router.push("/admin/dashboard");
+      } else {
+        const errorData = await res.json();
+        setError("Invalid credentials");
+      }
+    } catch (error) {
+      setError("Login failed. Please try again.");
     }
   };
 
