@@ -9,9 +9,9 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
-    <div className="min-h-screen">
+    <div className="max-h-screen">
       <header>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-full lg:max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <button 
               onClick={() => window.history.back()} 
@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </div>
         </div>
       </header>
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <main className="max-w-full lg:max-w-2xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         {children}
       </main>
     </div>

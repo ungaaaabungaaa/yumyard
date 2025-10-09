@@ -158,9 +158,8 @@ export default function LoginPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1 flex flex-col ">
-        <form onSubmit={handleSubmit} className="py-8  w-full max-w-md space-y-4">
+    <div className="flex flex-col items-center w-full">
+        <form onSubmit={handleSubmit} className="py-2 w-full space-y-4">
           {formFields.map((field) => (
             <div key={field.key} className="relative">
               <input
@@ -224,7 +223,7 @@ export default function LoginPage() {
         </button>
           {error && <p className="text-red-500 mb-2">{error}</p>}
         </form>
-      </div>
+      
     </div>
   );
 }
