@@ -12,6 +12,7 @@ export default function AdminPage() {
       title: 'My Earnings',
       value: '₹52,000',
       icon: <User className="w-6 h-6" />,
+      onClick: () => router.push('/admin/dashboard')
     },
     {
       title: 'My Menu',
