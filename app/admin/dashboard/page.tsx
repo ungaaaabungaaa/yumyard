@@ -1,5 +1,9 @@
 'use client'
+import { useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+
 export default function AdminDashboard() {
+  const menuItems = useQuery(api.menu.getAllMenuItems);
   const dashboardItems = [
     {
       title: 'Total Earnings',
@@ -11,7 +15,7 @@ export default function AdminDashboard() {
     },
     {
       title: 'Menu Items',
-      value: '92',
+      value: menuItems ? menuItems.length.toString() : 'Calulcating...',
     }
   ]
   
