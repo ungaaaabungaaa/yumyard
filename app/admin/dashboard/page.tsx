@@ -1,6 +1,7 @@
 'use client'
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import Image from "next/image";
 
 export default function AdminDashboard() {
   const menuItems = useQuery(api.menu.getAllMenuItems);
@@ -26,7 +27,7 @@ export default function AdminDashboard() {
         <div className="text-center mb-12 w-full flex flex-col items-center justify-center">
           {/* Logo */}
           <div className="mb-6">
-            <img className="w-24 h-24 rounded-full" src="/logo.png" alt="Yum Yard Cafe"  />
+            <Image className="w-24 h-24 rounded-full" src="/logo.png" alt="Yum Yard Cafe" width={96} height={96} />
           </div>
           
           {/* Cafe Info */}

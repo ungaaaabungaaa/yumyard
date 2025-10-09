@@ -3,35 +3,11 @@
 import { ReactNode } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
 
-import { LogIn } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-
 interface AdminLayoutProps {
   children: ReactNode
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const router = useRouter()
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('/api/auth', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (response.ok) {
-        // Redirect to login page
-        router.push('/login')
-      } else {
-        console.error('Logout failed')
-      }
-    } catch (error) {
-      console.error('Logout error:', error)
-    }
-  }
 
   return (
     <div className="max-h-screen">

@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 }
 
 // Add logout endpoint
-export async function DELETE(req: Request) {
+export async function DELETE() {
   const res = NextResponse.json({ success: true, message: "Logged out successfully" });
   
   // Clear the admin token cookie

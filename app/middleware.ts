@@ -23,7 +23,7 @@ export function middleware(req: NextRequest) {
     }
     
     return NextResponse.next();
-  } catch (error) {
+  } catch {
     // Token is invalid, expired, or malformed
     return redirectToLoginWithClearCookie(req);
   }

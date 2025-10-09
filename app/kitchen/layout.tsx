@@ -4,14 +4,11 @@ import { ReactNode } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
 
 
-import { useRouter } from 'next/navigation'
-
 interface AdminLayoutProps {
   children: ReactNode
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const router = useRouter()
 
 
 
