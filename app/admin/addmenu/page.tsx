@@ -1,13 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { useMutation } from "convex/react";
+import { useState, useEffect } from "react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Id } from "../../../convex/_generated/dataModel";
 
 export default function AdminAddMenu() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get('edit') as Id<"menu"> | null;
+  
   const createMenuItem = useMutation(api.menu.createMenuItem);
+  const updateMenuItem = useMutation(api.menu.updateMenuItem);
+  const menuItem = useQuery(
+    api.menu.getMenuItemById, 
+    editId ? { id: editId } : "skip"
+  );
   
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +38,31 @@ export default function AdminAddMenu() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isEditMode = !!editId;
+
+  // Load existing menu item data when editing
+  useEffect(() => {
+    if (menuItem && isEditMode) {
+      setFormData({
+        name: menuItem.name || "",
+        price: menuItem.price?.toString() || "",
+        category: menuItem.category || "",
+        preparationTime: menuItem.preparationTime?.toString() || "",
+        displayOrder: menuItem.displayOrder?.toString() || "",
+        description: menuItem.description || "",
+        imageUrl: menuItem.imageUrl || "",
+        servingSize: menuItem.servingSize || "",
+        calories: menuItem.calories?.toString() || "",
+        spiceLevel: menuItem.spiceLevel || "mild",
+        ingredients: menuItem.ingredients?.join(", ") || "",
+        allergens: menuItem.allergens?.join(", ") || "",
+        tags: menuItem.tags?.join(", ") || "",
+        isVegetarian: menuItem.isVegetarian || false,
+        isVegan: menuItem.isVegan || false,
+        isGlutenFree: menuItem.isGlutenFree || false,
+      });
+    }
+  }, [menuItem, isEditMode]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -79,11 +113,16 @@ export default function AdminAddMenu() {
         isGlutenFree: formData.isGlutenFree,
       };
 
-      await createMenuItem(menuItemData);
+      if (isEditMode && editId) {
+        await updateMenuItem({ id: editId, ...menuItemData });
+      } else {
+        await createMenuItem(menuItemData);
+      }
+      
       router.push('/admin/menu');
     } catch (error) {
-      console.error('Error creating menu item:', error);
-      alert('Failed to create menu item. Please try again.');
+      console.error(`Error ${isEditMode ? 'updating' : 'creating'} menu item:`, error);
+      alert(`Failed to ${isEditMode ? 'update' : 'create'} menu item. Please try again.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -91,7 +130,25 @@ export default function AdminAddMenu() {
 
   return (
     <div className="min-h-screen">
-  
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b px-4 py-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {isEditMode ? 'Edit Menu Item' : 'Add New Menu Item'}
+            </h1>
+            <p className="text-gray-600 mt-1">
+              {isEditMode ? 'Update the menu item details' : 'Create a new menu item for your restaurant'}
+            </p>
+          </div>
+          <button
+            onClick={() => router.push('/admin/menu')}
+            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            Back to Menu
+          </button>
+        </div>
+      </div>
 
       <form onSubmit={handleSubmit} className="p-4 space-y-6">
         {/* Image Preview */}
@@ -314,7 +371,7 @@ export default function AdminAddMenu() {
             disabled={isSubmitting}
             className="w-full bg-green-500 hover:bg-green-600 disabled:bg-green-300 text-white font-medium py-4 px-6 rounded-lg transition-colors duration-200"
           >
-            {isSubmitting ? "Saving..." : "Save"}
+            {isSubmitting ? (isEditMode ? "Updating..." : "Saving...") : (isEditMode ? "Update Menu Item" : "Save Menu Item")}
           </button>
         </div>
       </form>
