@@ -12,18 +12,7 @@ export default function AdminMenu() {
   const deleteMenuItem = useMutation(api.menu.deleteMenuItem);
   const toggleAvailability = useMutation(api.menu.toggleMenuItemAvailability);
   
-  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
-
-  const toggleExpanded = (itemId: string) => {
-    const newExpanded = new Set(expandedItems);
-    if (newExpanded.has(itemId)) {
-      newExpanded.delete(itemId);
-    } else {
-      newExpanded.add(itemId);
-    }
-    setExpandedItems(newExpanded);
-  };
 
   const handleEdit = (itemId: Id<"menu">) => {
     router.push(`/admin/addmenu?edit=${itemId}`);
@@ -188,137 +177,25 @@ export default function AdminMenu() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
                         </button>
-
-                        <button
-                          onClick={() => toggleExpanded(item._id)}
-                          className="p-2 text-gray-600 hover:bg-gray-50 rounded-full transition-colors"
-                          title="View details"
-                        >
-                          <svg 
-                            className={`w-5 h-5 transition-transform ${
-                              expandedItems.has(item._id) ? 'rotate-180' : ''
-                            }`} 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              {/* Expanded Details */}
-              {expandedItems.has(item._id) && (
-                <div className="border-t border-gray-200 bg-gray-50 px-4 py-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <h4 className="font-medium text-gray-900 mb-2">Details</h4>
-                      <div className="space-y-1 text-gray-600">
-                        {item.preparationTime && (
-                          <p><span className="font-medium">Prep Time:</span> {formatTime(item.preparationTime)}</p>
-                        )}
-                        {item.servingSize && (
-                          <p><span className="font-medium">Serving:</span> {item.servingSize}</p>
-                        )}
-                        {item.calories && (
-                          <p><span className="font-medium">Calories:</span> {item.calories}</p>
-                        )}
-                        {item.spiceLevel && (
-                          <p><span className="font-medium">Spice Level:</span> 
-                            <span className={`ml-1 px-2 py-1 rounded-full text-xs ${
-                              item.spiceLevel === 'mild' ? 'bg-green-100 text-green-800' :
-                              item.spiceLevel === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                              item.spiceLevel === 'hot' ? 'bg-orange-100 text-orange-800' :
-                              'bg-red-100 text-red-800'
-                            }`}>
-                              {item.spiceLevel}
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h4 className="font-medium text-gray-900 mb-2">Dietary Info</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {item.isVegetarian && (
-                          <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                            Vegetarian
-                          </span>
-                        )}
-                        {item.isVegan && (
-                          <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                            Vegan
-                          </span>
-                        )}
-                        {item.isGlutenFree && (
-                          <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
-                            Gluten Free
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {item.ingredients && item.ingredients.length > 0 && (
-                      <div className="md:col-span-2">
-                        <h4 className="font-medium text-gray-900 mb-2">Ingredients</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {item.ingredients.map((ingredient, index) => (
-                            <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
-                              {ingredient}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {item.allergens && item.allergens.length > 0 && (
-                      <div className="md:col-span-2">
-                        <h4 className="font-medium text-gray-900 mb-2">Allergens</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {item.allergens.map((allergen, index) => (
-                            <span key={index} className="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">
-                              {allergen}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {item.tags && item.tags.length > 0 && (
-                      <div className="md:col-span-2">
-                        <h4 className="font-medium text-gray-900 mb-2">Tags</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {item.tags.map((tag, index) => (
-                            <span key={index} className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           ))
         )}
       </div>
 
-      {/* Floating Add Button */}
-      {/* <button
-        onClick={() => router.push('/admin/addmenu')}
-        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-colors duration-200 flex items-center space-x-2"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        <span className="hidden sm:inline font-medium">Add Menu</span>
-      </button> */}
+        <div className="pt-6">
+          <button
+            onClick={() => router.push('/admin/addmenu')}
+            type="submit"
+            className="w-full bg-green-500 hover:bg-green-600 disabled:bg-green-300 text-white font-medium py-4 px-6 rounded-lg transition-colors duration-200"
+          >
+            Add Menu
+          </button>
+        </div>
 
       {/* Delete Confirmation Modal */}
       {deleteConfirmId && (
