@@ -75,18 +75,14 @@ export default function AdminMenu() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b px-4 py-6">
-        <h1 className="text-2xl font-bold text-gray-900">Menu Management</h1>
-        <p className="text-gray-600 mt-1">Manage your restaurant menu items</p>
-      </div>
+    <div className="pb-20">
+    
 
       {/* Menu Items List */}
-      <div className="p-4 space-y-4">
+      <div className="space-y-4">
         {menuItems.length === 0 ? (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
@@ -98,14 +94,14 @@ export default function AdminMenu() {
           menuItems.map((item) => (
             <div
               key={item._id}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
+              className=" rounded-lg  overflow-hidden"
             >
               {/* Main Card Content */}
               <div className="p-4">
                 <div className="flex items-start space-x-4">
                   {/* Image */}
                   <div className="flex-shrink-0">
-                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
+                    <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
                       {item.imageUrl ? (
                         <img
                           src={item.imageUrl}
@@ -314,7 +310,7 @@ export default function AdminMenu() {
       </div>
 
       {/* Floating Add Button */}
-      <button
+      {/* <button
         onClick={() => router.push('/admin/addmenu')}
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-colors duration-200 flex items-center space-x-2"
       >
@@ -322,7 +318,7 @@ export default function AdminMenu() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
         <span className="hidden sm:inline font-medium">Add Menu</span>
-      </button>
+      </button> */}
 
       {/* Delete Confirmation Modal */}
       {deleteConfirmId && (

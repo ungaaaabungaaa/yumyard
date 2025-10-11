@@ -130,26 +130,6 @@ export default function AdminAddMenu() {
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b px-4 py-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {isEditMode ? 'Edit Menu Item' : 'Add New Menu Item'}
-            </h1>
-            <p className="text-gray-600 mt-1">
-              {isEditMode ? 'Update the menu item details' : 'Create a new menu item for your restaurant'}
-            </p>
-          </div>
-          <button
-            onClick={() => router.push('/admin/menu')}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            Back to Menu
-          </button>
-        </div>
-      </div>
-
       <form onSubmit={handleSubmit} className="p-4 space-y-6">
         {/* Image Preview */}
         <div className="flex justify-center">
