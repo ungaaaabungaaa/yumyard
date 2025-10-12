@@ -182,7 +182,7 @@ export default function AdminMenu() {
           <button
             onClick={() => router.push('/admin/addmenu')}
             type="submit"
-            className="w-full bg-background-primary  disabled:bg-background-disabled text-white font-medium py-4 px-6 rounded-lg transition-colors duration-200"
+            className="w-full bg-background-primary  text-typography-white  py-6 px-8 rounded-2xl text-lg font-bold"
           >
             Add Menu
           </button>
