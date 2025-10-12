@@ -38,9 +38,9 @@ export default function AdminMenu() {
   };
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'INR'
     }).format(price);
   };
 
@@ -90,7 +90,7 @@ export default function AdminMenu() {
                 <div className="flex items-start space-x-4">
                   {/* Image */}
                   <div className="flex-shrink-0">
-                    <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
+                    <div className="w-28 h-28 rounded-lg overflow-hidden bg-gray-100">
                       {item.imageUrl ? (
                         <img
                           src={item.imageUrl}
@@ -114,31 +114,34 @@ export default function AdminMenu() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                        <h3 className="text-xl font-bold text-black mb-1">
                           {item.name}
                         </h3>
-                        <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
-                          <span className="font-medium text-green-600">
-                            {formatPrice(item.price)}
-                          </span>
-                          {item.category && (
-                            <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
+                        {/* <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
+                        {item.category && (
+                            <span className="bg-gray-100 px-4 py-1 rounded-full text-xs">
                               {item.category}
                             </span>
                           )}
-                          <span className={`px-2 py-1 rounded-full text-xs ${
+                          <span className={`px-4 py-1 rounded-full text-xs ${
                             item.isAvailable 
                               ? 'bg-green-100 text-green-800' 
                               : 'bg-red-100 text-red-800'
                           }`}>
                             {item.isAvailable ? 'Available' : 'Unavailable'}
                           </span>
-                        </div>
+                        </div> */}
                         {item.description && (
                           <p className="text-sm text-gray-600 line-clamp-2">
                             {item.description}
                           </p>
                         )}
+
+                        <h4 className="text-xl font-bold text-black my-1">
+                          {formatPrice(item.price)} 
+                        </h4>
+
+
                       </div>
 
                       {/* Action Buttons */}
