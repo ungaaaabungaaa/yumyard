@@ -34,7 +34,7 @@ export default function AdminDashboard() {
           <h1 className="text-typography-heading text-2xl font-black mb-2">Yum Yard Cafe</h1>
           <p className="text-typography-light-grey mb-2">Brigade El Dorado Rd, Gummanahalli...</p>
           <div className="flex text-typography-light-grey font-bold items-center justify-center">
-            <span>+91 9945405632</span>
+            <span>+91 80501 69163</span>
           </div>
         </div>
 
@@ -43,14 +43,14 @@ export default function AdminDashboard() {
         {dashboardItems.map((item, index) => (
           <div
             key={index}
-            className="flex items-center justify-between p-6 bg-background-layer-1-background rounded-xl"
+            className="flex items-center justify-between p-6 bg-background-layer-1-background rounded-xl cursor-pointer"
           >
             <div className="flex items-center">
-              <h2 className="text-lg font-light text-black">
+              <h2 className="text-lg font-light text-typography-heading">
                 {item.title}
               </h2>
             </div>
-            <div className="text-lg font-light text-black">
+            <div className="text-lg font-light text-typography-heading">
               {item.value}
             </div>
           </div>
