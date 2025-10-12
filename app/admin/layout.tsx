@@ -16,12 +16,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="flex items-center justify-between py-4">
             <button 
               onClick={() => window.history.back()} 
-              className="flex items-center text-black font-bold text-xl"
+              className="flex items-center text-typography-heading font-black text-2xl"
             >
               <IoChevronBack className="w-5 h-5 mr-1" />
               Back
             </button>
-            <h1 className="flex items-center text-black font-bold text-xl absolute left-1/2 transform -translate-x-1/2">Admin</h1>
+            <h1 className="flex items-center text-typography-heading font-black text-2xl absolute left-1/2 transform -translate-x-1/2">Admin</h1>
             {/* <button 
               onClick={handleLogout}
               className="flex items-center text-red-600 hover:text-red-800 font-bold text-sm transition-colors"

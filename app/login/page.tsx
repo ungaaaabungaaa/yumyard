@@ -168,7 +168,7 @@ export default function LoginPage() {
     { key: "name", placeholder: "Admin Name", maxLength: 50 },
     { key: "dob", placeholder: "Date of Birth", maxLength: 10 },
     { key: "aadhaar", placeholder: "Aadhaar Number", maxLength: 12 },
-    { key: "pan", placeholder: "PaN Number", maxLength: 10 },
+    { key: "pan", placeholder: "Pan Number", maxLength: 10 },
   ];
 
   return (
@@ -182,11 +182,7 @@ export default function LoginPage() {
                 value={form[field.key as keyof typeof form]}
                 onChange={(e) => handleInputChange(field.key, e.target.value)}
                 maxLength={field.maxLength}
-                className={`w-full py-6 px-6 border rounded-2xl text-gray-700 placeholder-gray-500 text-lg focus:outline-none focus:ring-2 focus:border-transparent ${
-                  form[field.key as keyof typeof form] && !isValidField(field.key, form[field.key as keyof typeof form])
-                    ? 'border-red-300 focus:ring-red-300'
-                    : 'border-gray-200 focus:ring-gray-300'
-                }`}
+                className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
                 required
               />
               {form[field.key as keyof typeof form] && !isValidField(field.key, form[field.key as keyof typeof form]) && (
@@ -205,11 +201,7 @@ export default function LoginPage() {
               value={form.phone}
               onChange={(e) => handleInputChange('phone', e.target.value)}
               maxLength={10}
-              className={`w-full py-6 px-6 border rounded-2xl text-gray-700 placeholder-gray-500 text-lg focus:outline-none focus:ring-2 focus:border-transparent ${
-                form.phone && !isValidPhone(form.phone)
-                  ? 'border-red-300 focus:ring-red-300'
-                  : 'border-gray-200 focus:ring-gray-300'
-              }`}
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
               required
             />
             {form.phone && !isValidPhone(form.phone) && (
@@ -222,9 +214,9 @@ export default function LoginPage() {
           type="submit" 
           onClick={handleSubmit}
           disabled={!isFormComplete}
-          className={`w-full py-4 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
+          className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 my-4 ${
             isFormComplete 
-              ? 'bg-green-500 text-white hover:bg-green-600' 
+              ? 'bg-background-primary text-typography-white ' 
               : 'bg-background-disabled  text-typography-disabled  cursor-not-allowed'
           }`}
         >
