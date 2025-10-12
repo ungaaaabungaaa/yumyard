@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
 
-export default function AdminAddMenu() {
+function AdminAddMenuContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get('edit') as Id<"menu"> | null;
@@ -356,5 +356,13 @@ export default function AdminAddMenu() {
         </div>
       </form>
     </div>
+  );
+}
+
+export default function AdminAddMenu() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <AdminAddMenuContent />
+    </Suspense>
   );
 }
