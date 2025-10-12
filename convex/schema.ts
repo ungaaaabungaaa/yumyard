@@ -2,16 +2,18 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  // 🍽️ MENU TABLE
   menu: defineTable({
     name: v.string(),
     description: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
     price: v.number(),
-    category: v.optional(v.string()), // e.g., "Pizza", "Burgers", "Drinks", "Desserts"
+    category: v.optional(v.string()), // e.g., "Pizza", "Drinks"
     isAvailable: v.boolean(),
     createdAt: v.number(),
     updatedAt: v.optional(v.number()),
-    preparationTime: v.optional(v.number()),
+
+    preparationTime: v.optional(v.number()), // in minutes
     ingredients: v.optional(v.array(v.string())),
     allergens: v.optional(v.array(v.string())),
     isVegetarian: v.optional(v.boolean()),
@@ -29,35 +31,60 @@ export default defineSchema({
     servingSize: v.optional(v.string()),
     tags: v.optional(v.array(v.string())),
     displayOrder: v.optional(v.number()),
+
+    // ⭐ Rating summary (for quick access)
+    avgRating: v.optional(v.number()),
+    totalReviews: v.optional(v.number()),
   })
     .index("by_category", ["category"])
     .index("by_availability", ["isAvailable"])
     .index("by_created_at", ["createdAt"])
     .index("by_display_order", ["displayOrder"]),
 
-  // 🧾 ORDER TABLE
+  // 👤 USERS TABLE
+  users: defineTable({
+    userId: v.optional(v.string()), // Convex Auth user id
+    name: v.string(),
+    phoneNumber: v.string(),
+    apartment: v.optional(v.string()),
+    flatNumber: v.optional(v.string()),
+    otherAddress: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+
+    savedAddresses: v.optional(
+      v.array(
+        v.object({
+          label: v.string(),
+          apartment: v.optional(v.string()),
+          flatNumber: v.optional(v.string()),
+          otherAddress: v.optional(v.string()),
+        })
+      )
+    ),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_phoneNumber", ["phoneNumber"])
+    .index("by_created_at", ["createdAt"]),
+
+  // 🧾 ORDERS TABLE
   orders: defineTable({
-    // 👤 User Details
-    userId: v.optional(v.string()), // null if guest
+    userId: v.optional(v.id("users")),
     username: v.string(),
     userType: v.union(v.literal("authenticated"), v.literal("guest")),
 
-    // 🏠 Address Details (for delivery only)
     apartment: v.optional(v.string()),
     flatNumber: v.optional(v.string()),
-    otherAddress: v.optional(v.string()), // traditional address or notes
+    otherAddress: v.optional(v.string()),
 
-    // 🍽️ Dine-in / Walk-up / Delivery
     orderType: v.union(
       v.literal("dine-in"),
       v.literal("walk-up"),
       v.literal("delivery")
     ),
-
-    tableNumber: v.optional(v.string()), // for dine-in (QR-based)
+    tableNumber: v.optional(v.string()),
     deliveryNote: v.optional(v.string()),
 
-    // 🧂 Menu Items
     items: v.array(
       v.object({
         menuId: v.id("menu"),
@@ -68,7 +95,6 @@ export default defineSchema({
       })
     ),
 
-    // 💵 Payment Details
     paymentStatus: v.union(
       v.literal("pending"),
       v.literal("paid"),
@@ -79,7 +105,6 @@ export default defineSchema({
     ),
     totalAmount: v.number(),
 
-    // 🍳 Kitchen Status
     status: v.union(
       v.literal("order-received"),
       v.literal("cooking"),
@@ -88,12 +113,83 @@ export default defineSchema({
       v.literal("cancelled")
     ),
 
-    // 🕒 Timestamps
-    createdAt: v.number(), // Date.now()
+    // ⭐ Order-level review (optional)
+    review: v.optional(
+      v.object({
+        rating: v.number(), // 1–5
+        comment: v.optional(v.string()),
+        createdAt: v.number(),
+      })
+    ),
+
+    createdAt: v.number(),
     updatedAt: v.optional(v.number()),
-    estimatedReadyTime: v.optional(v.number()), // optional for dine-in/pickup
+    estimatedReadyTime: v.optional(v.number()),
   })
     .index("by_user", ["userId"])
     .index("by_status", ["status"])
+    .index("by_created_at", ["createdAt"]),
+
+  // ❤️ FAVORITES TABLE
+  favorites: defineTable({
+    userId: v.id("users"),
+    menuId: v.id("menu"),
+    addedAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_menu", ["menuId"])
+    .index("by_user_menu", ["userId", "menuId"]),
+
+  // 🔔 NOTIFICATIONS TABLE
+  notifications: defineTable({
+    userId: v.id("users"),
+    title: v.string(),
+    message: v.string(),
+    type: v.optional(
+      v.union(
+        v.literal("order"),
+        v.literal("promotion"),
+        v.literal("system"),
+        v.literal("kitchen-update")
+      )
+    ),
+    isRead: v.boolean(),
+    createdAt: v.number(),
+    relatedOrderId: v.optional(v.id("orders")),
+  })
+    .index("by_user", ["userId"])
+    .index("by_created_at", ["createdAt"])
+    .index("by_isRead", ["isRead"]),
+
+  // ⭐ MENU REVIEWS TABLE
+  menuReviews: defineTable({
+    userId: v.id("users"),
+    menuId: v.id("menu"),
+    orderId: v.optional(v.id("orders")),
+    rating: v.number(), // 1–5
+    comment: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_menu", ["menuId"])
+    .index("by_user", ["userId"])
+    .index("by_created_at", ["createdAt"]),
+
+  // 👨‍🍳 KITCHEN ACTIVITY LOGS
+  kitchenLogs: defineTable({
+    orderId: v.id("orders"),
+    staffName: v.string(), // who performed the action
+    action: v.union(
+      v.literal("received"),
+      v.literal("started-cooking"),
+      v.literal("paused"),
+      v.literal("completed"),
+      v.literal("handed-over"),
+      v.literal("cancelled")
+    ),
+    note: v.optional(v.string()), // optional reason or update
+    createdAt: v.number(),
+  })
+    .index("by_order", ["orderId"])
+    .index("by_staff", ["staffName"])
     .index("by_created_at", ["createdAt"]),
 });
