@@ -23,7 +23,7 @@ export function SegmentedControl({ segments, className }: SegmentedControlProps)
 
   return (
     <div className={cn(
-      "relative flex items-center bg-gray-100 rounded-lg p-1 border border-gray-200",
+      "relative flex items-center bg-background-layer-2-background rounded-xl p-2",
       className
     )}>
       {segments.map((segment, index) => (
@@ -31,11 +31,10 @@ export function SegmentedControl({ segments, className }: SegmentedControlProps)
           key={segment.path}
           onClick={() => handleSegmentClick(segment.path)}
           className={cn(
-            "relative flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ease-in-out",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+            "relative flex-1 text-lg font-bold rounded-xl p-4 ",
             activeIndex === index
-              ? "bg-white text-gray-900 shadow-sm border border-gray-200"
-              : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              ? "bg-background-surface-background text-typography-heading"
+              : "text-typography-inactive"
           )}
         >
           {segment.label}
