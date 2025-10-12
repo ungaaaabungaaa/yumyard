@@ -33,17 +33,17 @@ export default function AdminPage() {
       <div
         key={index}
         onClick={item.onClick}
-        className="flex items-center justify-between p-6 bg-background-layer-1-background rounded-xl"
+        className="flex items-center justify-between p-6 bg-background-layer-1-background rounded-xl cursor-pointer"
       >
         <div className="flex items-center">
           <div className="flex items-center text-colors-icon-default mr-4">
             {item.icon}
           </div>
-          <h2 className="text-lg font-light text-black">
+          <h2 className="text-lg font-light text-typography-heading">
             {item.title}
           </h2>
         </div>
-        <div className="text-lg font-light text-black">
+        <div className="text-lg font-light text-typography-heading">
           {item.value}
         </div>
       </div>

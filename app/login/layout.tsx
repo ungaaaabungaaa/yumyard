@@ -15,7 +15,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="flex items-center justify-between py-4">
             <button 
               onClick={() => window.history.back()} 
-              className="flex items-center text-typography-heading font-black text-2xl"
+              className="flex items-center text-typography-heading font-black text-2xl cursor-pointer"
             >
               <IoChevronBack className="w-5 h-5 mr-1" />
               Back
