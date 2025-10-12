@@ -162,7 +162,7 @@ function AdminAddMenuContent() {
               value={formData.name}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Item Name"
             />
           </div>
@@ -175,7 +175,7 @@ function AdminAddMenuContent() {
               onChange={handleInputChange}
               required
               pattern="[0-9]+(\.[0-9]+)?"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Price"
             />
           </div>
@@ -186,7 +186,7 @@ function AdminAddMenuContent() {
               name="category"
               value={formData.category}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Category"
             />
           </div>
@@ -198,7 +198,7 @@ function AdminAddMenuContent() {
               value={formData.preparationTime}
               onChange={handleInputChange}
               pattern="[0-9]+"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Preparation Time"
             />
           </div>
@@ -210,7 +210,7 @@ function AdminAddMenuContent() {
               value={formData.displayOrder}
               onChange={handleInputChange}
               pattern="[0-9]+"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Display Order"
             />
           </div>
@@ -221,7 +221,8 @@ function AdminAddMenuContent() {
               value={formData.description}
               onChange={handleInputChange}
               rows={3}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              maxLength={200}
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Description"
             />
           </div>
@@ -232,7 +233,7 @@ function AdminAddMenuContent() {
               name="imageUrl"
               value={formData.imageUrl}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Image URL"
             />
           </div>
@@ -243,7 +244,7 @@ function AdminAddMenuContent() {
               name="servingSize"
               value={formData.servingSize}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Serving Size"
             />
           </div>
@@ -255,7 +256,7 @@ function AdminAddMenuContent() {
               value={formData.calories}
               onChange={handleInputChange}
               pattern="[0-9]+"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Calories"
             />
           </div>
@@ -265,7 +266,7 @@ function AdminAddMenuContent() {
               name="spiceLevel"
               value={formData.spiceLevel}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent appearance-none"
             >
               <option value="mild">Mild</option>
               <option value="medium">Medium</option>
@@ -279,8 +280,8 @@ function AdminAddMenuContent() {
               name="ingredients"
               value={formData.ingredients}
               onChange={handleInputChange}
-              rows={2}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              rows={3}
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Ingredients"
             />
           </div>
@@ -290,8 +291,8 @@ function AdminAddMenuContent() {
               name="allergens"
               value={formData.allergens}
               onChange={handleInputChange}
-              rows={2}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              rows={3}
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
               placeholder="Allergens"
             />
           </div>
@@ -301,8 +302,8 @@ function AdminAddMenuContent() {
               name="tags"
               value={formData.tags}
               onChange={handleInputChange}
-              rows={2}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg "
+              rows={3}
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
               placeholder="Tags"
             />
           </div>
@@ -349,7 +350,7 @@ function AdminAddMenuContent() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-green-500 hover:bg-green-600 disabled:bg-green-300 text-white font-medium py-4 px-6 rounded-lg transition-colors duration-200"
+            className="w-full bg-background-primary  disabled:bg-background-disabled text-typography-white py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200"
           >
             {isSubmitting ? (isEditMode ? "Updating..." : "Saving...") : (isEditMode ? "Update Menu Item" : "Save Menu Item")}
           </button>
