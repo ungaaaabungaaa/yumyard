@@ -165,10 +165,10 @@ export default function LoginPage() {
   };
 
   const formFields = [
-    { key: "name", placeholder: "Admin Name (max 50 characters)", maxLength: 50 },
-    { key: "dob", placeholder: "Date of Birth (DD-MM-YYYY)", maxLength: 10 },
-    { key: "aadhaar", placeholder: "Aadhaar Number (12 digits)", maxLength: 12 },
-    { key: "pan", placeholder: "PAN Number (10 characters)", maxLength: 10 },
+    { key: "name", placeholder: "Admin Name", maxLength: 50 },
+    { key: "dob", placeholder: "Date of Birth", maxLength: 10 },
+    { key: "aadhaar", placeholder: "Aadhaar Number", maxLength: 12 },
+    { key: "pan", placeholder: "PaN Number", maxLength: 10 },
   ];
 
   return (
@@ -197,26 +197,21 @@ export default function LoginPage() {
             </div>
           ))}
           
-          {/* Phone number input with country code */}
+          {/* Phone number input */}
           <div className="relative">
-            <div className="flex w-full">
-              <div className="flex items-center justify-center border border-gray-200 border-r-0 rounded-l-2xl px-4 text-gray-700 text-lg">
-                +91
-              </div>
-              <input
-                type="tel"
-                placeholder="Phone Number (10 digits)"
-                value={form.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                maxLength={10}
-                className={`flex-1 py-6 px-6 border rounded-r-2xl text-gray-700 placeholder-gray-500 text-lg focus:outline-none focus:ring-2 focus:border-transparent ${
-                  form.phone && !isValidPhone(form.phone)
-                    ? 'border-red-300 focus:ring-red-300'
-                    : 'border-gray-200 focus:ring-gray-300'
-                }`}
-                required
-              />
-            </div>
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              value={form.phone}
+              onChange={(e) => handleInputChange('phone', e.target.value)}
+              maxLength={10}
+              className={`w-full py-6 px-6 border rounded-2xl text-gray-700 placeholder-gray-500 text-lg focus:outline-none focus:ring-2 focus:border-transparent ${
+                form.phone && !isValidPhone(form.phone)
+                  ? 'border-red-300 focus:ring-red-300'
+                  : 'border-gray-200 focus:ring-gray-300'
+              }`}
+              required
+            />
             {form.phone && !isValidPhone(form.phone) && (
               <p className="text-red-500 text-sm mt-1">
                 Phone must be exactly 10 digits
