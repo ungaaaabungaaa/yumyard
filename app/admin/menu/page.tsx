@@ -5,6 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
+import { SegmentedControl } from "@/components/ui/segmented-control";
 
 export default function AdminMenu() {
   const router = useRouter();
@@ -13,6 +14,11 @@ export default function AdminMenu() {
   const toggleAvailability = useMutation(api.menu.toggleMenuItemAvailability);
   
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+
+  const adminSegments = [
+    { label: 'Menu', path: '/admin/menu' },
+    { label: 'Orders', path: '/admin/orders' }
+  ];
 
   const handleEdit = (itemId: Id<"menu">) => {
     router.push(`/admin/addmenu?edit=${itemId}`);
@@ -65,7 +71,10 @@ export default function AdminMenu() {
 
   return (
     <div className="pb-20">
-    
+      {/* Segmented Control Navigation */}
+      <div className="mb-6">
+        <SegmentedControl segments={adminSegments} />
+      </div>
 
       {/* Menu Items List */}
       <div className="space-y-4">
