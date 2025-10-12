@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { User , Logs , AppWindow } from 'lucide-react'
+import { User , Logs , AppWindow, Plus, ShoppingCart } from 'lucide-react'
 
 
 export default function AdminPage() {
@@ -19,6 +19,18 @@ export default function AdminPage() {
       value: '22 items',
       icon: <AppWindow className="w-6 h-6" />,
       onClick: () => router.push('/admin/menu')
+    },
+    {
+      title: 'Add Order',
+      value: 'Create',
+      icon: <Plus className="w-6 h-6" />,
+      onClick: () => router.push('/admin/addorder')
+    },
+    {
+      title: 'Create Order',
+      value: 'Review',
+      icon: <ShoppingCart className="w-6 h-6" />,
+      onClick: () => router.push('/admin/createorder')
     },
     {
       title: 'My Orders',
