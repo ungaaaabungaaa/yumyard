@@ -6,6 +6,7 @@ import { api } from "../../../convex/_generated/api";
 import { useOrder } from "../context/OrderContext";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
+import { Search , Plus } from 'lucide-react';
 
 export default function AdminAddOrder() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,23 +49,19 @@ export default function AdminAddOrder() {
   }
 
   return (
-    <div className="pb-20">
-      <h1 className="text-2xl font-bold text-typography-heading mb-6">Add Order</h1>
-      
+    <div className="pb-10">
       {/* Search Bar */}
       <div className="mb-6">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            <Search className="w-6 h-6 text-typography-disabled" />
           </div>
           <input
             type="text"
             placeholder="Search For Food"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
+            className="w-full pl-10 pr-4 py-4 border border-border-secondary rounded-2xl  outline-none"
           />
         </div>
       </div>
@@ -123,14 +120,10 @@ export default function AdminAddOrder() {
                         <h3 className="text-xl font-medium text-typography-heading mt-2">
                           {item.name}
                         </h3>
-                        {item.description && (
-                          <p className="text-sm text-gray-600 line-clamp-1 mb-2">
-                            {item.description}
-                          </p>
-                        )}
+                       
 
                         {/* Price and Add Button Row */}
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between py-4">
                           {/* Price on the left */}
                           <h4 className="text-2xl font-semibold text-typography-heading">
                             {formatPrice(item.price)} 
@@ -139,12 +132,10 @@ export default function AdminAddOrder() {
                           {/* Add Button on the right */}
                           <button
                             onClick={() => handleAddToOrder(item)}
-                            className="w-12 h-12 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition-colors"
+                            className="w-12 h-12 bg-background-secondary rounded-full flex items-center justify-center transition-colors"
                             title="Add to order"
                           >
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
+                            <Plus className="w-8 h-8 text-background-primary" />
                           </button>
                         </div>
                       </div>
