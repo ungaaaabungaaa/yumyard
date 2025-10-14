@@ -147,11 +147,7 @@ export default function AdminCreateOrder() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Fixed Bottom Section */}
-          <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between my-4">
               <div>
                 <span className="text-2xl font-bold text-typography-heading">
                   {formatPrice(getTotalAmount())}
@@ -159,7 +155,7 @@ export default function AdminCreateOrder() {
               </div>
               <button
                 onClick={handleCreateOrder}
-                className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-2xl text-lg font-bold transition-colors"
+                className="bg-background-primary  text-white px-8 py-4 rounded-2xl text-lg font-bold transition-colors"
               >
                 Create Order
               </button>
