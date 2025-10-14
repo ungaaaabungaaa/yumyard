@@ -153,9 +153,9 @@ export default function AdminAddOrder() {
         <div className="fixed bottom-4 left-4 right-4 max-w-full lg:max-w-2xl mx-auto px-4">
           <button
             onClick={() => router.push('/admin/createorder')}
-            className="w-full bg-green-500 hover:bg-green-600 text-white py-4 px-6 rounded-2xl text-lg font-bold transition-colors shadow-lg"
+            className="w-full bg-background-primary  text-typography-white py-4 px-6 rounded-2xl text-lg font-bold transition-colors shadow-lg"
           >
-            Review Order ({selectedItems.length} items)
+            Next Step ({selectedItems.length} items)
           </button>
         </div>
       )}
