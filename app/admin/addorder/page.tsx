@@ -22,11 +22,12 @@ export default function AdminAddOrder() {
     (item.category && item.category.toLowerCase().includes(searchTerm.toLowerCase()))
   ) || [];
 
-  const handleAddToOrder = (menuItem: { _id: Id<"menu">; name: string; price: number }) => {
+  const handleAddToOrder = (menuItem: { _id: Id<"menu">; name: string; price: number; imageUrl?: string }) => {
     addItem({
       menuId: menuItem._id,
       name: menuItem.name,
       price: menuItem.price,
+      imageUrl: menuItem.imageUrl,
     });
   };
 
