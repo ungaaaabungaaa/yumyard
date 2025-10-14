@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { User , Logs , AppWindow, Plus, ShoppingCart } from 'lucide-react'
+import { User , Logs , AppWindow } from 'lucide-react'
 
 
 export default function AdminPage() {

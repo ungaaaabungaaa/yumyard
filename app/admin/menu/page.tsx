@@ -11,7 +11,6 @@ export default function AdminMenu() {
   const router = useRouter();
   const menuItems = useQuery(api.menu.getAllMenuItems);
   const deleteMenuItem = useMutation(api.menu.deleteMenuItem);
-  const toggleAvailability = useMutation(api.menu.toggleMenuItemAvailability);
   
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
@@ -34,28 +33,11 @@ export default function AdminMenu() {
     }
   };
 
-  const handleToggleAvailability = async (itemId: Id<"menu">) => {
-    try {
-      await toggleAvailability({ id: itemId });
-    } catch (error) {
-      console.error('Error toggling availability:', error);
-      alert('Failed to toggle availability. Please try again.');
-    }
-  };
-
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
       currency: 'INR'
     }).format(price);
-  };
-
-  const formatTime = (minutes?: number) => {
-    if (!minutes) return 'N/A';
-    if (minutes < 60) return `${minutes}m`;
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
   };
 
   if (!menuItems) {

@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useOrder } from "../context/OrderContext";
-import { Id } from "../../../convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
 import { Search , Plus } from 'lucide-react';
+import { Id } from "../../../convex/_generated/dataModel";
 
 export default function AdminAddOrder() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,7 +22,7 @@ export default function AdminAddOrder() {
     (item.category && item.category.toLowerCase().includes(searchTerm.toLowerCase()))
   ) || [];
 
-  const handleAddToOrder = (menuItem: any) => {
+  const handleAddToOrder = (menuItem: { _id: Id<"menu">; name: string; price: number }) => {
     addItem({
       menuId: menuItem._id,
       name: menuItem.name,
@@ -121,22 +121,24 @@ export default function AdminAddOrder() {
                           {item.name}
                         </h3>
                        
-
                         {/* Price and Add Button Row */}
-                        <div className="flex items-center justify-between py-4">
+                        <div className="flex items-center justify-between">
                           {/* Price on the left */}
                           <h4 className="text-2xl font-semibold text-typography-heading">
                             {formatPrice(item.price)} 
                           </h4>
 
                           {/* Add Button on the right */}
+                          
+                        </div>
+                        <div className="w-full flex items-center justify-end">
                           <button
-                            onClick={() => handleAddToOrder(item)}
-                            className="w-12 h-12 bg-background-secondary rounded-full flex items-center justify-center transition-colors"
-                            title="Add to order"
-                          >
-                            <Plus className="w-8 h-8 text-background-primary" />
-                          </button>
+                              onClick={() => handleAddToOrder(item)}
+                              className="w-12 h-12 bg-background-secondary rounded-full flex items-center justify-center transition-colors"
+                              title="Add to order"
+                            >
+                              <Plus className="w-6 h-6 text-background-primary" />
+                            </button>
                         </div>
                       </div>
                     </div>

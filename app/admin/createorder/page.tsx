@@ -2,6 +2,7 @@
 
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
+import { Id } from "../../../convex/_generated/dataModel";
 
 export default function AdminCreateOrder() {
   const { selectedItems, removeItem, updateQuantity, getTotalAmount, clearOrder } = useOrder();
@@ -33,18 +34,16 @@ export default function AdminCreateOrder() {
     router.push('/admin/addorder');
   };
 
-  const handleQuantityChange = (menuId: string, newQuantity: number) => {
+  const handleQuantityChange = (menuId: Id<"menu">, newQuantity: number) => {
     if (newQuantity <= 0) {
-      removeItem(menuId as any);
+      removeItem(menuId);
     } else {
-      updateQuantity(menuId as any, newQuantity);
+      updateQuantity(menuId, newQuantity);
     }
   };
 
   return (
     <div className="pb-20">
-      <h1 className="text-2xl font-bold text-typography-heading mb-6">Create Order</h1>
-      
       {selectedItems.length === 0 ? (
         <div className="text-center py-12">
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gray-100">
@@ -56,7 +55,7 @@ export default function AdminCreateOrder() {
           <p className="text-gray-500 mb-6">Add items from the menu to create an order</p>
           <button
             onClick={() => router.push('/admin/addorder')}
-            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-medium transition-colors"
+            className="bg-background-primary text-typography-white px-6 py-3 rounded-xl font-medium transition-colors"
           >
             Add Items
           </button>
@@ -146,13 +145,6 @@ export default function AdminCreateOrder() {
               className="w-full bg-green-500 hover:bg-green-600 text-white py-4 px-6 rounded-2xl text-lg font-bold transition-colors"
             >
               Create Order
-            </button>
-            
-            <button
-              onClick={() => router.push('/admin/addorder')}
-              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-4 px-6 rounded-2xl text-lg font-medium transition-colors"
-            >
-              Add More Items
             </button>
             
             <button

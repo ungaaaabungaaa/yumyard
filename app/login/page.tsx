@@ -131,10 +131,9 @@ export default function LoginPage() {
       if (res.ok) {
         router.push("/admin");
       } else {
-        const errorData = await res.json();
         setError("Invalid credentials");
       }
-    } catch (error) {
+    } catch {
       setError("Login failed. Please try again.");
     }
   };
