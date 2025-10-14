@@ -21,18 +21,6 @@ export default function AdminPage() {
       onClick: () => router.push('/admin/menu')
     },
     {
-      title: 'Add Order',
-      value: 'Create',
-      icon: <Plus className="w-6 h-6" />,
-      onClick: () => router.push('/admin/addorder')
-    },
-    {
-      title: 'Create Order',
-      value: 'Review',
-      icon: <ShoppingCart className="w-6 h-6" />,
-      onClick: () => router.push('/admin/createorder')
-    },
-    {
       title: 'My Orders',
       value: '92',
       icon: <Logs className="w-6 h-6" />,
