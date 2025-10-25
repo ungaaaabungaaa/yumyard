@@ -4,10 +4,15 @@ import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
 import { FileText, Image, Minus, Plus, Trash2 } from 'lucide-react';
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { useState } from "react";
 
 export default function AdminCreateOrder() {
   const { selectedItems, removeItem, updateQuantity, getTotalAmount, clearOrder } = useOrder();
   const router = useRouter();
+  const createOrder = useMutation(api.order.createOrder);
+  const [isCreating, setIsCreating] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -16,23 +21,63 @@ export default function AdminCreateOrder() {
     }).format(price);
   };
 
-  const handleCreateOrder = () => {
+  const handleCreateOrder = async () => {
     if (selectedItems.length === 0) {
       alert("Please add items to your order first!");
       return;
     }
 
-    console.log("Creating order with items:", selectedItems);
-    console.log("Total amount:", formatPrice(getTotalAmount()));
-    
-    // For now, just log the items. In a real app, this would create the order in the database
-    alert(`Order created successfully! Total: ${formatPrice(getTotalAmount())}`);
-    
-    // Clear the order after creation
-    clearOrder();
-    
-    // Navigate back to add order page
-    router.push('/admin/addorder');
+    if (isCreating) return; // Prevent multiple submissions
+
+    setIsCreating(true);
+
+    try {
+      // Prepare order items for Convex
+      const orderItems = selectedItems.map(item => ({
+        menuId: item.menuId,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+        specialRequest: undefined, // No special requests for admin orders
+      }));
+
+      // Create the order in Convex with hardcoded admin values
+      await createOrder({
+        // User details (hardcoded for admin)
+        userId: undefined, // No user for admin orders
+        username: "Admin",
+        userType: "authenticated",
+        
+        // Address details (hardcoded for admin)
+        apartment: "Yumyard Cafe",
+
+        // Order details (hardcoded for admin)
+        orderType: "walk-up",
+        deliveryNote: "walk-up order",
+        
+        // Order items
+        items: orderItems,
+        totalAmount: getTotalAmount(),
+        
+        // Payment details (hardcoded for admin)
+        paymentStatus: "pending",
+        paymentMethod: undefined,
+        
+        // Kitchen staff details
+        staffName: "Admin",
+      });
+
+      // Clear the order after successful creation
+      clearOrder();
+      
+      // Navigate to order completed page
+      router.push('/admin/ordercompleted');
+    } catch (error) {
+      console.error("Error creating order:", error);
+      alert("Failed to create order. Please try again.");
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   const handleQuantityChange = (menuId: Id<"menu">, newQuantity: number) => {
@@ -148,9 +193,12 @@ export default function AdminCreateOrder() {
               </div>
               <button
                 onClick={handleCreateOrder}
-                className="bg-background-primary  text-white px-8 py-4 rounded-2xl text-lg font-bold transition-colors"
+                disabled={isCreating}
+                className={`bg-background-primary text-white px-8 py-4 rounded-2xl text-lg font-bold transition-colors ${
+                  isCreating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-opacity-90'
+                }`}
               >
-                Create Order
+                {isCreating ? 'Creating Order...' : 'Create Order'}
               </button>
             </div>
           </div>
