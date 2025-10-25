@@ -5,12 +5,12 @@ import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
-import { Search, Plus, Image } from 'lucide-react';
+import { Search, Plus, Image, Minus, Trash2 } from 'lucide-react';
 import { Id } from "../../../convex/_generated/dataModel";
 
 export default function AdminAddOrder() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { addItem, selectedItems } = useOrder();
+  const { addItem, selectedItems, removeItem, updateQuantity } = useOrder();
   const router = useRouter();
   
   // Get all menu items and filter based on search
@@ -29,6 +29,14 @@ export default function AdminAddOrder() {
       price: menuItem.price,
       imageUrl: menuItem.imageUrl,
     });
+  };
+
+  const handleQuantityChange = (menuId: Id<"menu">, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      removeItem(menuId);
+    } else {
+      updateQuantity(menuId, newQuantity);
+    }
   };
 
   const formatPrice = (price: number) => {
@@ -118,25 +126,59 @@ export default function AdminAddOrder() {
                           {item.name}
                         </h3>
                        
-                        {/* Price and Add Button Row */}
-                        <div className="flex items-center justify-between">
-                          {/* Price on the left */}
-                          <h4 className="text-2xl font-semibold text-typography-heading">
-                            {formatPrice(item.price)} 
-                          </h4>
+                        {/* Price */}
+                        <h4 className="text-2xl font-semibold text-typography-heading mt-2">
+                          {formatPrice(item.price)} 
+                        </h4>
 
-                          {/* Add Button on the right */}
-                          
-                        </div>
-                        <div className="w-full flex items-center justify-end">
-                          <button
-                              onClick={() => handleAddToOrder(item)}
-                              className="w-12 h-12 bg-background-secondary rounded-full flex items-center justify-center transition-colors"
-                              title="Add to order"
-                            >
-                              <Plus className="w-6 h-6 text-background-primary" />
-                            </button>
-                        </div>
+                        {/* Quantity Controls or Add Button */}
+                        {(() => {
+                          const selectedItem = selectedItems.find(selected => selected.menuId === item._id);
+                          if (selectedItem) {
+                            return (
+                              <div className="flex items-center justify-end space-x-2 my-2">
+                                {selectedItem.quantity > 1 ? (
+                                  <button
+                                    onClick={() => handleQuantityChange(item._id, selectedItem.quantity - 1)}
+                                    className="w-8 h-8 bg-green-100 hover:bg-green-200 text-green-600 rounded-full flex items-center justify-center transition-colors"
+                                  >
+                                    <Minus className="w-4 h-4" />
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => removeItem(item._id)}
+                                    className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full flex items-center justify-center transition-colors"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                )}
+                                
+                                <span className="text-lg font-medium text-typography-heading min-w-[1.5rem] text-center">
+                                  {selectedItem.quantity}
+                                </span>
+                                
+                                <button
+                                  onClick={() => handleQuantityChange(item._id, selectedItem.quantity + 1)}
+                                  className="w-8 h-8 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition-colors"
+                                >
+                                  <Plus className="w-4 h-4" />
+                                </button>
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div className="w-full flex items-center justify-end mt-2">
+                                <button
+                                  onClick={() => handleAddToOrder(item)}
+                                  className="w-12 h-12 bg-background-secondary rounded-full flex items-center justify-center transition-colors"
+                                  title="Add to order"
+                                >
+                                  <Plus className="w-6 h-6 text-background-primary" />
+                                </button>
+                              </div>
+                            );
+                          }
+                        })()}
                       </div>
                     </div>
                   </div>
