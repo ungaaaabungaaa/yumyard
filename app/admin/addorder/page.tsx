@@ -5,7 +5,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
-import { Search, Plus, Image, Minus, Trash2 } from 'lucide-react';
+import { Search, Plus, Image, Minus, Trash } from 'lucide-react';
 import { Id } from "../../../convex/_generated/dataModel";
 
 export default function AdminAddOrder() {
@@ -140,16 +140,16 @@ export default function AdminAddOrder() {
                                 {selectedItem.quantity > 1 ? (
                                   <button
                                     onClick={() => handleQuantityChange(item._id, selectedItem.quantity - 1)}
-                                    className="w-8 h-8 bg-green-100 hover:bg-green-200 text-green-600 rounded-full flex items-center justify-center transition-colors"
+                                    className="w-8 h-8 bg-background-secondary  text-background-primary rounded-full flex items-center justify-center transition-colors"
                                   >
                                     <Minus className="w-4 h-4" />
                                   </button>
                                 ) : (
                                   <button
                                     onClick={() => removeItem(item._id)}
-                                    className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full flex items-center justify-center transition-colors"
+                                    className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
                                   >
-                                    <Trash2 className="w-4 h-4" />
+                                    <Trash className="w-4 h-4" />
                                   </button>
                                 )}
                                 
@@ -159,7 +159,7 @@ export default function AdminAddOrder() {
                                 
                                 <button
                                   onClick={() => handleQuantityChange(item._id, selectedItem.quantity + 1)}
-                                  className="w-8 h-8 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition-colors"
+                                  className="w-8 h-8  bg-background-secondary  text-background-primary rounded-full flex items-center justify-center transition-colors"
                                 >
                                   <Plus className="w-4 h-4" />
                                 </button>

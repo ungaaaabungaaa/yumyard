@@ -109,14 +109,14 @@ export default function AdminCreateOrder() {
                             {item.quantity > 1 ? (
                               <button
                                 onClick={() => handleQuantityChange(item.menuId, item.quantity - 1)}
-                                className="w-8 h-8 bg-green-100 hover:bg-green-200 text-green-600 rounded-full flex items-center justify-center transition-colors"
+                                className="w-8 h-8 bg-background-secondary  text-background-primary  rounded-full flex items-center justify-center transition-colors"
                               >
                                 <Minus className="w-4 h-4" />
                               </button>
                             ) : (
                               <button
                                 onClick={() => removeItem(item.menuId)}
-                                className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full flex items-center justify-center transition-colors"
+                                className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -128,7 +128,7 @@ export default function AdminCreateOrder() {
                             
                             <button
                               onClick={() => handleQuantityChange(item.menuId, item.quantity + 1)}
-                              className="w-8 h-8 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition-colors"
+                              className="w-8 h-8 bg-background-secondary  text-background-primary   rounded-full flex items-center justify-center transition-colors"
                             >
                               <Plus className="w-4 h-4" />
                             </button>
