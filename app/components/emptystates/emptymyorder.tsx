@@ -14,7 +14,7 @@ export default function EmptyMyOrder() {
       {/* Illustration Section */}
       <div className="relative mb-8">
         
-        <img src="/Birthdaygirl.png" alt="Empty Orders" className="w-full h-42 object-cover" />
+        <img src="/Chefcookingdarkmode.png" alt="Empty Orders" className="w-full h-42 object-cover" />
         
       </div>
       
