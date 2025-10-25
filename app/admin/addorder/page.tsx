@@ -5,7 +5,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
-import { Search , Plus } from 'lucide-react';
+import { Search, Plus, Image } from 'lucide-react';
 import { Id } from "../../../convex/_generated/dataModel";
 
 export default function AdminAddOrder() {
@@ -72,9 +72,7 @@ export default function AdminAddOrder() {
         {filteredMenuItems.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <Search className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               {searchTerm ? 'No items found' : 'No menu items available'}
@@ -106,9 +104,7 @@ export default function AdminAddOrder() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-400">
-                          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
+                          <Image className="w-8 h-8" />
                         </div>
                       )}
                     </div>
