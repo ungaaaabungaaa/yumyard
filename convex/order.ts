@@ -195,3 +195,41 @@ export const getRecentOrders = query({
       .collect();
   },
 });
+
+// Query to get all orders with menu item details
+export const getAllOrdersWithMenuDetails = query({
+  args: {},
+  handler: async (ctx) => {
+    const orders = await ctx.db
+      .query("orders")
+      .withIndex("by_created_at")
+      .order("desc")
+      .collect();
+
+    // For each order, fetch menu item details for each item
+    const ordersWithMenuDetails = await Promise.all(
+      orders.map(async (order) => {
+        const itemsWithMenuDetails = await Promise.all(
+          order.items.map(async (item) => {
+            const menuItem = await ctx.db.get(item.menuId);
+            return {
+              ...item,
+              menuDetails: menuItem ? {
+                imageUrl: menuItem.imageUrl,
+                description: menuItem.description,
+                category: menuItem.category,
+              } : null,
+            };
+          })
+        );
+
+        return {
+          ...order,
+          items: itemsWithMenuDetails,
+        };
+      })
+    );
+
+    return ordersWithMenuDetails;
+  },
+});
