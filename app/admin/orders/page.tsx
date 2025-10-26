@@ -3,7 +3,6 @@ import { SegmentedControl } from "@/components/ui/segmented-control";
 import { useRouter } from 'next/navigation'
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 
 export default function AdminOrders() {
@@ -82,17 +81,7 @@ export default function AdminOrders() {
       <div className="mb-6">
         <SegmentedControl segments={adminSegments} />
       </div>
-      
-      {/* Add Order Button */}
-      <div className="pt-6 mb-6">
-        <button
-          onClick={() => router.push('/admin/addorder')}
-          type="submit"
-          className="w-full bg-background-primary text-typography-white py-6 px-8 rounded-2xl text-lg font-bold"
-        >
-          Add Order
-        </button>
-      </div>
+     
 
       {/* Orders List */}
       <div className="space-y-4">
@@ -101,93 +90,143 @@ export default function AdminOrders() {
             <p className="text-gray-500 text-lg">No orders found</p>
           </div>
         ) : (
-          orders.map((order) => (
-            <div
-              key={order._id}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
-            >
-              {/* Order Header */}
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Order #{order._id.slice(-6)}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    {order.username} • {formatOrderType(order.orderType)}
-                    {order.tableNumber && ` • Table ${order.tableNumber}`}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                    {getStatusText(order.status)}
-                  </span>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}
-                  </p>
-                </div>
-              </div>
+          orders.map((order) => {
+            // Determine image layout based on number of items
+            const hasMultipleItems = order.items.length > 1;
+            const displayItems = order.items.slice(0, 3); // Show max 3 items
 
-              {/* Order Items */}
-              <div className="space-y-3 mb-4">
-                {order.items.map((item, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                      <Image
-                        src={item.menuDetails?.imageUrl || "/Burger.png"}
-                        alt={item.name}
-                        width={48}
-                        height={48}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
-                        {item.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Qty: {item.quantity} • ₹{item.price}
-                        {item.specialRequest && (
-                          <span className="ml-2 text-orange-600">
-                            • Special: {item.specialRequest}
-                          </span>
+            return (
+              <div
+                key={order._id}
+                className=" p-6"
+              >
+                <div className="flex gap-6">
+                  {/* Left Section - Images (25% width) */}
+                  <div className="w-1/4">
+                    {hasMultipleItems ? (
+                      <div className="space-y-3">
+                        {/* Large image for first item */}
+                        <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gray-100">
+                          <Image
+                            src={displayItems[0]?.menuDetails?.imageUrl || "/Burger.png"}
+                            alt={displayItems[0]?.name || "Food item"}
+                            width={200}
+                            height={200}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        
+                        {/* Two smaller images for remaining items */}
+                        {displayItems.length > 1 && (
+                          <div className="flex gap-2">
+                            {displayItems.slice(1, 3).map((item, index) => (
+                              <div key={index} className="w-1/2 aspect-square rounded-2xl overflow-hidden bg-gray-100">
+                                <Image
+                                  src={item.menuDetails?.imageUrl || "/Burger.png"}
+                                  alt={item.name}
+                                  width={100}
+                                  height={100}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            ))}
+                          </div>
                         )}
-                      </p>
+                      </div>
+                    ) : (
+                      /* Single large image for single item */
+                      <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gray-100">
+                        <Image
+                          src={displayItems[0]?.menuDetails?.imageUrl || "/Burger.png"}
+                          alt={displayItems[0]?.name || "Food item"}
+                          width={200}
+                          height={200}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right Section - Order Details (75% width) */}
+                  <div className="w-3/4 space-y-4">
+                    {/* Order Status */}
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        {getStatusText(order.status)  }
+                      </h3>
                     </div>
-                    <div className="text-sm font-medium text-gray-900">
-                      ₹{(item.price * item.quantity).toFixed(2)}
+
+                    {/* Order Summary */}
+                    <div>
+                        <div className="space-y-1">
+                          <div className="flex justify-between items-center">
+                            <span className="text-lg font-semibold text-gray-900">
+                              Delivered on
+                            </span>
+                            <span className="text-lg font-semibold text-gray-900">
+                              {new Date(order.createdAt).toLocaleDateString('en-US', { 
+                                day: 'numeric', 
+                                month: 'long' 
+                              })}
+                            </span>
+                          </div>
+
+                          {order.items.map((item, index) => (
+                            <div key={index} className="flex justify-between items-center">
+                              <span className="text-lg font-semibold text-gray-900">
+                                {item.name} x{item.quantity}
+                              </span>
+                              <span className="text-lg font-semibold text-gray-900">
+                                ₹{(item.price * item.quantity).toFixed(2)}
+                              </span>
+                            </div>
+                          ))}
+
+                          <div className="flex justify-between items-center">
+                            <span className="text-lg font-semibold text-gray-900">
+                              Total price paid
+                            </span>
+                            <span className="text-lg font-semibold text-gray-900">
+                              ₹{order.totalAmount.toFixed(2)}
+                            </span>
+                          </div>
+                        </div>
+                    </div>
+
+                    {/* Additional Order Info */}
+                    <div className="text-sm text-gray-500 space-y-1">
+                      <p>Order #{order._id.slice(-6)}</p>
+                      <p>{formatOrderType(order.orderType)} • {order.username}</p>
+                      {order.tableNumber && <p>Table {order.tableNumber}</p>}
                     </div>
                   </div>
-                ))}
-              </div>
-
-              {/* Order Footer */}
-              <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                <div className="text-sm text-gray-600">
-                  <p>Total: <span className="font-semibold text-lg">₹{order.totalAmount.toFixed(2)}</span></p>
-                  {order.paymentMethod && (
-                    <p className="text-xs">Payment: {order.paymentMethod}</p>
-                  )}
                 </div>
-                <div className="flex space-x-2">
+
+                {/* View Details Button */}
+                <div className="mt-6">
                   <button
                     onClick={() => router.push(`/admin/orderdetails?id=${order._id}`)}
-                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+                    className="w-full bg-transparent text-typography-heading border-2 rounded-3xl py-6 px-8  text-lg font-black"
                   >
                     View Details
                   </button>
-                  {order.status === "order-received" && (
-                    <button
-                      onClick={() => router.push(`/admin/orderdetails?id=${order._id}`)}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-                    >
-                      Update Status
-                    </button>
-                  )}
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
+      </div>
+
+       
+      {/* Add Order Button */}
+      <div className="pt-6 mb-6">
+        <button
+          onClick={() => router.push('/admin/addorder')}
+          type="submit"
+          className="w-full bg-background-primary text-typography-white py-6 px-8 rounded-2xl text-lg font-black"
+        >
+          Add Order
+        </button>
       </div>
     </div>
   );
