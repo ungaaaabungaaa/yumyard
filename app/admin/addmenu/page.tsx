@@ -246,14 +246,12 @@ function AdminAddMenuContent() {
               onChange={handleInputChange}
               required
               className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
-              placeholder="Main Image URL *"
+              placeholder="Image URL *"
             />
           </div>
 
           {/* Additional Images Section */}
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-gray-700">Additional Images (Optional)</h3>
-            
+          <div className="space-y-3"> 
             {formData.imageUrls.map((url, index) => (
               <div key={index}>
                 <input
@@ -261,7 +259,7 @@ function AdminAddMenuContent() {
                   value={url}
                   onChange={(e) => updateImageUrl(index, e.target.value)}
                   className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
-                  placeholder={`Additional Image ${index + 1} URL`}
+                  placeholder={`Additional Image ${index + 1} URLs`}
                 />
               </div>
             ))}
@@ -338,7 +336,7 @@ function AdminAddMenuContent() {
           </div>
 
           {/* Dietary Options */}
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <label className="flex items-center">
               <input
                 type="checkbox"
@@ -371,7 +369,7 @@ function AdminAddMenuContent() {
               />
               <span className="ml-2 text-sm text-gray-700">Gluten Free</span>
             </label>
-          </div>
+          </div> */}
         </div>
 
         {/* Save Button */}
