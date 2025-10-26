@@ -28,15 +28,14 @@ export default function OrderCompleted() {
           {/* Action Buttons */}
           <div className="space-y-3">
             <button
-              onClick={() => router.push('/admin/addorder')}
+              onClick={() => router.push('/admin/orders')}
               className="w-full bg-background-primary  disabled:bg-background-disabled text-typography-white py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 space-x-2.5"
             >
-              Create Another Order
-            </button>
-            
-          </div>
-        </div>
-      </div>
+              View Order
+      </button>
     </div>
-  );
+  </div>
+</div>
+</div>
+);
 }
