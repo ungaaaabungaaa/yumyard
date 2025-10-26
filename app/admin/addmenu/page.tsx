@@ -26,6 +26,7 @@ function AdminAddMenuContent() {
     displayOrder: "",
     description: "",
     imageUrl: "",
+    imageUrls: ["", "", "", "", ""], // 5 fixed fields for additional images
     servingSize: "",
     calories: "",
     spiceLevel: "mild",
@@ -51,6 +52,7 @@ function AdminAddMenuContent() {
         displayOrder: menuItem.displayOrder?.toString() || "",
         description: menuItem.description || "",
         imageUrl: menuItem.imageUrl || "",
+        imageUrls: menuItem.imageUrls ? [...menuItem.imageUrls, "", "", "", "", ""].slice(0, 5) : ["", "", "", "", ""], // Load existing additional images, pad with empty strings
         servingSize: menuItem.servingSize || "",
         calories: menuItem.calories?.toString() || "",
         spiceLevel: menuItem.spiceLevel || "mild",
@@ -89,6 +91,14 @@ function AdminAddMenuContent() {
     }
   };
 
+  // Handle updating a specific additional image URL
+  const updateImageUrl = (index: number, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      imageUrls: prev.imageUrls.map((url, i) => i === index ? value : url)
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -101,7 +111,8 @@ function AdminAddMenuContent() {
         preparationTime: formData.preparationTime ? parseInt(formData.preparationTime) : undefined,
         displayOrder: formData.displayOrder ? parseInt(formData.displayOrder) : undefined,
         description: formData.description || undefined,
-        imageUrl: formData.imageUrl || undefined,
+        imageUrl: formData.imageUrl, // Now mandatory
+        imageUrls: formData.imageUrls.filter(url => url.trim() !== ""), // Filter out empty URLs
         servingSize: formData.servingSize || undefined,
         calories: formData.calories ? parseInt(formData.calories) : undefined,
         spiceLevel: formData.spiceLevel as "mild" | "medium" | "hot" | "extra-hot",
@@ -233,9 +244,27 @@ function AdminAddMenuContent() {
               name="imageUrl"
               value={formData.imageUrl}
               onChange={handleInputChange}
+              required
               className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
-              placeholder="Image URL"
+              placeholder="Main Image URL *"
             />
+          </div>
+
+          {/* Additional Images Section */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-gray-700">Additional Images (Optional)</h3>
+            
+            {formData.imageUrls.map((url, index) => (
+              <div key={index}>
+                <input
+                  type="url"
+                  value={url}
+                  onChange={(e) => updateImageUrl(index, e.target.value)}
+                  className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
+                  placeholder={`Additional Image ${index + 1} URL`}
+                />
+              </div>
+            ))}
           </div>
 
           <div>

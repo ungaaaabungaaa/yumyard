@@ -6,7 +6,8 @@ export default defineSchema({
   menu: defineTable({
     name: v.string(),
     description: v.optional(v.string()),
-    imageUrl: v.optional(v.string()),
+    imageUrl: v.string(), // mandatory main image
+    imageUrls: v.optional(v.array(v.string())), // optional array of additional images (max 5)
     price: v.number(),
     category: v.optional(v.string()), // e.g., "Pizza", "Drinks"
     isAvailable: v.boolean(),

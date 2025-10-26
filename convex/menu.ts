@@ -6,7 +6,8 @@ export const createMenuItem = mutation({
   args: {
     name: v.string(),
     description: v.optional(v.string()),
-    imageUrl: v.optional(v.string()),
+    imageUrl: v.string(), // mandatory main image
+    imageUrls: v.optional(v.array(v.string())), // optional array of additional images (max 5)
     price: v.number(),
     category: v.optional(v.string()),
     isAvailable: v.optional(v.boolean()),
@@ -24,6 +25,11 @@ export const createMenuItem = mutation({
   },
   handler: async (ctx, args) => {
     const now = Date.now();
+    
+    // Validate imageUrls array length (max 5 images)
+    if (args.imageUrls && args.imageUrls.length > 5) {
+      throw new Error("Maximum 5 additional images allowed");
+    }
     
     const menuItem = {
       ...args,
@@ -44,6 +50,7 @@ export const updateMenuItem = mutation({
     name: v.optional(v.string()),
     description: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
+    imageUrls: v.optional(v.array(v.string())), // optional array of additional images (max 5)
     price: v.optional(v.number()),
     category: v.optional(v.string()),
     isAvailable: v.optional(v.boolean()),
@@ -61,6 +68,11 @@ export const updateMenuItem = mutation({
   },
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
+    
+    // Validate imageUrls array length (max 5 images)
+    if (updates.imageUrls && updates.imageUrls.length > 5) {
+      throw new Error("Maximum 5 additional images allowed");
+    }
     
     const updatedItem = {
       ...updates,
