@@ -30,26 +30,11 @@ export default function OrderCompleted() {
           <div className="space-y-3">
             <button
               onClick={() => router.push('/admin/addorder')}
-              className="w-full bg-background-primary text-white py-3 px-6 rounded-xl font-medium transition-colors hover:bg-opacity-90"
+              className="w-full bg-background-primary  disabled:bg-background-disabled text-typography-white py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 space-x-2.5"
             >
               Create Another Order
             </button>
             
-            <button
-              onClick={() => router.push('/admin/orders')}
-              className="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-medium transition-colors hover:bg-gray-200 flex items-center justify-center space-x-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>View All Orders</span>
-            </button>
-            
-            <button
-              onClick={() => router.push('/admin/dashboard')}
-              className="w-full bg-gray-50 text-gray-600 py-3 px-6 rounded-xl font-medium transition-colors hover:bg-gray-100 flex items-center justify-center space-x-2"
-            >
-              <Home className="w-4 h-4" />
-              <span>Go to Dashboard</span>
-            </button>
           </div>
         </div>
       </div>
