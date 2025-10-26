@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Lottie from "lottie-react";
-import orderConfirmed from "@/public/lottie/Order Confirmed.json";
+import orderConfirmed from "@/public/lottie/Cooking.json";
 
 export default function OrderCompleted() {
   const router = useRouter();
