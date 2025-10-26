@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { CheckCircle, ArrowLeft, Home } from 'lucide-react';
+import Lottie from "lottie-react";
+import orderConfirmed from "@/public/lottie/Order Confirmed.json";
 
 export default function OrderCompleted() {
   const router = useRouter();
@@ -11,8 +13,8 @@ export default function OrderCompleted() {
       <div className=" w-full mx-4">
         <div className="p-8 text-center">
           {/* Success Icon */}
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-12 h-12 text-green-600" />
+          <div className="w-3/4 h-auto  flex items-center justify-center mx-auto mb-6">
+            <Lottie animationData={orderConfirmed} loop={true} />;
           </div>
 
           {/* Success Message */}
