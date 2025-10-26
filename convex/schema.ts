@@ -185,7 +185,8 @@ export default defineSchema({
       v.literal("paused"),
       v.literal("completed"),
       v.literal("handed-over"),
-      v.literal("cancelled")
+      v.literal("cancelled"),
+      v.literal("payment-updated")
     ),
     note: v.optional(v.string()), // optional reason or update
     createdAt: v.number(),

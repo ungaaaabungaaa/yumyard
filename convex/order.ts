@@ -233,3 +233,42 @@ export const getAllOrdersWithMenuDetails = query({
     return ordersWithMenuDetails;
   },
 });
+
+// Mutation to update payment information
+export const updatePaymentInfo = mutation({
+  args: {
+    id: v.id("orders"),
+    paymentStatus: v.union(
+      v.literal("pending"),
+      v.literal("paid"),
+      v.literal("failed")
+    ),
+    paymentMethod: v.optional(
+      v.union(v.literal("cash"), v.literal("card"), v.literal("upi"), v.literal("online"))
+    ),
+    staffName: v.optional(v.string()),
+    note: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const { id, paymentStatus, paymentMethod, staffName, note } = args;
+    
+    await ctx.db.patch(id, {
+      paymentStatus,
+      paymentMethod,
+      updatedAt: Date.now(),
+    });
+
+    // Create a kitchen log entry for payment update
+    if (staffName) {
+      await ctx.db.insert("kitchenLogs", {
+        orderId: id,
+        staffName,
+        action: "payment-updated",
+        note: note || `Payment status updated to ${paymentStatus}`,
+        createdAt: Date.now(),
+      });
+    }
+
+    return await ctx.db.get(id);
+  },
+});
