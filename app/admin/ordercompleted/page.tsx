@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { CheckCircle, ArrowLeft, Home } from 'lucide-react';
 import Lottie from "lottie-react";
 import orderConfirmed from "@/public/lottie/Order Confirmed.json";
 

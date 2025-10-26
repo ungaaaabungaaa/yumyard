@@ -1,12 +1,13 @@
 "use client";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 
-export default function OrderDetails() {
+function OrderDetailsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("id");
@@ -30,7 +31,7 @@ export default function OrderDetails() {
   // Fetch kitchen logs for this order
   const kitchenLogs = useQuery(
     api.order.getKitchenLogsForOrder, 
-    orderId ? { orderId: orderId as any } : "skip"
+    orderId ? { orderId: orderId as Id<"orders"> } : "skip"
   );
 
   // Update order status mutation
@@ -93,8 +94,8 @@ export default function OrderDetails() {
     setIsUpdating(true);
     try {
       await updateOrderStatus({
-        id: orderId as any,
-        status: newStatus as any,
+        id: orderId as Id<"orders">,
+        status: newStatus as "order-received" | "cooking" | "out-for-delivery" | "delivered" | "cancelled",
         staffName: staffName || undefined,
         note: note || undefined,
       });
@@ -115,8 +116,8 @@ export default function OrderDetails() {
     setIsUpdatingPayment(true);
     try {
       await updatePaymentInfo({
-        id: orderId as any,
-        paymentStatus: newPaymentStatus as any,
+        id: orderId as Id<"orders">,
+        paymentStatus: newPaymentStatus as "pending" | "paid" | "failed",
         paymentMethod: newPaymentMethod ? newPaymentMethod as "cash" | "card" | "upi" | "online" : undefined,
         staffName: paymentStaffName || undefined,
         note: paymentNote || undefined,
@@ -499,5 +500,17 @@ export default function OrderDetails() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OrderDetails() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    }>
+      <OrderDetailsContent />
+    </Suspense>
   );
 }
