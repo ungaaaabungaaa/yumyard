@@ -62,6 +62,21 @@ export default function AdminOrders() {
     }
   };
 
+  // Helper function to check if a date is today
+  const isToday = (timestamp: number) => {
+    const today = new Date();
+    const orderDate = new Date(timestamp);
+    
+    return (
+      orderDate.getDate() === today.getDate() &&
+      orderDate.getMonth() === today.getMonth() &&
+      orderDate.getFullYear() === today.getFullYear()
+    );
+  };
+
+  // Filter orders to show only today's orders
+  const todaysOrders = orders?.filter(order => isToday(order.createdAt)) || [];
+
   if (!orders) {
     return (
       <div className="pb-20">
@@ -85,12 +100,12 @@ export default function AdminOrders() {
 
       {/* Orders List */}
       <div className="space-y-4">
-        {orders.length === 0 ? (
+        {todaysOrders.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">No orders found</p>
           </div>
         ) : (
-          orders.map((order) => {
+          todaysOrders.map((order) => {
             // Determine image layout based on number of items
             const hasMultipleItems = order.items.length > 1;
             const displayItems = order.items.slice(0, 3); // Show max 3 items
