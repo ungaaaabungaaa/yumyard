@@ -5,9 +5,6 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import Image from "next/image";
-import Lottie from "lottie-react";
-import orderConfirmed from "@/public/lottie/Cooking egg.json";
-import money from "@/public/lottie/Fake 3D vector coin.json";
 import {
   Accordion,
   AccordionContent,
@@ -205,7 +202,7 @@ function OrderDetailsContent() {
           </div>
           
           {/* User Details Card */}
-          <div className="my-2">
+          <div className="mt-6 mb-2">
             <div className="flex items-center gap-4">
               {/* Profile Picture */}
               <div className="w-16 h-16 bg-background-primary rounded-full flex items-center justify-center">
@@ -269,7 +266,7 @@ function OrderDetailsContent() {
                  <div className="flex items-start space-x-4 h-30">
                    {/* Image */}
                    <div className="flex-shrink-0">
-                     <div className="w-36 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
+                     <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
                        <Image
                          src={item.menuDetails?.imageUrl || "/Burger.png"}
                          alt={item.name}
@@ -332,7 +329,7 @@ function OrderDetailsContent() {
                   <select
                     value={newStatus || order.status}
                     onChange={(e) => setNewStatus(e.target.value)}
-                    className="w-full py-6  border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
+                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
                     required
                   >
                     <option value="">Update Order Status</option>
@@ -352,7 +349,7 @@ function OrderDetailsContent() {
                 <button
                   type="submit"
                   disabled={isUpdating || !newStatus}
-                  className={`w-full py-6  rounded-2xl text-lg font-bold transition-colors duration-200 ${
+                  className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
                     isUpdating || !newStatus
                       ? 'bg-background-disabled text-typography-disabled cursor-not-allowed'
                       : 'bg-background-primary text-typography-white hover:bg-background-primary/90'
@@ -374,7 +371,7 @@ function OrderDetailsContent() {
                   <select
                     value={newPaymentStatus || order.paymentStatus}
                     onChange={(e) => setNewPaymentStatus(e.target.value)}
-                    className="w-full py-6  border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
+                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
                     required
                   >
                       <option value="">Update Payment Status</option>
@@ -392,7 +389,7 @@ function OrderDetailsContent() {
                 <button
                   type="submit"
                   disabled={isUpdatingPayment || !newPaymentStatus}
-                  className={`w-full py-6  rounded-2xl text-lg font-bold transition-colors duration-200 ${
+                  className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
                     isUpdatingPayment || !newPaymentStatus
                       ? 'bg-background-disabled text-typography-disabled cursor-not-allowed'
                       : 'bg-background-primary text-typography-white hover:bg-background-primary/90'

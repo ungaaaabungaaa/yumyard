@@ -118,7 +118,7 @@ export default function AdminCreateOrder() {
                   <div className="flex items-start space-x-4">
                     {/* Image */}
                     <div className="flex-shrink-0">
-                      <div className="w-36 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
+                      <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
                         {item.imageUrl ? (
                           <img
                             src={item.imageUrl}
