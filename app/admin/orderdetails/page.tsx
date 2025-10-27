@@ -420,7 +420,7 @@ function OrderDetailsContent() {
 
         {/* Extras Order Details */}
         
-        <Accordion type="single" collapsible  className="w-full">
+        <Accordion type="single" collapsible  className="w-full my-4">
           {/* Order Metadata */}
           <AccordionItem value="metadata">
             <AccordionTrigger className="text-xl font-bold text-typography-heading">📋 Order Metadata</AccordionTrigger>
