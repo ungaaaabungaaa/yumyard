@@ -213,6 +213,52 @@ export const getTodaysOrders = query({
   },
 });
 
+// Query to get today's orders with menu details (excluding delivered orders for kitchen)
+export const getTodaysOrdersWithMenuDetails = query({
+  args: {},
+  handler: async (ctx) => {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfDayTimestamp = startOfDay.getTime();
+    
+    const orders = await ctx.db
+      .query("orders")
+      .withIndex("by_created_at")
+      .filter((q) => q.gte(q.field("createdAt"), startOfDayTimestamp))
+      .order("desc")
+      .collect();
+
+    // Filter out delivered orders for kitchen view
+    const activeOrders = orders.filter(order => order.status !== "delivered");
+
+    // For each order, fetch menu item details for each item
+    const ordersWithMenuDetails = await Promise.all(
+      activeOrders.map(async (order) => {
+        const itemsWithMenuDetails = await Promise.all(
+          order.items.map(async (item) => {
+            const menuItem = await ctx.db.get(item.menuId);
+            return {
+              ...item,
+              menuDetails: menuItem ? {
+                imageUrl: menuItem.imageUrl,
+                description: menuItem.description,
+                category: menuItem.category,
+              } : null,
+            };
+          })
+        );
+
+        return {
+          ...order,
+          items: itemsWithMenuDetails,
+        };
+      })
+    );
+
+    return ordersWithMenuDetails;
+  },
+});
+
 // Query to get all orders with menu item details
 export const getAllOrdersWithMenuDetails = query({
   args: {},

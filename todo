@@ -1,18 +1,14 @@
 Admin -- 
 * Test the Flow |  Load Menu Data - Live Server
 
-Kitchen -- 
-Shows Todays Orders 
-Update Order Status 
-Order Details Page - Tables | Walkin | Delivery
 
-Notification System Push In Whatsapp - VIP 
 
-* Test the Flow 
+* Test the Flow Kitchen 
 
 Tables
 Create Order - ViewOrder | Name Number - Verification
-Test The Flow 
+
+* Test The Flow For tables 
 
 User
 Users - Ordering  Complete Flow
@@ -24,6 +20,9 @@ Tv - Split Payments
 APP for Kitcken 
 Admin Dashboard Export Csv
 
+
+
+Notification System Push In Whatsapp - VIP 
 AI Diet Planner - Extra 
 Sheduled Delivery 
 Meal Plans
