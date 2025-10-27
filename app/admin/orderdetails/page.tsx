@@ -324,15 +324,15 @@ function OrderDetailsContent() {
           </div>
 
           {/* Status Update Form */}
-          <div className="border my-4 rounded-4xl flex flex-col items-center justify-center text-center">
-          <Lottie animationData={orderConfirmed} loop={true} />
+          <div className=" my-4 rounded-4xl flex flex-col items-center justify-center text-center">
+         
 
           <form onSubmit={handleStatusUpdate} className="space-y-4 w-full">
                 <div className="relative">
                   <select
                     value={newStatus || order.status}
                     onChange={(e) => setNewStatus(e.target.value)}
-                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
+                    className="w-full py-6  border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
                     required
                   >
                     <option value="">Update Order Status</option>
@@ -352,7 +352,7 @@ function OrderDetailsContent() {
                 <button
                   type="submit"
                   disabled={isUpdating || !newStatus}
-                  className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
+                  className={`w-full py-6  rounded-2xl text-lg font-bold transition-colors duration-200 ${
                     isUpdating || !newStatus
                       ? 'bg-background-disabled text-typography-disabled cursor-not-allowed'
                       : 'bg-background-primary text-typography-white hover:bg-background-primary/90'
@@ -366,15 +366,15 @@ function OrderDetailsContent() {
 
           {/* Update Payment Form */}
 
-          <div className="border my-4 rounded-4xl flex flex-col items-center justify-center text-center">
-          <Lottie animationData={money} loop={true} />
+          <div className="my-4 rounded-4xl flex flex-col items-center justify-center text-center">
+         
 
           <form onSubmit={handlePaymentUpdate} className="space-y-4 w-full">
                 <div className="relative">
                   <select
                     value={newPaymentStatus || order.paymentStatus}
                     onChange={(e) => setNewPaymentStatus(e.target.value)}
-                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
+                    className="w-full py-6  border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
                     required
                   >
                       <option value="">Update Payment Status</option>
@@ -392,7 +392,7 @@ function OrderDetailsContent() {
                 <button
                   type="submit"
                   disabled={isUpdatingPayment || !newPaymentStatus}
-                  className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
+                  className={`w-full py-6  rounded-2xl text-lg font-bold transition-colors duration-200 ${
                     isUpdatingPayment || !newPaymentStatus
                       ? 'bg-background-disabled text-typography-disabled cursor-not-allowed'
                       : 'bg-background-primary text-typography-white hover:bg-background-primary/90'
