@@ -5,6 +5,9 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import Image from "next/image";
+import Lottie from "lottie-react";
+import orderConfirmed from "@/public/lottie/Cooking egg.json";
+import money from "@/public/lottie/Fake 3D vector coin.json";
 
 function OrderDetailsContent() {
   const router = useRouter();
@@ -70,6 +73,32 @@ function OrderDetailsContent() {
         return "Delivered";
       case "cancelled":
         return "Cancelled";
+      default:
+        return status;
+    }
+  };
+
+  const getPaymentStatusColor = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "text-yellow-600";
+      case "paid":
+        return "text-green-600";
+      case "failed":
+        return "text-red-600";
+      default:
+        return "text-gray-600";
+    }
+  };
+
+  const getPaymentStatusText = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "Payment Pending";
+      case "paid":
+        return "Payment Completed";
+      case "failed":
+        return "Payment Failed";
       default:
         return status;
     }
@@ -168,17 +197,26 @@ function OrderDetailsContent() {
        
         <div className="flex flex-col gap-2">
           {/* Main Order Details */}
-          <h2 className="w-full text-center text-4xl font-black text-typography-heading mb-2">Order Number - {order._id.slice(-6)} </h2>
-          <h3 className="w-full text-center text-3xl font-bold text-typography-inactive mb-1">{formatOrderType(order.orderType)}</h3>
-          <span className={`text-xl font-normal text-center ${getStatusColor(order.status)}`}>
+
+          {/* Order Status */}
+          <div className="flex flex-col items-center justify-center text-center">
+          
+          <span className={`text-xl font-medium text-center capitalize ${getStatusColor(order.status)}`}>
                   {getStatusText(order.status)}
           </span>
+          <h2 className="w-full text-center text-4xl font-black text-typography-heading mb-2">Order Number - {order._id.slice(-6)} </h2>
+          <h3 className="w-full text-center text-3xl font-bold text-typography-inactive mb-1">{formatOrderType(order.orderType)}</h3>
+          <span className={`text-lg font-medium text-center capitalize ${getPaymentStatusColor(order.paymentStatus)}`}>
+                  {getPaymentStatusText(order.paymentStatus)}
+          </span>
+          </div>
+          
           {/* User Details Card */}
           <div className="p-6 mt-2">
             <div className="flex items-center gap-4">
               {/* Profile Picture */}
-              <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-gray-600">
+              <div className="w-16 h-16 bg-background-primary rounded-full flex items-center justify-center">
+                <span className="text-2xl font-bold text-white capitalize">
                   {order.username.charAt(0).toUpperCase()}
                 </span>
               </div>
@@ -232,8 +270,6 @@ function OrderDetailsContent() {
             </div>
           </div>
           {/* Order Details Card */}
-
-          
            <div className="space-y-3">
              {order.items.map((item, index) => (
                <div key={index} className="p-2 border-1 rounded-4xl">
@@ -286,14 +322,97 @@ function OrderDetailsContent() {
              ))}
            </div>
               
-              {/* Order Total */}
-              <div className="my-4 border-t border-b pb-4  pt-4">
+          {/* Order Total */}
+          <div className="my-4 border-t border-b pb-4  pt-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold text-typography-heading capitalize">Total Amount</span>
                   <span className="text-2xl font-bold text-typography-heading capitalize">₹{order.totalAmount.toFixed(2)}</span>
                 </div>
-              </div>
-            </div>
+          </div>
+
+          {/* Status Update Form */}
+          <div className="border my-4 p-4 rounded-4xl flex flex-col items-center justify-center text-center">
+          <Lottie animationData={orderConfirmed} loop={true} />
+
+          <form onSubmit={handleStatusUpdate} className="space-y-4 w-full">
+                <div className="relative">
+                  <select
+                    value={newStatus || order.status}
+                    onChange={(e) => setNewStatus(e.target.value)}
+                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
+                    required
+                  >
+                    <option value="">Update Order Status</option>
+                    <option value="order-received">Order Received</option>
+                    <option value="cooking">Cooking</option>
+                    <option value="out-for-delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
+                    <svg className="w-6 h-6 text-typography-light-grey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+                
+                <button
+                  type="submit"
+                  disabled={isUpdating || !newStatus}
+                  className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
+                    isUpdating || !newStatus
+                      ? 'bg-background-disabled text-typography-disabled cursor-not-allowed'
+                      : 'bg-background-primary text-typography-white hover:bg-background-primary/90'
+                  }`}
+                >
+                  {isUpdating ? "Updating..." : "Update Status"}
+                </button>
+          </form>
+
+          </div>
+
+          {/* Update Payment Form */}
+
+          <div className="border my-4 p-4 rounded-4xl flex flex-col items-center justify-center text-center">
+          <Lottie animationData={money} loop={true} />
+
+          <form onSubmit={handlePaymentUpdate} className="space-y-4 w-full">
+                <div className="relative">
+                  <select
+                    value={newPaymentStatus || order.paymentStatus}
+                    onChange={(e) => setNewPaymentStatus(e.target.value)}
+                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
+                    required
+                  >
+                      <option value="">Update Payment Status</option>
+                      <option value="pending">Pending</option>
+                      <option value="paid">Paid</option>
+                      <option value="failed">Failed</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
+                    <svg className="w-6 h-6 text-typography-light-grey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+                
+                <button
+                  type="submit"
+                  disabled={isUpdatingPayment || !newPaymentStatus}
+                  className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
+                    isUpdatingPayment || !newPaymentStatus
+                      ? 'bg-background-disabled text-typography-disabled cursor-not-allowed'
+                      : 'bg-background-primary text-typography-white hover:bg-background-primary/90'
+                  }`}
+                >
+                  {isUpdatingPayment ? "Updating..." : "Update Payment"}
+                </button>
+          </form>
+
+          </div>
+        </div>
+
+        {/* Extras Order Details */}
 
           
          
