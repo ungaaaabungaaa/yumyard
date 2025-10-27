@@ -2,21 +2,32 @@
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import Image from "next/image";
+import { Spinner } from '@/components/ui/spinner';
 
 export default function AdminDashboard() {
-  const menuItems = useQuery(api.menu.getAllMenuItems);
+  const dashboardStats = useQuery(api.order.getDashboardStats);
+  
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount)
+  }
+
   const dashboardItems = [
     {
       title: 'Total Earnings',
-      value: '₹52,000',
+      value: dashboardStats ? formatCurrency(dashboardStats.totalEarnings) : <Spinner className="w-4 h-4" />,
     },
     {
       title: 'Total Orders',
-      value: '22 ',
+      value: dashboardStats ? dashboardStats.totalOrders.toString() : <Spinner className="w-4 h-4" />,
     },
     {
       title: 'Menu Items',
-      value: menuItems ? menuItems.length.toString() : 'Calulcating...',
+      value: dashboardStats ? dashboardStats.totalMenuItems.toString() : <Spinner className="w-4 h-4" />,
     }
   ]
   
