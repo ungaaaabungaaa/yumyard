@@ -90,21 +90,7 @@ export default function AdminCreateOrder() {
 
   return (
     <div className="pb-24">
-      {selectedItems.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gray-100">
-            <FileText className="w-8 h-8 text-gray-400" />
-          </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No items in order</h3>
-          <p className="text-gray-500 mb-6">Add items from the menu to create an order</p>
-          <button
-            onClick={() => router.push('/admin/addorder')}
-            className="bg-background-primary text-typography-white px-6 py-3 rounded-xl font-medium transition-colors"
-          >
-            Add Items
-          </button>
-        </div>
-      ) : (
+      
         <>
           {/* Selected Items List */}
           <div className="space-y-4 mb-6">
@@ -203,7 +189,6 @@ export default function AdminCreateOrder() {
             </div>
           </div>
         </>
-      )}
     </div>
   );
 }
