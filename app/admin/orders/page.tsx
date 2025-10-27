@@ -197,9 +197,9 @@ export default function AdminOrders() {
                             </div>
                           ))}
 
-                          <div className="flex justify-between items-center">
+                          <div className="flex justify-between items-center border-t border-b py-1">
                             <span className="text-lg font-semibold text-gray-900">
-                              Total price paid
+                              Total Amount
                             </span>
                             <span className="text-lg font-semibold text-gray-900">
                               ₹{order.totalAmount.toFixed(2)}

@@ -94,16 +94,17 @@ const statusOptions: { value: OrderStatus; label: string }[] = [
 ];
 
 export default function KitchenOrders() {
-  const [newStatus, setNewStatus] = useState<OrderStatus>("order-received");
+  const [orderStatuses, setOrderStatuses] = useState<Record<string, OrderStatus>>({});
 
   const todaysOrders = useQuery(api.order.getTodaysOrdersWithMenuDetails);
   const updateOrderStatus = useMutation(api.order.updateOrderStatus);
 
   const handleStatusUpdate = async (orderId: Id<"orders">) => {
+    const currentStatus = orderStatuses[orderId] || "order-received";
     try {
       await updateOrderStatus({
         id: orderId,
-        status: newStatus,
+        status: currentStatus,
       });
       
       alert("Order status updated successfully!");
@@ -111,6 +112,13 @@ export default function KitchenOrders() {
       console.error("Error updating order status:", error);
       alert("Failed to update order status");
     }
+  };
+
+  const handleStatusChange = (orderId: string, newStatus: OrderStatus) => {
+    setOrderStatuses(prev => ({
+      ...prev,
+      [orderId]: newStatus
+    }));
   };
 
   const formatTime = (timestamp: number) => {
@@ -241,8 +249,8 @@ export default function KitchenOrders() {
                   <div className="space-y-4 w-full">
                     <div className="relative">
                       <select
-                        value={newStatus}
-                        onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
+                        value={orderStatuses[order._id] || order.status}
+                        onChange={(e) => handleStatusChange(order._id, e.target.value as OrderStatus)}
                         className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
                       >
                         {statusOptions.map((option) => (
