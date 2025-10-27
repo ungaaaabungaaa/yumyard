@@ -7,6 +7,7 @@ import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
 import { Search, Plus, Image, Minus, Trash } from 'lucide-react';
 import { Id } from "../../../convex/_generated/dataModel";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function AdminAddOrder() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,9 +50,9 @@ export default function AdminAddOrder() {
   if (!allMenuItems) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading menu items...</p>
+        <div className="text-center flex flex-col items-center justify-center gap-4">
+          <Spinner className="size-8 text-typography-primary" />
+          <p className="text-typography-disabled text-lg font-medium">Loading menu items...</p>
         </div>
       </div>
     );
