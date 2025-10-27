@@ -11,7 +11,6 @@ export default function AdminMenu() {
   const router = useRouter();
   const menuItems = useQuery(api.menu.getAllMenuItems);
   const deleteMenuItem = useMutation(api.menu.deleteMenuItem);
-  
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   const adminSegments = [
@@ -134,13 +133,7 @@ export default function AdminMenu() {
                              </svg>
                            </button>
                          </div>
-                      
-                       
-
                       </div>
-
-                     
-                      
                     </div>
                   </div>
                 </div>
