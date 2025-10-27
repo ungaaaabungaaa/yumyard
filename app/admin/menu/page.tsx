@@ -6,6 +6,7 @@ import { api } from "../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
 import { SegmentedControl } from "@/components/ui/segmented-control";
+import { Spinner } from "@/components/ui/spinner"
 
 export default function AdminMenu() {
   const router = useRouter();
@@ -42,9 +43,9 @@ export default function AdminMenu() {
   if (!menuItems) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading menu items...</p>
+        <div className="text-center flex flex-col items-center justify-center gap-4">
+          <Spinner className="size-8 text-typography-primary" />
+          <p className="text-typography-disabled text-lg font-medium">Loading menu items...</p>
         </div>
       </div>
     );
