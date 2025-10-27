@@ -234,6 +234,41 @@ export const getAllOrdersWithMenuDetails = query({
   },
 });
 
+// Query to get order with user details including phone number
+export const getOrderWithUserDetails = query({
+  args: { orderId: v.id("orders") },
+  handler: async (ctx, args) => {
+    const order = await ctx.db.get(args.orderId);
+    if (!order) return null;
+
+    let userDetails = null;
+    if (order.userId) {
+      userDetails = await ctx.db.get(order.userId);
+    }
+
+    // Fetch menu item details for each item
+    const itemsWithMenuDetails = await Promise.all(
+      order.items.map(async (item) => {
+        const menuItem = await ctx.db.get(item.menuId);
+        return {
+          ...item,
+          menuDetails: menuItem ? {
+            imageUrl: menuItem.imageUrl,
+            description: menuItem.description,
+            category: menuItem.category,
+          } : null,
+        };
+      })
+    );
+
+    return {
+      ...order,
+      items: itemsWithMenuDetails,
+      userDetails,
+    };
+  },
+});
+
 // Mutation to update payment information
 export const updatePaymentInfo = mutation({
   args: {

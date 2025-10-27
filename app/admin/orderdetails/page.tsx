@@ -5,7 +5,6 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import Image from "next/image";
-import { formatDistanceToNow } from "date-fns";
 
 function OrderDetailsContent() {
   const router = useRouter();
@@ -24,9 +23,11 @@ function OrderDetailsContent() {
   const [paymentStaffName, setPaymentStaffName] = useState("");
   const [paymentNote, setPaymentNote] = useState("");
 
-  // Fetch order details with menu information
-  const orders = useQuery(api.order.getAllOrdersWithMenuDetails);
-  const order = orders?.find(o => o._id === orderId);
+  // Fetch order details with user information
+  const orderWithUser = useQuery(
+    api.order.getOrderWithUserDetails,
+    orderId ? { orderId: orderId as Id<"orders"> } : "skip"
+  );
   
   // Fetch kitchen logs for this order
   const kitchenLogs = useQuery(
@@ -43,17 +44,17 @@ function OrderDetailsContent() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "order-received":
-        return "bg-blue-100 text-blue-800 border-blue-200";
+        return "text-blue-600";
       case "cooking":
-        return "bg-orange-100 text-orange-800 border-orange-200";
+        return "text-orange-600";
       case "out-for-delivery":
-        return "bg-purple-100 text-purple-800 border-purple-200";
+        return "text-purple-600";
       case "delivered":
-        return "bg-green-100 text-green-800 border-green-200";
+        return "text-green-600";
       case "cancelled":
-        return "bg-red-100 text-red-800 border-red-200";
+        return "text-red-600";
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return "text-gray-600";
     }
   };
 
@@ -150,7 +151,7 @@ function OrderDetailsContent() {
     );
   }
 
-  if (!order) {
+  if (!orderWithUser) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
@@ -158,100 +159,83 @@ function OrderDetailsContent() {
     );
   }
 
+  const order = orderWithUser;
+  const userDetails = orderWithUser.userDetails;
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <button
-            onClick={() => router.push("/admin/orders")}
-            className="mb-4 text-blue-600 hover:text-blue-800 flex items-center"
-          >
-            ← Back to Orders
-          </button>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Order #{order._id.slice(-6)}
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Created {formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="h-auto  py-8">
+      <div className="w-full mx-auto px-4">
+       
+        <div className="flex flex-col gap-2">
           {/* Main Order Details */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Order Status */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Status</h2>
-              <div className="flex items-center justify-between">
-                <span className={`px-4 py-2 rounded-full text-sm font-medium border ${getStatusColor(order.status)}`}>
+          <h2 className="w-full text-center text-4xl font-black text-typography-heading mb-2">Order Number - {order._id.slice(-6)} </h2>
+          <h3 className="w-full text-center text-3xl font-bold text-typography-inactive mb-1">{formatOrderType(order.orderType)}</h3>
+          <span className={`text-xl font-normal text-center ${getStatusColor(order.status)}`}>
                   {getStatusText(order.status)}
+          </span>
+          {/* User Details Card */}
+          <div className="p-6 mt-2">
+            <div className="flex items-center gap-4">
+              {/* Profile Picture */}
+              <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
+                <span className="text-2xl font-bold text-gray-600">
+                  {order.username.charAt(0).toUpperCase()}
                 </span>
-                <div className="text-sm text-gray-500">
-                  Last updated: {order.updatedAt ? formatDistanceToNow(new Date(order.updatedAt), { addSuffix: true }) : "Never"}
+              </div>
+              
+              {/* User Information */}
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-gray-800 mb-1">
+                  {order.username}
+                </h3>
+                <div className="text-sm text-gray-600 space-y-1">
+                  {order.apartment && (
+                    <p>{order.apartment}</p>
+                  )}
+                  {order.flatNumber && (
+                    <p>Flat {order.flatNumber}</p>
+                  )}
+                  {order.otherAddress && (
+                    <p>{order.otherAddress}</p>
+                  )}
+                  {userDetails?.phoneNumber && (
+                    <p className="text-blue-600 font-medium">+91 {userDetails.phoneNumber}</p>
+                  )}
                 </div>
               </div>
+              
+              {/* Call Button - Only show if phone number exists */}
+              {userDetails?.phoneNumber && (
+                <button
+                  onClick={() => {
+                    const phoneNumber = `+91${userDetails.phoneNumber}`;
+                    window.open(`tel:${phoneNumber}`, '_self');
+                  }}
+                  className="w-12 h-12 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer"
+                  title={`Call +91 ${userDetails.phoneNumber}`}
+                >
+                  <svg 
+                    className="w-6 h-6 text-gray-600" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" 
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
+          </div>
+          {/* Order Details Card */}
 
-            {/* Customer Information */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Customer Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Customer Name</label>
-                  <p className="text-gray-900">{order.username}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-500">User Type</label>
-                  <p className="text-gray-900 capitalize">{order.userType}</p>
-                </div>
-                {order.apartment && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Apartment</label>
-                    <p className="text-gray-900">{order.apartment}</p>
-                  </div>
-                )}
-                {order.flatNumber && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Flat Number</label>
-                    <p className="text-gray-900">{order.flatNumber}</p>
-                  </div>
-                )}
-                {order.otherAddress && (
-                  <div className="md:col-span-2">
-                    <label className="text-sm font-medium text-gray-500">Additional Address</label>
-                    <p className="text-gray-900">{order.otherAddress}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Order Information */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Order Type</label>
-                  <p className="text-gray-900">{formatOrderType(order.orderType)}</p>
-                </div>
-                {order.tableNumber && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Table Number</label>
-                    <p className="text-gray-900">{order.tableNumber}</p>
-                  </div>
-                )}
-                {order.deliveryNote && (
-                  <div className="md:col-span-2">
-                    <label className="text-sm font-medium text-gray-500">Delivery Note</label>
-                    <p className="text-gray-900">{order.deliveryNote}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Order Items */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Items</h2>
+          <h2 className="text-xl font-bold text-typography-light-grey">Item&apos;s Ordered</h2>
+          <div>
+            
               <div className="space-y-4">
                 {order.items.map((item, index) => (
                   <div key={index} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
@@ -293,210 +277,10 @@ function OrderDetailsContent() {
               </div>
             </div>
 
-            {/* Kitchen Logs */}
-            {kitchenLogs && kitchenLogs.length > 0 && (
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Timeline</h2>
-                <div className="space-y-4">
-                  {kitchenLogs.map((log, index) => (
-                    <div key={index} className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-gray-900">{log.action.replace("-", " ").toUpperCase()}</p>
-                          <p className="text-xs text-gray-500">
-                            {formatDistanceToNow(new Date(log.createdAt), { addSuffix: true })}
-                          </p>
-                        </div>
-                        <p className="text-sm text-gray-600">by {log.staffName}</p>
-                        {log.note && (
-                          <p className="text-sm text-gray-500 mt-1">{log.note}</p>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          
+         
 
-          {/* Sidebar - Status Update & Payment Info */}
-          <div className="space-y-6">
-            {/* Status Update Form */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Update Status</h2>
-              <form onSubmit={handleStatusUpdate} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">New Status</label>
-                  <select
-                    value={newStatus}
-                    onChange={(e) => setNewStatus(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  >
-                    <option value="">Select Status</option>
-                    <option value="order-received">Order Received</option>
-                    <option value="cooking">Cooking</option>
-                    <option value="out-for-delivery">Out for Delivery</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Staff Name (Optional)</label>
-                  <input
-                    type="text"
-                    value={staffName}
-                    onChange={(e) => setStaffName(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter staff name"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Note (Optional)</label>
-                  <textarea
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    rows={3}
-                    placeholder="Add a note about this status change"
-                  />
-                </div>
-                
-                <button
-                  type="submit"
-                  disabled={isUpdating || !newStatus}
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                >
-                  {isUpdating ? "Updating..." : "Update Status"}
-                </button>
-              </form>
-            </div>
 
-            {/* Payment Information */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Payment Information</h2>
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Payment Status</span>
-                  <span className={`text-sm font-medium ${
-                    order.paymentStatus === "paid" ? "text-green-600" :
-                    order.paymentStatus === "pending" ? "text-yellow-600" :
-                    "text-red-600"
-                  }`}>
-                    {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
-                  </span>
-                </div>
-                {order.paymentMethod && (
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-500">Payment Method</span>
-                    <span className="text-sm font-medium text-gray-900 capitalize">
-                      {order.paymentMethod}
-                    </span>
-                  </div>
-                )}
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Total Amount</span>
-                  <span className="text-lg font-semibold text-gray-900">
-                    ₹{order.totalAmount.toFixed(2)}
-                  </span>
-                </div>
-              </div>
-              
-              {/* Payment Update Form */}
-              <div className="border-t border-gray-200 pt-4">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Update Payment</h3>
-                <form onSubmit={handlePaymentUpdate} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
-                    <select
-                      value={newPaymentStatus}
-                      onChange={(e) => setNewPaymentStatus(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required
-                    >
-                      <option value="">Select Status</option>
-                      <option value="pending">Pending</option>
-                      <option value="paid">Paid</option>
-                      <option value="failed">Failed</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Payment Method (Optional)</label>
-                    <select
-                      value={newPaymentMethod}
-                      onChange={(e) => setNewPaymentMethod(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    >
-                      <option value="">Select Method</option>
-                      <option value="cash">Cash</option>
-                      <option value="card">Card</option>
-                      <option value="upi">UPI</option>
-                      <option value="online">Online</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Staff Name (Optional)</label>
-                    <input
-                      type="text"
-                      value={paymentStaffName}
-                      onChange={(e) => setPaymentStaffName(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter staff name"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Note (Optional)</label>
-                    <textarea
-                      value={paymentNote}
-                      onChange={(e) => setPaymentNote(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      rows={2}
-                      placeholder="Add a note about this payment update"
-                    />
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    disabled={isUpdatingPayment || !newPaymentStatus}
-                    className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                  >
-                    {isUpdatingPayment ? "Updating..." : "Update Payment"}
-                  </button>
-                </form>
-              </div>
-            </div>
-
-            {/* Order Summary */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Summary</h2>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Order ID</span>
-                  <span className="text-gray-900 font-mono">#{order._id.slice(-6)}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Items</span>
-                  <span className="text-gray-900">{order.items.length}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Order Type</span>
-                  <span className="text-gray-900">{formatOrderType(order.orderType)}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Created</span>
-                  <span className="text-gray-900">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
