@@ -196,6 +196,23 @@ export const getRecentOrders = query({
   },
 });
 
+// Query to get today's orders (from midnight today)
+export const getTodaysOrders = query({
+  args: {},
+  handler: async (ctx) => {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfDayTimestamp = startOfDay.getTime();
+    
+    return await ctx.db
+      .query("orders")
+      .withIndex("by_created_at")
+      .filter((q) => q.gte(q.field("createdAt"), startOfDayTimestamp))
+      .order("desc")
+      .collect();
+  },
+});
+
 // Query to get all orders with menu item details
 export const getAllOrdersWithMenuDetails = query({
   args: {},
