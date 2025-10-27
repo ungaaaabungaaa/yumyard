@@ -6,13 +6,15 @@ import { api } from "../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
 import { SegmentedControl } from "@/components/ui/segmented-control";
-import { Spinner } from "@/components/ui/spinner"
+import { Spinner } from "@/components/ui/spinner";
+import { Search } from 'lucide-react';
 
 export default function AdminMenu() {
   const router = useRouter();
   const menuItems = useQuery(api.menu.getAllMenuItems);
   const deleteMenuItem = useMutation(api.menu.deleteMenuItem);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const adminSegments = [
     { label: 'Menu', path: '/admin/menu' },
@@ -40,6 +42,11 @@ export default function AdminMenu() {
     }).format(price);
   };
 
+  // Filter menu items based on search term
+  const filteredMenuItems = menuItems?.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
+
   if (!menuItems) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -58,20 +65,38 @@ export default function AdminMenu() {
         <SegmentedControl segments={adminSegments} />
       </div>
 
+      {/* Search Bar */}
+      <div className="mb-6">
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="w-6 h-6 text-typography-disabled" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search Menu Items"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-4 border border-border-secondary rounded-2xl outline-none"
+          />
+        </div>
+      </div>
+
       {/* Menu Items List */}
       <div className="space-y-4">
-        {menuItems.length === 0 ? (
+        {filteredMenuItems.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
+              <Search className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No menu items yet</h3>
-            <p className="text-gray-500 mb-6">Get started by adding your first menu item</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              {searchTerm ? 'No items found' : 'No menu items yet'}
+            </h3>
+            <p className="text-gray-500 mb-6">
+              {searchTerm ? 'Try adjusting your search terms' : 'Get started by adding your first menu item'}
+            </p>
           </div>
         ) : (
-          menuItems.map((item) => (
+          filteredMenuItems.map((item) => (
             <div
               key={item._id}
               className="overflow-hidden"

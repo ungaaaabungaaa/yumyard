@@ -1,10 +1,12 @@
 "use client";
+import { useState } from "react";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { useRouter } from 'next/navigation'
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Image from "next/image";
 import { Spinner } from "@/components/ui/spinner";
+import { Search } from 'lucide-react';
 
 export default function AdminOrders() {
   const adminSegments = [
@@ -12,6 +14,7 @@ export default function AdminOrders() {
     { label: 'Orders', path: '/admin/orders' }
   ];
   const router = useRouter()
+  const [searchTerm, setSearchTerm] = useState("");
   
   // Fetch all orders with menu details
   const orders = useQuery(api.order.getAllOrdersWithMenuDetails);
@@ -61,6 +64,11 @@ export default function AdminOrders() {
 
   // Filter orders to show only today's orders
   const todaysOrders = orders?.filter(order => isToday(order.createdAt)) || [];
+  
+  // Filter orders based on search term (search by order ID)
+  const filteredOrders = todaysOrders.filter(order =>
+    order._id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (!orders) {
     return (
@@ -82,16 +90,39 @@ export default function AdminOrders() {
       <div className="mb-6">
         <SegmentedControl segments={adminSegments} />
       </div>
-     
+
+      {/* Search Bar */}
+      <div className="mb-6">
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="w-6 h-6 text-typography-disabled" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search Order ID"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-4 border border-border-secondary rounded-2xl outline-none"
+          />
+        </div>
+      </div>
 
       {/* Orders List */}
       <div className="space-y-4">
-        {todaysOrders.length === 0 ? (
+        {filteredOrders.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No orders found</p>
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              {searchTerm ? 'No orders found' : 'No orders found'}
+            </h3>
+            <p className="text-gray-500">
+              {searchTerm ? 'Try adjusting your search terms' : 'No orders for today'}
+            </p>
           </div>
         ) : (
-          todaysOrders.map((order) => {
+          filteredOrders.map((order) => {
             // Determine image layout based on number of items
             const hasMultipleItems = order.items.length > 1;
             const displayItems = order.items.slice(0, 3); // Show max 3 items
