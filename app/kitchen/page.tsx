@@ -7,8 +7,6 @@ import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import { format } from "date-fns";
 import Image from "next/image";
-import Lottie from "lottie-react";
-import orderConfirmed from "@/public/lottie/Cooking egg.json";
 
 type OrderStatus = "order-received" | "cooking" | "out-for-delivery" | "delivered" | "cancelled";
 
@@ -106,11 +104,8 @@ export default function KitchenOrders() {
         id: orderId,
         status: currentStatus,
       });
-      
-      alert("Order status updated successfully!");
     } catch (error) {
       console.error("Error updating order status:", error);
-      alert("Failed to update order status");
     }
   };
 
@@ -243,8 +238,8 @@ export default function KitchenOrders() {
                 </div>
 
                 {/* Status Update Section */}
-                <div className="border my-4 p-4 rounded-4xl flex flex-col items-center justify-center text-center">
-                  <Lottie animationData={orderConfirmed} loop={true} />
+                <div className=" my-4 rounded-4xl flex flex-col items-center justify-center text-center">
+                  
 
                   <div className="space-y-4 w-full">
                     <div className="relative">
