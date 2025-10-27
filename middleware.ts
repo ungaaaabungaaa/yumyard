@@ -12,7 +12,7 @@ function base64UrlDecode(str: string): string {
 }
 
 // Simplified JWT verification for Edge Runtime
-function verifyJWTSimple(token: string, secret: string) {
+function verifyJWTSimple(token: string, secret: string, expectedRole: 'admin' | 'kitchen') {
   try {
     // Split the JWT token
     const parts = token.split('.');
@@ -32,9 +32,9 @@ function verifyJWTSimple(token: string, secret: string) {
       throw new Error('Token expired');
     }
 
-    // Check if it has the admin role
-    if (decodedPayload.role !== 'admin') {
-      throw new Error('Invalid role');
+    // Check if it has the expected role
+    if (decodedPayload.role !== expectedRole) {
+      throw new Error(`Invalid role. Expected: ${expectedRole}, got: ${decodedPayload.role}`);
     }
 
     return decodedPayload;
@@ -45,38 +45,69 @@ function verifyJWTSimple(token: string, secret: string) {
 
 export function middleware(req: NextRequest) {
   console.log("Middleware triggered for:", req.url);
+  
+  // Check if it's a kitchen route
+  if (req.nextUrl.pathname.startsWith('/kitchen')) {
+    const token = req.cookies.get("kitchen_token")?.value;
+    
+    console.log("Kitchen token found:", token ? "YES" : "NO");
+    console.log("All cookies:", req.cookies.getAll());
+    
+    if (!token) {
+      console.log("No kitchen token found, redirecting to login");
+      return redirectToLogin(req);
+    }
+
+    try {
+      const decoded = verifyJWTSimple(token, process.env.KITCHEN_SECRET!, 'kitchen');
+      console.log("Kitchen token decoded successfully:", decoded);
+      
+      console.log("Kitchen token valid, allowing access");
+      return NextResponse.next();
+    } catch (error) {
+      // Token is invalid, expired, or malformed
+      console.log("Kitchen token verification failed:", error);
+      return redirectToLoginWithClearCookie(req, 'kitchen_token');
+    }
+  }
+  
+  // Handle admin routes
   const token = req.cookies.get("admin_token")?.value;
   
-  console.log("Token found:", token ? "YES" : "NO");
+  console.log("Admin token found:", token ? "YES" : "NO");
   console.log("All cookies:", req.cookies.getAll());
   
   if (!token) {
-    console.log("No token found, redirecting to login");
+    console.log("No admin token found, redirecting to login");
     return redirectToLogin(req);
   }
 
   try {
-    const decoded = verifyJWTSimple(token, process.env.ADMIN_SECRET!);
-    console.log("Token decoded successfully:", decoded);
+    const decoded = verifyJWTSimple(token, process.env.ADMIN_SECRET!, 'admin');
+    console.log("Admin token decoded successfully:", decoded);
     
-    console.log("Token valid, allowing access");
+    console.log("Admin token valid, allowing access");
     return NextResponse.next();
   } catch (error) {
     // Token is invalid, expired, or malformed
-    console.log("Token verification failed:", error);
-    return redirectToLoginWithClearCookie(req);
+    console.log("Admin token verification failed:", error);
+    return redirectToLoginWithClearCookie(req, 'admin_token');
   }
 }
 
 function redirectToLogin(req: NextRequest) {
-  return NextResponse.redirect(new URL("/login", req.url));
+  // Redirect to kitchen login for kitchen routes, admin login for admin routes
+  const loginPath = req.nextUrl.pathname.startsWith('/kitchen') ? '/kitchen-login' : '/login';
+  return NextResponse.redirect(new URL(loginPath, req.url));
 }
 
-function redirectToLoginWithClearCookie(req: NextRequest) {
-  const response = NextResponse.redirect(new URL("/login", req.url));
+function redirectToLoginWithClearCookie(req: NextRequest, tokenType: 'admin_token' | 'kitchen_token') {
+  // Redirect to appropriate login page based on token type
+  const loginPath = tokenType === 'kitchen_token' ? '/kitchen-login' : '/login';
+  const response = NextResponse.redirect(new URL(loginPath, req.url));
   
   // Clear the invalid/expired cookie
-  response.cookies.set("admin_token", "", {
+  response.cookies.set(tokenType, "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
@@ -88,7 +119,7 @@ function redirectToLoginWithClearCookie(req: NextRequest) {
   return response;
 }
 
-// Protect all /admin routes
+// Protect all /admin and /kitchen routes
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/kitchen/:path*"],
 };
