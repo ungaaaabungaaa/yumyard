@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Image from "next/image";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function AdminOrders() {
   const adminSegments = [
@@ -68,7 +69,8 @@ export default function AdminOrders() {
           <SegmentedControl segments={adminSegments} />
         </div>
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <Spinner className="size-8 text-typography-primary" />
+        <p className="text-typography-disabled text-lg font-medium">Loading orders...</p>
         </div>
       </div>
     );
@@ -97,7 +99,6 @@ export default function AdminOrders() {
             return (
               <div
                 key={order._id}
-                className=" p-6"
               >
                 <div className="flex gap-6">
                   {/* Left Section - Images (25% width) */}
