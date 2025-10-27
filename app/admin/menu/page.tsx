@@ -77,10 +77,10 @@ export default function AdminMenu() {
             >
               {/* Main Card Content */}
               <div className="p-2 border-1 rounded-4xl">
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start justify-center space-x-4">
                   {/* Image */}
                   <div className="flex-shrink-0">
-                    <div className="w-32 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
+                    <div className="w-32 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center">
                       {item.imageUrl ? (
                         <img
                           src={item.imageUrl}

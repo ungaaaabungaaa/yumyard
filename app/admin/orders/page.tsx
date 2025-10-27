@@ -105,7 +105,7 @@ export default function AdminOrders() {
                     {hasMultipleItems ? (
                       <div className="space-y-3">
                         {/* Large image for first item */}
-                        <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gray-100">
+                        <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
                           <Image
                             src={displayItems[0]?.menuDetails?.imageUrl || "/Burger.png"}
                             alt={displayItems[0]?.name || "Food item"}
@@ -119,7 +119,7 @@ export default function AdminOrders() {
                         {displayItems.length > 1 && (
                           <div className="flex gap-2">
                             {displayItems.slice(1, 3).map((item, index) => (
-                              <div key={index} className="w-1/2 aspect-square rounded-2xl overflow-hidden bg-gray-100">
+                              <div key={index} className="w-1/2 aspect-square rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
                                 <Image
                                   src={item.menuDetails?.imageUrl || "/Burger.png"}
                                   alt={item.name}
@@ -134,7 +134,7 @@ export default function AdminOrders() {
                       </div>
                     ) : (
                       /* Single large image for single item */
-                      <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gray-100">
+                      <div className="w-full aspect-square rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
                         <Image
                           src={displayItems[0]?.menuDetails?.imageUrl || "/Burger.png"}
                           alt={displayItems[0]?.name || "Food item"}

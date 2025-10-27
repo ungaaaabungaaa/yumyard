@@ -179,7 +179,7 @@ export default function KitchenOrders() {
                       <div className="flex items-start space-x-4 h-30">
                         {/* Image */}
                         <div className="flex-shrink-0">
-                          <div className="w-36 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
+                          <div className="w-36 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center">
                             <Image
                               src={item.menuDetails?.imageUrl || "/Burger.png"}
                               alt={item.name}
