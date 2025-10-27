@@ -175,7 +175,7 @@ export default function AdminCreateOrder() {
         </>
 
       {/* Sticky Bottom Section */}
-      <div className="fixed bottom-0 left-0 right-0 py-4 z-40">
+      <div className="fixed bottom-4 left-4 right-4 max-w-full py-4 z-40">
         <div className="flex items-center justify-between px-4">
           {/* Total Amount */}
           <div>
