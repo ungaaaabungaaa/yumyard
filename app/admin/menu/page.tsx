@@ -108,11 +108,7 @@ export default function AdminMenu() {
                         <h3 className="text-xl font-medium text-typography-heading mt-2">
                           {item.name}
                         </h3>
-                        {item.description && (
-                          <p className="text-sm text-transparent line-clamp-1 mb-2">
-                            {item.description}
-                          </p>
-                        )}
+                      
 
                         {/* Price and Action Buttons Row */}
                         <div className="flex items-center justify-between">
@@ -122,7 +118,7 @@ export default function AdminMenu() {
                           </h4>
 
                           {/* Action Buttons on the right */}
-                          <div className="flex items-center space-x-2">
+                          <div className="flex flex-row gap-2">
                            
               
                             <button
