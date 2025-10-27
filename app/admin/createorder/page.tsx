@@ -150,7 +150,7 @@ export default function AdminCreateOrder() {
                           </h4>
 
                           {/* Quantity Controls below price, aligned to right */}
-                          <div className="flex items-center justify-end space-x-2 my-2">
+                          <div className="flex items-center justify-end space-x-2 mr-2 my-2">
                             {item.quantity > 1 ? (
                               <button
                                 onClick={() => handleQuantityChange(item.menuId, item.quantity - 1)}

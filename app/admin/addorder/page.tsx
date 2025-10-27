@@ -136,7 +136,7 @@ export default function AdminAddOrder() {
                           const selectedItem = selectedItems.find(selected => selected.menuId === item._id);
                           if (selectedItem) {
                             return (
-                              <div className="flex items-center justify-end space-x-2 my-2">
+                              <div className="flex items-center justify-end space-x-2 mr-2 my-2">
                                 {selectedItem.quantity > 1 ? (
                                   <button
                                     onClick={() => handleQuantityChange(item._id, selectedItem.quantity - 1)}

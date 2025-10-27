@@ -291,13 +291,13 @@ function OrderDetailsContent() {
                          {/* Price and Quantity Row */}
                          <div className="flex items-end justify-between mt-4 mb-2">
                            {/* Price on the left */}
-                           <h4 className="text-2xl font-semibold text-typography-heading">
+                           <h4 className="text-2xl  font-semibold text-typography-heading">
                              ₹{item.price}
                            </h4>
 
                            {/* Quantity on the right */}
                            <div className="flex items-end">
-                             <span className="text-2xl font-bold text-typography-inactive mr-2">
+                             <span className="text-2xl font-bold text-typography-inactive mr-2 my-2">
                                x{item.quantity}
                              </span>
                            </div>
