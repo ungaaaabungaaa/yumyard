@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { Spinner } from "@/components/ui/spinner";
 
 function OrderDetailsContent() {
   const router = useRouter();
@@ -169,27 +170,13 @@ function OrderDetailsContent() {
     }
   };
 
-  if (!orderId) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Order Not Found</h1>
-          <p className="text-gray-600 mb-6">No order ID provided</p>
-          <button
-            onClick={() => router.push("/admin/orders")}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Back to Orders
-          </button>
-        </div>
-      </div>
-    );
-  }
+ 
 
   if (!orderWithUser) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <Spinner className="size-8 text-typography-primary" />
+        <p className="text-typography-disabled text-lg font-medium">Loading order details...</p>
       </div>
     );
   }
@@ -210,15 +197,15 @@ function OrderDetailsContent() {
           <span className={`text-xl font-medium text-center capitalize ${getStatusColor(order.status)}`}>
                   {getStatusText(order.status)}
           </span>
-          <h2 className="w-full text-center text-4xl font-black text-typography-heading mb-2">Order Number - {order._id.slice(-6)} </h2>
-          <h3 className="w-full text-center text-3xl font-bold text-typography-inactive mb-1">{formatOrderType(order.orderType)}</h3>
+          <h2 className="w-full text-center text-2xl font-black text-typography-heading mb-2">Order Number - {order._id.slice(-6)} </h2>
+          <h3 className="w-full text-center text-xl font-bold text-typography-inactive mb-1">{formatOrderType(order.orderType)}</h3>
           <span className={`text-lg font-medium text-center capitalize ${getPaymentStatusColor(order.paymentStatus)}`}>
                   {getPaymentStatusText(order.paymentStatus)}
           </span>
           </div>
           
           {/* User Details Card */}
-          <div className="p-6 mt-2">
+          <div className="mt-2">
             <div className="flex items-center gap-4">
               {/* Profile Picture */}
               <div className="w-16 h-16 bg-background-primary rounded-full flex items-center justify-center">
@@ -278,7 +265,7 @@ function OrderDetailsContent() {
           {/* Order Details Card */}
            <div className="space-y-3">
              {order.items.map((item, index) => (
-               <div key={index} className="p-2 border-1 rounded-4xl">
+               <div key={index} className="border-1 rounded-4xl">
                  <div className="flex items-start space-x-4 h-30">
                    {/* Image */}
                    <div className="flex-shrink-0">
@@ -420,7 +407,7 @@ function OrderDetailsContent() {
 
         {/* Extras Order Details */}
         
-        <Accordion type="single" collapsible  className="w-full my-4">
+        <Accordion type="single" collapsible  className="w-full my-4 hidden">
           {/* Order Metadata */}
           <AccordionItem value="metadata">
             <AccordionTrigger className="text-xl font-bold text-typography-heading">📋 Order Metadata</AccordionTrigger>
