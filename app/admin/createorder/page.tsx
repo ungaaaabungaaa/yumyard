@@ -171,24 +171,31 @@ export default function AdminCreateOrder() {
                 </div>
               </div>
             ))}
-            <div className="flex items-center justify-between my-4">
-              <div>
-                <span className="text-2xl font-bold text-typography-heading">
-                  {formatPrice(getTotalAmount())}
-                </span>
-              </div>
-              <button
-                onClick={handleCreateOrder}
-                disabled={isCreating}
-                className={`bg-background-primary text-white px-8 py-4 rounded-2xl text-lg font-bold transition-colors ${
-                  isCreating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-opacity-90'
-                }`}
-              >
-                {isCreating ? 'Creating Order...' : 'Create Order'}
-              </button>
-            </div>
           </div>
         </>
+
+      {/* Sticky Bottom Section */}
+      <div className="fixed bottom-0 left-0 right-0 py-4 z-40">
+        <div className="flex items-center justify-between px-4">
+          {/* Total Amount */}
+          <div>
+            <span className="text-2xl font-bold text-typography-heading">
+              {formatPrice(getTotalAmount())}
+            </span>
+          </div>
+          
+          {/* Create Order Button */}
+          <button
+            onClick={handleCreateOrder}
+            disabled={isCreating}
+            className={`bg-background-primary text-white px-8 py-4 rounded-2xl text-lg font-bold transition-colors ${
+              isCreating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-opacity-90'
+            }`}
+          >
+            {isCreating ? 'Creating Order...' : 'Create Order'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

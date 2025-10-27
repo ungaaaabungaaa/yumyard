@@ -218,8 +218,8 @@ export default function AdminOrders() {
       </div>
 
        
-      {/* Add Order Button */}
-      <div className="pt-6 mb-6">
+      {/* Sticky Bottom Button */}
+      <div className="fixed bottom-0 left-0 right-0 py-4 z-40">
         <button
           onClick={() => router.push('/admin/addorder')}
           type="submit"

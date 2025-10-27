@@ -142,11 +142,12 @@ export default function AdminMenu() {
         )}
       </div>
 
-        <div className="pt-6">
+        {/* Sticky Bottom Button */}
+        <div className="fixed bottom-0 left-0 right-0 py-4 z-40">
           <button
             onClick={() => router.push('/admin/addmenu')}
             type="submit"
-            className="w-full bg-background-primary  text-typography-white  py-6 px-8 rounded-2xl text-lg font-bold"
+            className="w-full bg-background-primary text-typography-white py-6 px-8 rounded-2xl text-lg font-bold"
           >
             Add Menu
           </button>
