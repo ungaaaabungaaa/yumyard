@@ -8,6 +8,12 @@ import Image from "next/image";
 import Lottie from "lottie-react";
 import orderConfirmed from "@/public/lottie/Cooking egg.json";
 import money from "@/public/lottie/Fake 3D vector coin.json";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 function OrderDetailsContent() {
   const router = useRouter();
@@ -413,6 +419,262 @@ function OrderDetailsContent() {
         </div>
 
         {/* Extras Order Details */}
+        
+        <Accordion type="single" collapsible className="w-full">
+          {/* Order Metadata */}
+          <AccordionItem value="metadata">
+            <AccordionTrigger className="text-lg font-semibold">📋 Order Metadata</AccordionTrigger>
+            <AccordionContent className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
+                <div>
+                  <span className="font-medium text-gray-700">Order ID:</span>
+                  <p className="text-sm text-gray-600 font-mono">{order._id}</p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-700">User Type:</span>
+                  <p className="text-sm text-gray-600 capitalize">{order.userType}</p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-700">Created At:</span>
+                  <p className="text-sm text-gray-600">{new Date(order.createdAt).toLocaleString()}</p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-700">Last Updated:</span>
+                  <p className="text-sm text-gray-600">
+                    {order.updatedAt ? new Date(order.updatedAt).toLocaleString() : 'Never'}
+                  </p>
+                </div>
+                {order.estimatedReadyTime && (
+                  <div>
+                    <span className="font-medium text-gray-700">Estimated Ready Time:</span>
+                    <p className="text-sm text-gray-600">{new Date(order.estimatedReadyTime).toLocaleString()}</p>
+                  </div>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Delivery & Table Details */}
+          <AccordionItem value="delivery">
+            <AccordionTrigger className="text-lg font-semibold">🚚 Delivery & Table Details</AccordionTrigger>
+            <AccordionContent className="space-y-3">
+              <div className="p-4 bg-gray-50 rounded-lg space-y-3">
+                {order.tableNumber && (
+                  <div>
+                    <span className="font-medium text-gray-700">Table Number:</span>
+                    <p className="text-sm text-gray-600">{order.tableNumber}</p>
+                  </div>
+                )}
+                {order.deliveryNote && (
+                  <div>
+                    <span className="font-medium text-gray-700">Delivery Note:</span>
+                    <p className="text-sm text-gray-600">{order.deliveryNote}</p>
+                  </div>
+                )}
+                {order.orderType === 'dine-in' && !order.tableNumber && (
+                  <p className="text-sm text-gray-500 italic">No table number specified for dine-in order</p>
+                )}
+                {order.orderType === 'delivery' && !order.deliveryNote && (
+                  <p className="text-sm text-gray-500 italic">No delivery notes provided</p>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Detailed Payment Information */}
+          <AccordionItem value="payment">
+            <AccordionTrigger className="text-lg font-semibold">💳 Payment Details</AccordionTrigger>
+            <AccordionContent className="space-y-3">
+              <div className="p-4 bg-gray-50 rounded-lg space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <span className="font-medium text-gray-700">Payment Status:</span>
+                    <p className={`text-sm font-medium ${getPaymentStatusColor(order.paymentStatus)}`}>
+                      {getPaymentStatusText(order.paymentStatus)}
+                    </p>
+                  </div>
+                  {order.paymentMethod && (
+                    <div>
+                      <span className="font-medium text-gray-700">Payment Method:</span>
+                      <p className="text-sm text-gray-600 capitalize">{order.paymentMethod}</p>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <span className="font-medium text-gray-700">Total Amount:</span>
+                  <p className="text-lg font-bold text-gray-800">₹{order.totalAmount.toFixed(2)}</p>
+                </div>
+                {!order.paymentMethod && (
+                  <p className="text-sm text-gray-500 italic">Payment method not specified</p>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Item Special Requests & Details */}
+          <AccordionItem value="items">
+            <AccordionTrigger className="text-lg font-semibold">🍽️ Item Details & Special Requests</AccordionTrigger>
+            <AccordionContent className="space-y-3">
+              <div className="space-y-4">
+                {order.items.map((item, index) => (
+                  <div key={index} className="p-4 bg-gray-50 rounded-lg">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-gray-800">{item.name}</h4>
+                      <span className="text-sm text-gray-600">Qty: {item.quantity}</span>
+                    </div>
+                    <div className="space-y-2">
+                      <div>
+                        <span className="font-medium text-gray-700">Price per item:</span>
+                        <span className="text-sm text-gray-600 ml-2">₹{item.price}</span>
+                      </div>
+                      <div>
+                        <span className="font-medium text-gray-700">Total for this item:</span>
+                        <span className="text-sm text-gray-600 ml-2">₹{(item.price * item.quantity).toFixed(2)}</span>
+                      </div>
+                      {item.specialRequest && (
+                        <div>
+                          <span className="font-medium text-gray-700">Special Request:</span>
+                          <p className="text-sm text-gray-600 mt-1 p-2 bg-yellow-50 border border-yellow-200 rounded">
+                            {item.specialRequest}
+                          </p>
+                        </div>
+                      )}
+                      {item.menuDetails?.description && (
+                        <div>
+                          <span className="font-medium text-gray-700">Description:</span>
+                          <p className="text-sm text-gray-600 mt-1">{item.menuDetails.description}</p>
+                        </div>
+                      )}
+                      {item.menuDetails?.category && (
+                        <div>
+                          <span className="font-medium text-gray-700">Category:</span>
+                          <span className="text-sm text-gray-600 ml-2">{item.menuDetails.category}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Kitchen Activity Logs */}
+          <AccordionItem value="kitchen-logs">
+            <AccordionTrigger className="text-lg font-semibold">👨‍🍳 Kitchen Activity Logs</AccordionTrigger>
+            <AccordionContent className="space-y-3">
+              <div className="space-y-3">
+                {kitchenLogs && kitchenLogs.length > 0 ? (
+                  kitchenLogs.map((log, index) => (
+                    <div key={index} className="p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="font-medium text-gray-800 capitalize">
+                          {log.action.replace('-', ' ')}
+                        </span>
+                        <span className="text-sm text-gray-600">
+                          {new Date(log.createdAt).toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-sm text-gray-700">
+                          <span className="font-medium">Staff:</span> {log.staffName}
+                        </p>
+                        {log.note && (
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Note:</span> {log.note}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500 italic p-4 bg-gray-50 rounded-lg">
+                    No kitchen activity logs available for this order
+                  </p>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Order Review */}
+          {order.review && (
+            <AccordionItem value="review">
+              <AccordionTrigger className="text-lg font-semibold">⭐ Order Review</AccordionTrigger>
+              <AccordionContent className="space-y-3">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span className="font-medium text-gray-700">Rating:</span>
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <span
+                          key={i}
+                          className={`text-lg ${
+                            i < order.review!.rating ? 'text-yellow-400' : 'text-gray-300'
+                          }`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                    <span className="text-sm text-gray-600">({order.review!.rating}/5)</span>
+                  </div>
+                  {order.review!.comment && (
+                    <div>
+                      <span className="font-medium text-gray-700">Comment:</span>
+                      <p className="text-sm text-gray-600 mt-1 p-2 bg-white border rounded">
+                        {order.review!.comment}
+                      </p>
+                    </div>
+                  )}
+                  <div className="mt-2">
+                    <span className="font-medium text-gray-700">Reviewed on:</span>
+                    <span className="text-sm text-gray-600 ml-2">
+                      {new Date(order.review!.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
+          {/* User Account Details */}
+          {userDetails && (
+            <AccordionItem value="user-account">
+              <AccordionTrigger className="text-lg font-semibold">👤 User Account Details</AccordionTrigger>
+              <AccordionContent className="space-y-3">
+                <div className="p-4 bg-gray-50 rounded-lg space-y-3">
+                  <div>
+                    <span className="font-medium text-gray-700">Full Name:</span>
+                    <p className="text-sm text-gray-600">{userDetails.name}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-700">Phone Number:</span>
+                    <p className="text-sm text-gray-600">+91 {userDetails.phoneNumber}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-700">Account Created:</span>
+                    <p className="text-sm text-gray-600">{new Date(userDetails.createdAt).toLocaleString()}</p>
+                  </div>
+                  {userDetails.savedAddresses && userDetails.savedAddresses.length > 0 && (
+                    <div>
+                      <span className="font-medium text-gray-700">Saved Addresses:</span>
+                      <div className="mt-2 space-y-2">
+                        {userDetails.savedAddresses.map((address, index) => (
+                          <div key={index} className="p-2 bg-white border rounded text-sm">
+                            <p className="font-medium">{address.label}</p>
+                            {address.apartment && <p>{address.apartment}</p>}
+                            {address.flatNumber && <p>Flat {address.flatNumber}</p>}
+                            {address.otherAddress && <p>{address.otherAddress}</p>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          )}
+        </Accordion>
+
 
           
          
