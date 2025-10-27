@@ -4,7 +4,6 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { useState } from "react";
-import { Button } from "../../components/ui/button";
 import { format } from "date-fns";
 import Image from "next/image";
 
@@ -131,7 +130,7 @@ export default function KitchenOrders() {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Loading today's orders...</p>
+              <p className="mt-4 text-gray-600">Loading today&apos;s orders...</p>
             </div>
           </div>
         </div>
