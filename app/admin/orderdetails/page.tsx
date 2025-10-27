@@ -174,7 +174,7 @@ function OrderDetailsContent() {
 
   if (!orderWithUser) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center flex-col gap-4">
         <Spinner className="size-8 text-typography-primary" />
         <p className="text-typography-disabled text-lg font-medium">Loading order details...</p>
       </div>
@@ -192,7 +192,7 @@ function OrderDetailsContent() {
           {/* Main Order Details */}
 
           {/* Order Status */}
-          <div className="flex flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-center justify-center text-center gap-2">
           
           <span className={`text-xl font-medium text-center capitalize ${getStatusColor(order.status)}`}>
                   {getStatusText(order.status)}
@@ -205,7 +205,7 @@ function OrderDetailsContent() {
           </div>
           
           {/* User Details Card */}
-          <div className="mt-2">
+          <div className="my-2">
             <div className="flex items-center gap-4">
               {/* Profile Picture */}
               <div className="w-16 h-16 bg-background-primary rounded-full flex items-center justify-center">
@@ -263,7 +263,7 @@ function OrderDetailsContent() {
             </div>
           </div>
           {/* Order Details Card */}
-           <div className="space-y-3">
+           <div className="space-y-3 my-2">
              {order.items.map((item, index) => (
                <div key={index} className="border-1 rounded-4xl">
                  <div className="flex items-start space-x-4 h-30">
@@ -316,7 +316,7 @@ function OrderDetailsContent() {
            </div>
               
           {/* Order Total */}
-          <div className="my-4 border-t border-b pb-4  pt-4">
+          <div className="my-4 border-t border-b py-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold text-typography-heading capitalize">Total Amount</span>
                   <span className="text-2xl font-bold text-typography-heading capitalize">₹{order.totalAmount.toFixed(2)}</span>
@@ -324,7 +324,7 @@ function OrderDetailsContent() {
           </div>
 
           {/* Status Update Form */}
-          <div className="border my-4 p-4 rounded-4xl flex flex-col items-center justify-center text-center">
+          <div className="border my-4 rounded-4xl flex flex-col items-center justify-center text-center">
           <Lottie animationData={orderConfirmed} loop={true} />
 
           <form onSubmit={handleStatusUpdate} className="space-y-4 w-full">
@@ -366,7 +366,7 @@ function OrderDetailsContent() {
 
           {/* Update Payment Form */}
 
-          <div className="border my-4 p-4 rounded-4xl flex flex-col items-center justify-center text-center">
+          <div className="border my-4 rounded-4xl flex flex-col items-center justify-center text-center">
           <Lottie animationData={money} loop={true} />
 
           <form onSubmit={handlePaymentUpdate} className="space-y-4 w-full">
@@ -649,11 +649,6 @@ function OrderDetailsContent() {
             </AccordionItem>
           )}
         </Accordion>
-
-
-          
-         
-
 
         </div>
       </div>
