@@ -80,7 +80,7 @@ export default function AdminMenu() {
                 <div className="flex items-start justify-center space-x-4">
                   {/* Image */}
                   <div className="flex-shrink-0">
-                    <div className="w-32 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center">
+                    <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center">
                       {item.imageUrl ? (
                         <img
                           src={item.imageUrl}
