@@ -24,7 +24,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </div>
           </div>
         </header>
-        <main className="max-w-full lg:max-w-2xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <main className="max-w-full lg:max-w-2xl mx-auto py-6 px-2 sm:px-2 lg:px-4">
           {children}
         </main>
       </div>

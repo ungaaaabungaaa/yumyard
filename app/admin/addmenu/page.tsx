@@ -141,7 +141,7 @@ function AdminAddMenuContent() {
 
   return (
     <div className="min-h-screen">
-      <form onSubmit={handleSubmit} className="p-1 space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Image Preview */}
         <div className="flex justify-center">
           <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 border-2 border-gray-200">
