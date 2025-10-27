@@ -25,7 +25,6 @@ export default function AdminPage() {
       title: 'My Earnings',
       value: dashboardStats ? formatCurrency(dashboardStats.totalEarnings) : <Spinner className="w-4 h-4" />,
       icon: <User className="w-6 h-6" />,
-      onClick: () => router.push('/admin/dashboard')
     },
     {
       title: 'My Menu',
