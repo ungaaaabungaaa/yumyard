@@ -68,7 +68,7 @@ export default function AdminOrders() {
         <div className="mb-6">
           <SegmentedControl segments={adminSegments} />
         </div>
-        <div className="flex justify-center items-center h-64">
+        <div className="flex justify-center items-center h-64 flex-col gap-4">
         <Spinner className="size-8 text-typography-primary" />
         <p className="text-typography-disabled text-lg font-medium">Loading orders...</p>
         </div>

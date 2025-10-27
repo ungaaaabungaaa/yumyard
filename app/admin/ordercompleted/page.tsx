@@ -8,12 +8,12 @@ export default function OrderCompleted() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen flex items-center justify-center ">
+    <div className="h-auto flex items-center justify-center ">
       <div className=" w-full mx-4">
-        <div className="p-8 text-center">
+        <div className="p-2 text-center">
           {/* Success Icon */}
-          <div className="w-3/4 h-auto  flex items-center justify-center mx-auto mb-6">
-            <Lottie animationData={orderConfirmed} loop={true} />;
+          <div className="w-3/4 h-1/4 flex items-center justify-center mx-auto mb-6">
+            <Lottie animationData={orderConfirmed} loop={true} />
           </div>
 
           {/* Success Message */}
