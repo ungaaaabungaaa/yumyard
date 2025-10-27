@@ -307,3 +307,30 @@ export const updatePaymentInfo = mutation({
     return await ctx.db.get(id);
   },
 });
+
+// Query to get dashboard statistics
+export const getDashboardStats = query({
+  args: {},
+  handler: async (ctx) => {
+    // Get all orders
+    const allOrders = await ctx.db.query("orders").collect();
+    
+    // Calculate total earnings from completed orders
+    const completedOrders = allOrders.filter(order => order.status === "delivered");
+    const totalEarnings = completedOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+    
+    // Get total number of orders
+    const totalOrders = allOrders.length;
+    
+    // Get menu items count
+    const menuItems = await ctx.db.query("menu").collect();
+    const totalMenuItems = menuItems.length;
+    
+    return {
+      totalEarnings,
+      totalOrders,
+      totalMenuItems,
+      completedOrders: completedOrders.length,
+    };
+  },
+});

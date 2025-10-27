@@ -2,27 +2,40 @@
 
 import { useRouter } from 'next/navigation'
 import { User , Logs , AppWindow } from 'lucide-react'
-
+import { useQuery } from 'convex/react'
+import { api } from '@/convex/_generated/api'
+import { Spinner } from '@/components/ui/spinner'
 
 export default function AdminPage() {
 
   const router = useRouter()
+  const dashboardStats = useQuery(api.order.getDashboardStats)
+  
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount)
+  }
+
   const dashboardItems = [
     {
       title: 'My Earnings',
-      value: '₹52,000',
+      value: dashboardStats ? formatCurrency(dashboardStats.totalEarnings) : <Spinner className="w-4 h-4" />,
       icon: <User className="w-6 h-6" />,
       onClick: () => router.push('/admin/dashboard')
     },
     {
       title: 'My Menu',
-      value: '22 items',
+      value: dashboardStats ? `${dashboardStats.totalMenuItems} items` : <Spinner className="w-4 h-4" />,
       icon: <AppWindow className="w-6 h-6" />,
       onClick: () => router.push('/admin/menu')
     },
     {
       title: 'My Orders',
-      value: '92',
+      value: dashboardStats ? dashboardStats.totalOrders.toString() : <Spinner className="w-4 h-4" />,
       icon: <Logs className="w-6 h-6" />,
       onClick: () => router.push('/admin/orders')
     }
