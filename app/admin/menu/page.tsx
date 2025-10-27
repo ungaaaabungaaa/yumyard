@@ -104,10 +104,10 @@ export default function AdminMenu() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="text-xl font-medium text-typography-heading mt-2">
+                        <h3 className="text-2xl font-semibold text-typography-heading my-2">
                           {item.name}
                         </h3>
-                          <h4 className="text-2xl font-semibold text-typography-heading">
+                          <h4 className="text-xl font-semibold text-typography-heading">
                             {formatPrice(item.price)} 
                           </h4>
                           <div className="flex flex-row gap-2">
