@@ -31,7 +31,7 @@ export function SegmentedControl({ segments, className }: SegmentedControlProps)
           key={segment.path}
           onClick={() => handleSegmentClick(segment.path)}
           className={cn(
-            "relative flex-1 text-lg  font-bold py-6 px-8 rounded-2xl ",
+            "relative flex-1 text-lg  font-bold py-4 px-6 rounded-2xl ",
             activeIndex === index
               ? "bg-background-surface-background text-typography-heading"
               : "text-typography-inactive"

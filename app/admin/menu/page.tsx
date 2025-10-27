@@ -80,7 +80,7 @@ export default function AdminMenu() {
                 <div className="flex items-start space-x-4">
                   {/* Image */}
                   <div className="flex-shrink-0">
-                    <div className="w-36 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
+                    <div className="w-32 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
                       {item.imageUrl ? (
                         <img
                           src={item.imageUrl}
@@ -107,12 +107,10 @@ export default function AdminMenu() {
                         <h3 className="text-2xl font-semibold text-typography-heading my-2">
                           {item.name}
                         </h3>
-                          <h4 className="text-xl font-semibold text-typography-heading">
+                          <h4 className="text-xl font-semibold text-typography-heading my-2">
                             {formatPrice(item.price)} 
                           </h4>
-                          <div className="flex flex-row gap-2">
-                           
-              
+                          <div className="flex flex-row gap-2 mb-2">
                            <button
                              onClick={() => handleEdit(item._id)}
                              className="p-3 text-typography-inactive bg-background-layer-2-background rounded-full transition-colors"
