@@ -233,46 +233,64 @@ function OrderDetailsContent() {
           </div>
           {/* Order Details Card */}
 
-          <h2 className="text-xl font-bold text-typography-light-grey">Item&apos;s Ordered</h2>
-          <div>
-            
-              <div className="space-y-4">
-                {order.items.map((item, index) => (
-                  <div key={index} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                      <Image
-                        src={item.menuDetails?.imageUrl || "/Burger.png"}
-                        alt={item.name}
-                        width={64}
-                        height={64}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-medium text-gray-900">{item.name}</h3>
-                      <p className="text-sm text-gray-500">
-                        Quantity: {item.quantity} • Price: ₹{item.price}
-                      </p>
-                      {item.specialRequest && (
-                        <p className="text-sm text-orange-600 mt-1">
-                          Special Request: {item.specialRequest}
-                        </p>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      <p className="text-lg font-semibold text-gray-900">
-                        ₹{(item.price * item.quantity).toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          
+           <div className="space-y-3">
+             {order.items.map((item, index) => (
+               <div key={index} className="p-2 border-1 rounded-4xl">
+                 <div className="flex items-start space-x-4 h-30">
+                   {/* Image */}
+                   <div className="flex-shrink-0">
+                     <div className="w-36 h-30 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
+                       <Image
+                         src={item.menuDetails?.imageUrl || "/Burger.png"}
+                         alt={item.name}
+                         width={144}
+                         height={120}
+                         className="w-full h-full object-cover"
+                       />
+                     </div>
+                   </div>
+
+                   {/* Content */}
+                   <div className="flex-1 min-w-0 flex flex-col h-full">
+                     <div className="flex items-start justify-between flex-1 h-full">
+                       <div className="flex-1 flex flex-col h-full">
+                         <h3 className="text-xl font-medium text-typography-heading mt-2">
+                           {item.name}
+                         </h3>
+                         
+                         {/* Spacer to push price/quantity to bottom */}
+                         <div className="flex-1"></div>
+
+                         {/* Price and Quantity Row */}
+                         <div className="flex items-end justify-between mt-4 mb-2">
+                           {/* Price on the left */}
+                           <h4 className="text-2xl font-semibold text-typography-heading">
+                             ₹{item.price}
+                           </h4>
+
+                           {/* Quantity on the right */}
+                           <div className="flex items-end">
+                             <span className="text-2xl font-bold text-typography-inactive mr-2">
+                               x{item.quantity}
+                             </span>
+                           </div>
+                         </div>
+
+                       
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             ))}
+           </div>
               
               {/* Order Total */}
-              <div className="mt-6 pt-4 border-t border-gray-200">
+              <div className="my-4 border-t border-b pb-4  pt-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-xl font-semibold text-gray-900">Total Amount</span>
-                  <span className="text-2xl font-bold text-gray-900">₹{order.totalAmount.toFixed(2)}</span>
+                  <span className="text-xl font-bold text-typography-heading capitalize">Total Amount</span>
+                  <span className="text-2xl font-bold text-typography-heading capitalize">₹{order.totalAmount.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -283,7 +301,7 @@ function OrderDetailsContent() {
 
         </div>
       </div>
-    </div>
+   
   );
 }
 
