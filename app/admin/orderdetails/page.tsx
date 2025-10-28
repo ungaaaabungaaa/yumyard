@@ -2,7 +2,7 @@
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import Image from "next/image";
 import {
@@ -14,7 +14,6 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 
 function OrderDetailsContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("id");
   
@@ -231,7 +230,7 @@ function OrderDetailsContent() {
 
           {/* Items Ordered Section */}
           <div className="space-y-4">
-            <h2 className="text-lg font-medium text-gray-900">Item's Ordered</h2>
+            <h2 className="text-lg font-medium text-gray-900">Item&apos;s Ordered</h2>
             {order.items.map((item, index) => (
               <div key={index} className="overflow-hidden">
                 {/* Main Card Content */}
