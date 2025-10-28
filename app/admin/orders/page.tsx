@@ -125,7 +125,8 @@ export default function AdminOrders() {
           filteredOrders.map((order) => {
             // Determine image layout based on number of items
             const hasMultipleItems = order.items.length > 1;
-            const displayItems = order.items.slice(0, 3); // Show max 3 items
+            const displayItems = order.items.slice(0, 2); // Show max 2 items (1 large + 1 small)
+            const additionalItemsCount = Math.max(0, order.items.length - 2); // Count of items beyond the first 2
 
             return (
               <div
@@ -147,20 +148,28 @@ export default function AdminOrders() {
                           />
                         </div>
                         
-                        {/* Two smaller images for remaining items */}
+                        {/* Small image and count for remaining items */}
                         {displayItems.length > 1 && (
                           <div className="flex gap-2">
-                            {displayItems.slice(1, 3).map((item, index) => (
-                              <div key={index} className="w-1/2 aspect-square rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
-                                <Image
-                                  src={item.menuDetails?.imageUrl || "/Burger.png"}
-                                  alt={item.name}
-                                  width={100}
-                                  height={100}
-                                  className="w-full h-full object-cover"
-                                />
+                            {/* Second item image */}
+                            <div className="w-1/2 aspect-square rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
+                              <Image
+                                src={displayItems[1]?.menuDetails?.imageUrl || "/Burger.png"}
+                                alt={displayItems[1]?.name || "Food item"}
+                                width={100}
+                                height={100}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            
+                            {/* Count display for additional items */}
+                            {additionalItemsCount > 0 ? (
+                              <div className="w-1/2 aspect-square rounded-2xl bg-gray-200 flex items-center justify-center">
+                                <span className="text-gray-600 font-bold text-lg">
+                                  +{additionalItemsCount}
+                                </span>
                               </div>
-                            ))}
+                            ) : null}
                           </div>
                         )}
                       </div>
@@ -182,7 +191,7 @@ export default function AdminOrders() {
                   <div className="w-3/4 space-y-4">
                     {/* Order Status */}
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">
+                      <h3 className="text-2xl font-black text-typography-paragraph">
                         {getStatusText(order.status)  }
                       </h3>
                     </div>
@@ -190,11 +199,11 @@ export default function AdminOrders() {
                     {/* Order Summary */}
                     <div>
                         <div className="space-y-1">
-                          <div className="flex justify-between items-center">
-                            <span className="text-lg font-semibold text-gray-900">
-                              Delivered on
+                          <div>
+                            <span className="text-lg font-typography-disabled">
+                              Delivered on&nbsp; &nbsp;
                             </span>
-                            <span className="text-lg font-semibold text-gray-900">
+                            <span className="text-lg font-semibold text-typography-paragraph">
                               {new Date(order.createdAt).toLocaleDateString('en-US', { 
                                 day: 'numeric', 
                                 month: 'long' 
@@ -202,34 +211,30 @@ export default function AdminOrders() {
                             </span>
                           </div>
 
-                          {order.items.map((item, index) => (
-                            <div key={index} className="flex justify-between items-center">
-                              <span className="text-lg font-semibold text-gray-900">
-                                {item.name} x{item.quantity}
-                              </span>
-                              <span className="text-lg font-semibold text-gray-900">
-                                ₹{(item.price * item.quantity).toFixed(2)}
-                              </span>
-                            </div>
-                          ))}
-
-                          <div className="flex justify-between items-center border-t border-b py-1">
-                            <span className="text-lg font-semibold text-gray-900">
-                              Total Amount
+                          <div className="flex">
+                            <span className="text-lg font-typography-disabled">
+                              Order summary&nbsp; &nbsp;
                             </span>
-                            <span className="text-lg font-semibold text-gray-900">
+                            <div className="flex flex-col">
+                              {order.items.map((item, index) => (
+                                <span key={index} className="text-lg font-semibold text-typography-paragraph">
+                                  {item.name} x{item.quantity}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div>
+                            <span className="text-lg font-typography-disabled">
+                              Total price paid&nbsp;&nbsp;
+                            </span>
+                            <span className="text-lg font-semibold text-typography-paragraph">
                               ₹{order.totalAmount.toFixed(2)}
                             </span>
                           </div>
                         </div>
                     </div>
 
-                    {/* Additional Order Info */}
-                    <div className="text-sm text-gray-500 space-y-1">
-                      <p>Order #{order._id.slice(-6)}</p>
-                      <p>{formatOrderType(order.orderType)} • {order.username}</p>
-                      {order.tableNumber && <p>Table {order.tableNumber}</p>}
-                    </div>
                   </div>
                 </div>
 
@@ -237,7 +242,7 @@ export default function AdminOrders() {
                 <div className="mt-6">
                   <button
                     onClick={() => router.push(`/admin/orderdetails?id=${order._id}`)}
-                    className="w-full bg-transparent text-typography-heading border-2 rounded-3xl py-6 px-8  text-lg font-black"
+                    className="w-full bg-transparent text-typography-heading border-2 rounded-3xl py-6 px-8  text-xl font-black"
                   >
                     View Details
                   </button>
