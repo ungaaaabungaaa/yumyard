@@ -188,17 +188,52 @@ function OrderDetailsContent() {
         <div className="flex flex-col gap-2">
           {/* Main Order Details */}
 
-          {/* Order Status */}
-          <div className="flex flex-col items-center justify-center text-center gap-2">
-          
-          <span className={`text-xl font-medium text-center capitalize ${getStatusColor(order.status)}`}>
+          {/* Order Status Header */}
+          <div className=" p-6 mb-6">
+            {/* Order Number */}
+            <div className="text-center mb-6">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Order #{order._id.slice(-6)}
+              </h1>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto"></div>
+            </div>
+
+            {/* Status and Type Row */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+              {/* Order Status Badge */}
+              <div className="flex items-center gap-3">
+                <div className={`w-3 h-3 rounded-full ${
+                  order.status === 'order-received' ? 'bg-blue-500' :
+                  order.status === 'cooking' ? 'bg-orange-500' :
+                  order.status === 'out-for-delivery' ? 'bg-purple-500' :
+                  order.status === 'delivered' ? 'bg-green-500' :
+                  'bg-red-500'
+                }`}></div>
+                <span className={`text-lg font-semibold capitalize ${getStatusColor(order.status)}`}>
                   {getStatusText(order.status)}
-          </span>
-          <h2 className="w-full text-center text-2xl font-black text-typography-heading mb-2">Order Number - {order._id.slice(-6)} </h2>
-          <h3 className="w-full text-center text-xl font-bold text-typography-inactive mb-1">{formatOrderType(order.orderType)}</h3>
-          <span className={`text-lg font-medium text-center capitalize ${getPaymentStatusColor(order.paymentStatus)}`}>
-                  {getPaymentStatusText(order.paymentStatus)}
-          </span>
+                </span>
+                
+              </div>
+
+              {/* Order Type Badge */}
+              <div className="bg-gray-100 px-4 py-2 rounded-full">
+                <span className="text-sm font-medium text-gray-700 capitalize">
+                  {formatOrderType(order.orderType)}
+                </span>
+              </div>
+            </div>
+
+            {/* Payment Status */}
+            <div className="flex items-center justify-center gap-2 pt-4 border-t border-gray-100">
+              <div className={`w-2 h-2 rounded-full ${
+                order.paymentStatus === 'paid' ? 'bg-green-500' :
+                order.paymentStatus === 'pending' ? 'bg-yellow-500' :
+                'bg-red-500'
+              }`}></div>
+              <span className={`text-lg font-medium capitalize ${getPaymentStatusColor(order.paymentStatus)}`}>
+                {getPaymentStatusText(order.paymentStatus)}
+              </span>
+            </div>
           </div>
           
           {/* User Details Card */}
@@ -263,7 +298,7 @@ function OrderDetailsContent() {
            <div className="space-y-3 my-2">
              {order.items.map((item, index) => (
                <div key={index} className="border-1 rounded-4xl">
-                 <div className="flex items-start space-x-4 h-30">
+                 <div className="flex items-start space-x-4 min-h-32">
                    {/* Image */}
                    <div className="flex-shrink-0">
                      <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">

@@ -13,7 +13,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <OrderProvider>
       <div className="h-auto min-h-screen">
-        <header>
+        <header className="sticky top-0 z-50 bg-white">
           <div className="max-w-full lg:max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between py-4">
               <button 
