@@ -48,6 +48,9 @@ export default function AdminCreateOrder() {
         username: "Admin",
         userType: "authenticated",
         
+        // Contact information (hardcoded for admin)
+        phoneNumber: "80501 69163",
+        
         // Address details (hardcoded for admin)
         apartment: "Yumyard Cafe",
 

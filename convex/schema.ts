@@ -74,6 +74,9 @@ export default defineSchema({
     username: v.string(),
     userType: v.union(v.literal("authenticated"), v.literal("guest")),
 
+    // Contact information
+    phoneNumber: v.optional(v.string()),
+
     apartment: v.optional(v.string()),
     flatNumber: v.optional(v.string()),
     otherAddress: v.optional(v.string()),

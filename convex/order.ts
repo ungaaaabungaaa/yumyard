@@ -9,6 +9,9 @@ export const createOrder = mutation({
     username: v.string(),
     userType: v.union(v.literal("authenticated"), v.literal("guest")),
     
+    // Contact information
+    phoneNumber: v.optional(v.string()),
+    
     // Address details
     apartment: v.optional(v.string()),
     flatNumber: v.optional(v.string()),
@@ -55,6 +58,8 @@ export const createOrder = mutation({
       userId: args.userId,
       username: args.username,
       userType: args.userType,
+      
+      phoneNumber: args.phoneNumber,
       
       apartment: args.apartment,
       flatNumber: args.flatNumber,

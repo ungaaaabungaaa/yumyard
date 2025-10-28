@@ -246,21 +246,22 @@ function OrderDetailsContent() {
                   {order.otherAddress && (
                     <p>{order.otherAddress}</p>
                   )}
-                  {userDetails?.phoneNumber && (
-                    <p className="text-blue-600 font-medium">+91 {userDetails.phoneNumber}</p>
+                  {(userDetails?.phoneNumber || order.phoneNumber) && (
+                    <p className="text-blue-600 font-medium">+91 {userDetails?.phoneNumber || order.phoneNumber}</p>
                   )}
                 </div>
               </div>
               
-              {/* Call Button - Only show if phone number exists */}
-              {userDetails?.phoneNumber && (
+              {/* Call Button - Show if phone number exists from either user details or order */}
+              {(userDetails?.phoneNumber || order.phoneNumber) && (
                 <button
                   onClick={() => {
-                    const phoneNumber = `+91${userDetails.phoneNumber}`;
-                    window.open(`tel:${phoneNumber}`, '_self');
+                    const phoneNumber = userDetails?.phoneNumber || order.phoneNumber;
+                    const formattedNumber = phoneNumber?.startsWith('+91') ? phoneNumber : `+91${phoneNumber}`;
+                    window.open(`tel:${formattedNumber}`, '_self');
                   }}
                   className="w-12 h-12 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer"
-                  title={`Call +91 ${userDetails.phoneNumber}`}
+                  title={`Call +91 ${userDetails?.phoneNumber || order.phoneNumber}`}
                 >
                   <svg 
                     className="w-6 h-6 text-gray-600" 
