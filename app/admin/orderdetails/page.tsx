@@ -48,22 +48,6 @@ function OrderDetailsContent() {
   // Update payment info mutation
   const updatePaymentInfo = useMutation(api.order.updatePaymentInfo);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "order-received":
-        return "text-blue-600";
-      case "cooking":
-        return "text-orange-600";
-      case "out-for-delivery":
-        return "text-purple-600";
-      case "delivered":
-        return "text-green-600";
-      case "cancelled":
-        return "text-red-600";
-      default:
-        return "text-gray-600";
-    }
-  };
 
   const getStatusText = (status: string) => {
     switch (status) {
@@ -82,18 +66,6 @@ function OrderDetailsContent() {
     }
   };
 
-  const getPaymentStatusColor = (status: string) => {
-    switch (status) {
-      case "pending":
-        return "text-yellow-600";
-      case "paid":
-        return "text-green-600";
-      case "failed":
-        return "text-red-600";
-      default:
-        return "text-gray-600";
-    }
-  };
 
   const getPaymentStatusText = (status: string) => {
     switch (status) {
@@ -182,154 +154,132 @@ function OrderDetailsContent() {
   const userDetails = orderWithUser.userDetails;
 
   return (
-    <div className="h-auto  py-8">
+    <div className="min-h-screen bg-white py-4">
       <div className="w-full mx-auto px-4">
-       
-        <div className="flex flex-col gap-2">
-          {/* Main Order Details */}
+        <div className="flex flex-col gap-4">
+          {/* Order Number Header */}
+          <div className="flex justify-between items-center">
+            <span className="text-gray-500 text-sm">Order Number</span>
+            <span className="text-gray-900 text-sm">#{order._id.slice(-6)}</span>
+          </div>
 
-          {/* Order Status Header */}
-          <div className="mb-6">
-            {/* Order Type Badge */}
-            <div className="flex justify-center mb-4">
-              <div className="bg-gray-100 px-4 py-2 rounded-full">
-                <span className="text-sm font-medium text-gray-700 capitalize">
-                  {formatOrderType(order.orderType)}
-                </span>
-              </div>
-            </div>
-
-            {/* Payment Status */}
-            <div className="flex items-center justify-center mb-4">
-              <span className={`text-lg font-medium capitalize ${getPaymentStatusColor(order.paymentStatus)}`}>
-                {getPaymentStatusText(order.paymentStatus)}
+          {/* Profile Section */}
+          <div className="flex items-center gap-4">
+            {/* Profile Picture */}
+            <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+              <span className="text-2xl font-bold text-gray-600 capitalize">
+                {order.username.charAt(0).toUpperCase()}
               </span>
             </div>
-
-            {/* Order Number */}
-            <div className="text-center mb-4">
-              <h1 className="text-3xl font-bold text-gray-900">
-                Order #{order._id.slice(-6)}
-              </h1>
+            
+            {/* User Information */}
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-gray-900">
+                {order.username}
+              </h3>
+              <p className="text-sm text-gray-600">
+                YumYard Cafe
+              </p>
             </div>
+            
+            {/* Call Button */}
+            {(userDetails?.phoneNumber || order.phoneNumber) && (
+              <button
+                onClick={() => {
+                  const phoneNumber = userDetails?.phoneNumber || order.phoneNumber;
+                  const formattedNumber = phoneNumber?.startsWith('+91') ? phoneNumber : `+91${phoneNumber}`;
+                  window.open(`tel:${formattedNumber}`, '_self');
+                }}
+                className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors"
+                title={`Call +91 ${userDetails?.phoneNumber || order.phoneNumber}`}
+              >
+                <svg 
+                  className="w-6 h-6 text-gray-600" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" 
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
 
-            {/* Cooking Status */}
-            <div className="flex items-center justify-center">
-              <span className={`text-lg font-semibold capitalize ${getStatusColor(order.status)}`}>
-                {getStatusText(order.status)}
-              </span>
+          {/* Order Summary Section */}
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600 text-sm">Order Type</span>
+              <span className="text-gray-900 text-sm font-bold">{formatOrderType(order.orderType)}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600 text-sm">Order Status</span>
+              <span className="text-gray-900 text-sm font-bold">{getStatusText(order.status)}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600 text-sm">Payment Status</span>
+              <span className="text-gray-900 text-sm font-bold">{getPaymentStatusText(order.paymentStatus)}</span>
             </div>
           </div>
-          
-          {/* User Details Card */}
-          <div className="mt-6 mb-2">
-            <div className="flex items-center gap-4">
-              {/* Profile Picture */}
-              <div className="w-16 h-16 bg-background-primary rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-white capitalize">
-                  {order.username.charAt(0).toUpperCase()}
-                </span>
-              </div>
-              
-              {/* User Information */}
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-gray-800 mb-1">
-                  {order.username}
-                </h3>
-                <div className="text-sm text-gray-600 space-y-1">
-                  {order.apartment && (
-                    <p>{order.apartment}</p>
-                  )}
-                  {order.flatNumber && (
-                    <p>Flat {order.flatNumber}</p>
-                  )}
-                  {order.otherAddress && (
-                    <p>{order.otherAddress}</p>
-                  )}
-                  {(userDetails?.phoneNumber || order.phoneNumber) && (
-                    <p className="text-blue-600 font-medium">+91 {userDetails?.phoneNumber || order.phoneNumber}</p>
-                  )}
+
+          {/* Divider */}
+          <div className="border-t border-gray-300"></div>
+
+          {/* Items Ordered Section */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-medium text-gray-900">Item's Ordered</h2>
+            {order.items.map((item, index) => (
+              <div key={index} className="overflow-hidden">
+                {/* Main Card Content */}
+                <div className="p-2 border-1 rounded-4xl">
+                  <div className="flex items-start justify-center space-x-4">
+                    {/* Image */}
+                    <div className="flex-shrink-0">
+                      <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center">
+                        <Image
+                          src={item.menuDetails?.imageUrl || "/Burger.png"}
+                          alt={item.name}
+                          width={144}
+                          height={120}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h3 className="text-2xl font-semibold text-gray-900 my-2">
+                            {item.name}
+                          </h3>
+                          <h4 className="text-xl font-semibold text-gray-900 my-2">
+                            ₹{item.price}
+                          </h4>
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-lg font-medium text-gray-600">
+                              Quantity: {item.quantity}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              
-              {/* Call Button - Show if phone number exists from either user details or order */}
-              {(userDetails?.phoneNumber || order.phoneNumber) && (
-                <button
-                  onClick={() => {
-                    const phoneNumber = userDetails?.phoneNumber || order.phoneNumber;
-                    const formattedNumber = phoneNumber?.startsWith('+91') ? phoneNumber : `+91${phoneNumber}`;
-                    window.open(`tel:${formattedNumber}`, '_self');
-                  }}
-                  className="w-12 h-12 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer"
-                  title={`Call +91 ${userDetails?.phoneNumber || order.phoneNumber}`}
-                >
-                  <svg 
-                    className="w-6 h-6 text-gray-600" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" 
-                    />
-                  </svg>
-                </button>
-              )}
-            </div>
+            ))}
           </div>
-          {/* Order Details Card */}
-           <div className="space-y-4 my-2">
-             {order.items.map((item, index) => (
-               <div key={index} className="overflow-hidden">
-                 {/* Main Card Content */}
-                 <div className="p-2 border-1 rounded-4xl">
-                   <div className="flex items-start justify-center space-x-4">
-                     {/* Image */}
-                     <div className="flex-shrink-0">
-                       <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center">
-                         <Image
-                           src={item.menuDetails?.imageUrl || "/Burger.png"}
-                           alt={item.name}
-                           width={144}
-                           height={120}
-                           className="w-full h-full object-cover"
-                         />
-                       </div>
-                     </div>
-
-                     {/* Content */}
-                     <div className="flex-1 min-w-0">
-                       <div className="flex items-start justify-between">
-                         <div className="flex-1">
-                           <h3 className="text-2xl font-semibold text-typography-heading my-2">
-                             {item.name}
-                           </h3>
-                           <h4 className="text-xl font-semibold text-typography-heading my-2">
-                             ₹{item.price}
-                           </h4>
-                           <div className="flex items-center gap-2 mb-2">
-                             <span className="text-lg font-medium text-typography-inactive">
-                               Quantity: {item.quantity}
-                             </span>
-                           </div>
-                         </div>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             ))}
-           </div>
               
           {/* Order Total */}
           <div className="my-4 border-t border-b py-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-xl font-bold text-typography-heading capitalize">Total Amount</span>
-                  <span className="text-2xl font-bold text-typography-heading capitalize">₹{order.totalAmount.toFixed(2)}</span>
-                </div>
+            <div className="flex justify-between items-center">
+              <span className="text-lg font-bold text-gray-900">Total Amount</span>
+              <span className="text-lg font-bold text-gray-900">₹{order.totalAmount.toFixed(2)}</span>
+            </div>
           </div>
 
           {/* Status Update Form */}
@@ -341,7 +291,7 @@ function OrderDetailsContent() {
                   <select
                     value={newStatus || order.status}
                     onChange={(e) => setNewStatus(e.target.value)}
-                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
+                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-gray-900 focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
                     required
                   >
                     <option value="">Update Order Status</option>
@@ -352,7 +302,7 @@ function OrderDetailsContent() {
                     <option value="cancelled">Cancelled</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
-                    <svg className="w-6 h-6 text-typography-light-grey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
@@ -383,7 +333,7 @@ function OrderDetailsContent() {
                   <select
                     value={newPaymentStatus || order.paymentStatus}
                     onChange={(e) => setNewPaymentStatus(e.target.value)}
-                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
+                    className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-gray-900 focus:outline-none focus:ring-2 focus:border-transparent appearance-none bg-white pr-12"
                     required
                   >
                       <option value="">Update Payment Status</option>
@@ -392,7 +342,7 @@ function OrderDetailsContent() {
                       <option value="failed">Failed</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
-                    <svg className="w-6 h-6 text-typography-light-grey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
@@ -482,7 +432,7 @@ function OrderDetailsContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <span className="text-lg font-semibold text-typography-heading">Payment Status:</span>
-                  <p className={`text-lg font-semibold ${getPaymentStatusColor(order.paymentStatus)}`}>
+                  <p className="text-lg font-semibold text-gray-900">
                     {getPaymentStatusText(order.paymentStatus)}
                   </p>
                 </div>
