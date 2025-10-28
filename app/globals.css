@@ -141,7 +141,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   
   /* Custom background colors - Light mode */
-  --background-primary: #6b9b47;
+  --background-primary: #5EAD1D;
   --background-secondary: #e5e5e5;
   --background-danger: #c55a5a;
   --background-light-red: #f5e6e6;
@@ -162,7 +162,7 @@
   --typography-light-grey: #6b6b6b;
   --typography-inactive: #8a8a8a;
   --typography-disabled: #b3b3b3;
-  --typography-primary: #6b9b47;
+  --typography-primary: #5EAD1D;
   --typography-primary-700: #5a8a3a;
   --typography-white: #ffffff;
   --typography-danger: #c55a5a;
@@ -171,7 +171,7 @@
   --icon-default: #4a4a4a;
   --icon-light: #8a8a8a;
   --icon-disabled: #b3b3b3;
-  --icon-primary: #6b9b47;
+  --icon-primary: #5EAD1D;
   --icon-white: #ffffff;
   --icon-red: #dc3545;
   --icon-yellow: #ffc107;
@@ -182,7 +182,7 @@
   /* Borders & Separators colors - Light mode */
   --borders-separators-default: #e5e5e5;
   --borders-separators-light: #f0f0f0;
-  --borders-separators-primary: #6b9b47;
+  --borders-separators-primary: #5EAD1D;
   --borders-separators-dark: #2d2d2d;
   --borders-separators-list: #0ea5e9;
   --borders-separators-white: #ffffff;
@@ -200,7 +200,7 @@
   --gradient-dark: #ffffff;
   
   /* Logo colors - Light mode */
-  --logo-primary: #6b9b47;
+  --logo-primary: #5EAD1D;
   --logo-black: #2d2d2d;
 }
 

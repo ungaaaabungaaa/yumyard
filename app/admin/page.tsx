@@ -27,16 +27,16 @@ export default function AdminPage() {
       icon: <User className="w-6 h-6" />,
     },
     {
-      title: 'My Menu',
-      value: dashboardStats ? `${dashboardStats.totalMenuItems} items` : <Spinner className="w-4 h-4" />,
-      icon: <AppWindow className="w-6 h-6" />,
-      onClick: () => router.push('/admin/menu')
-    },
-    {
       title: 'My Orders',
       value: dashboardStats ? dashboardStats.totalOrders.toString() : <Spinner className="w-4 h-4" />,
       icon: <Logs className="w-6 h-6" />,
       onClick: () => router.push('/admin/orders')
+    },
+    {
+      title: 'My Menu',
+      value: dashboardStats ? `${dashboardStats.totalMenuItems} items` : <Spinner className="w-4 h-4" />,
+      icon: <AppWindow className="w-6 h-6" />,
+      onClick: () => router.push('/admin/menu')
     }
   ]
   return (
@@ -51,11 +51,11 @@ export default function AdminPage() {
           <div className="flex items-center text-colors-icon-default mr-4">
             {item.icon}
           </div>
-          <h2 className="text-lg font-light text-typography-heading">
+          <h2 className="text-lg font-medium text-typography-heading">
             {item.title}
           </h2>
         </div>
-        <div className="text-lg font-light text-typography-heading">
+        <div className="text-lg font-medium text-typography-heading">
           {item.value}
         </div>
       </div>
