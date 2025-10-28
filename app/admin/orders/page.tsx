@@ -199,9 +199,9 @@ export default function AdminOrders() {
                     {/* Order Summary */}
                     <div>
                         <div className="space-y-1">
-                          <div>
+                          <div className="flex justify-between items-center">
                             <span className="text-lg font-typography-disabled">
-                              Delivered on&nbsp; &nbsp;
+                              Delivered on
                             </span>
                             <span className="text-lg font-semibold text-typography-paragraph">
                               {new Date(order.createdAt).toLocaleDateString('en-US', { 
@@ -211,11 +211,11 @@ export default function AdminOrders() {
                             </span>
                           </div>
 
-                          <div className="flex">
+                          <div className="flex justify-between items-start">
                             <span className="text-lg font-typography-disabled">
-                              Order summary&nbsp; &nbsp;
+                              Order summary
                             </span>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col items-end">
                               {order.items.map((item, index) => (
                                 <span key={index} className="text-lg font-semibold text-typography-paragraph">
                                   {item.name} x{item.quantity}
@@ -224,9 +224,9 @@ export default function AdminOrders() {
                             </div>
                           </div>
 
-                          <div>
+                          <div className="flex justify-between items-center">
                             <span className="text-lg font-typography-disabled">
-                              Total price paid&nbsp;&nbsp;
+                              Total price paid
                             </span>
                             <span className="text-lg font-semibold text-typography-paragraph">
                               ₹{order.totalAmount.toFixed(2)}
