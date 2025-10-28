@@ -189,33 +189,9 @@ function OrderDetailsContent() {
           {/* Main Order Details */}
 
           {/* Order Status Header */}
-          <div className=" p-6 mb-6">
-            {/* Order Number */}
-            <div className="text-center mb-6">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Order #{order._id.slice(-6)}
-              </h1>
-              <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto"></div>
-            </div>
-
-            {/* Status and Type Row */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
-              {/* Order Status Badge */}
-              <div className="flex items-center gap-3">
-                <div className={`w-3 h-3 rounded-full ${
-                  order.status === 'order-received' ? 'bg-blue-500' :
-                  order.status === 'cooking' ? 'bg-orange-500' :
-                  order.status === 'out-for-delivery' ? 'bg-purple-500' :
-                  order.status === 'delivered' ? 'bg-green-500' :
-                  'bg-red-500'
-                }`}></div>
-                <span className={`text-lg font-semibold capitalize ${getStatusColor(order.status)}`}>
-                  {getStatusText(order.status)}
-                </span>
-                
-              </div>
-
-              {/* Order Type Badge */}
+          <div className="mb-6">
+            {/* Order Type Badge */}
+            <div className="flex justify-center mb-4">
               <div className="bg-gray-100 px-4 py-2 rounded-full">
                 <span className="text-sm font-medium text-gray-700 capitalize">
                   {formatOrderType(order.orderType)}
@@ -224,14 +200,23 @@ function OrderDetailsContent() {
             </div>
 
             {/* Payment Status */}
-            <div className="flex items-center justify-center gap-2 pt-4 border-t border-gray-100">
-              <div className={`w-2 h-2 rounded-full ${
-                order.paymentStatus === 'paid' ? 'bg-green-500' :
-                order.paymentStatus === 'pending' ? 'bg-yellow-500' :
-                'bg-red-500'
-              }`}></div>
+            <div className="flex items-center justify-center mb-4">
               <span className={`text-lg font-medium capitalize ${getPaymentStatusColor(order.paymentStatus)}`}>
                 {getPaymentStatusText(order.paymentStatus)}
+              </span>
+            </div>
+
+            {/* Order Number */}
+            <div className="text-center mb-4">
+              <h1 className="text-3xl font-bold text-gray-900">
+                Order #{order._id.slice(-6)}
+              </h1>
+            </div>
+
+            {/* Cooking Status */}
+            <div className="flex items-center justify-center">
+              <span className={`text-lg font-semibold capitalize ${getStatusColor(order.status)}`}>
+                {getStatusText(order.status)}
               </span>
             </div>
           </div>
@@ -295,50 +280,41 @@ function OrderDetailsContent() {
             </div>
           </div>
           {/* Order Details Card */}
-           <div className="space-y-3 my-2">
+           <div className="space-y-4 my-2">
              {order.items.map((item, index) => (
-               <div key={index} className="border-1 rounded-4xl">
-                 <div className="flex items-start space-x-4 min-h-32">
-                   {/* Image */}
-                   <div className="flex-shrink-0">
-                     <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
-                       <Image
-                         src={item.menuDetails?.imageUrl || "/Burger.png"}
-                         alt={item.name}
-                         width={144}
-                         height={120}
-                         className="w-full h-full object-cover"
-                       />
+               <div key={index} className="overflow-hidden">
+                 {/* Main Card Content */}
+                 <div className="p-2 border-1 rounded-4xl">
+                   <div className="flex items-start justify-center space-x-4">
+                     {/* Image */}
+                     <div className="flex-shrink-0">
+                       <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center">
+                         <Image
+                           src={item.menuDetails?.imageUrl || "/Burger.png"}
+                           alt={item.name}
+                           width={144}
+                           height={120}
+                           className="w-full h-full object-cover"
+                         />
+                       </div>
                      </div>
-                   </div>
 
-                   {/* Content */}
-                   <div className="flex-1 min-w-0 flex flex-col h-full">
-                     <div className="flex items-start justify-between flex-1 h-full">
-                       <div className="flex-1 flex flex-col h-full">
-                         <h3 className="text-xl font-medium text-typography-heading mt-2">
-                           {item.name}
-                         </h3>
-                         
-                         {/* Spacer to push price/quantity to bottom */}
-                         <div className="flex-1"></div>
-
-                         {/* Price and Quantity Row */}
-                         <div className="flex items-end justify-between mt-4 mb-2">
-                           {/* Price on the left */}
-                           <h4 className="text-2xl  font-semibold text-typography-heading">
+                     {/* Content */}
+                     <div className="flex-1 min-w-0">
+                       <div className="flex items-start justify-between">
+                         <div className="flex-1">
+                           <h3 className="text-2xl font-semibold text-typography-heading my-2">
+                             {item.name}
+                           </h3>
+                           <h4 className="text-xl font-semibold text-typography-heading my-2">
                              ₹{item.price}
                            </h4>
-
-                           {/* Quantity on the right */}
-                           <div className="flex items-end">
-                             <span className="text-2xl font-bold text-typography-inactive mr-2 my-2">
-                               x{item.quantity}
+                           <div className="flex items-center gap-2 mb-2">
+                             <span className="text-lg font-medium text-typography-inactive">
+                               Quantity: {item.quantity}
                              </span>
                            </div>
                          </div>
-
-                       
                        </div>
                      </div>
                    </div>
