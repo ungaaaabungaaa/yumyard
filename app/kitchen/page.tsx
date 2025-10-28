@@ -6,6 +6,7 @@ import { Id } from "../../convex/_generated/dataModel";
 import { useState } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
+import { Spinner } from "@/components/ui/spinner";
 
 type OrderStatus = "order-received" | "cooking" | "out-for-delivery" | "delivered" | "cancelled";
 
@@ -128,9 +129,9 @@ export default function KitchenOrders() {
       <div className="h-auto py-8">
         <div className="w-full mx-auto px-4">
           <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Loading today&apos;s orders...</p>
+            <div className="text-center flex flex-col items-center justify-center gap-4">
+              <Spinner className="size-8 text-typography-primary" />
+              <p className="text-typography-disabled text-lg font-medium">Loading Kitchen items...</p>
             </div>
           </div>
         </div>
