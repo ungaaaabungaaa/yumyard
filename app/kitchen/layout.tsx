@@ -9,16 +9,19 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-
-
+  const headerClassName = "sticky top-0 z-50 bg-white";
 
   return (
     <div className="h-auto min-h-screen">
-        <header className="sticky top-0 z-50 bg-white">
+        <header className={headerClassName}>
           <div className="max-w-full lg:max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between py-4">
               <button 
-                onClick={() => window.history.back()} 
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.history.back();
+                  }
+                }} 
                 className="flex items-center text-typography-heading font-black text-2xl cursor-pointer"
               >
                 <IoChevronBack className="w-5 h-5 mr-1" />

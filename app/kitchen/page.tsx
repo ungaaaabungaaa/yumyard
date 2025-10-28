@@ -152,7 +152,7 @@ export default function KitchenOrders() {
             </div>
           ) : (
             todaysOrders.map((order) => (
-              <div key={order._id} className="border rounded-4xl p-6">
+              <div key={order._id} className="border rounded-4xl">
                 {/* Order Header */}
                 <div className="flex flex-col items-center justify-center text-center mb-6">
                   <span className={`text-xl font-medium text-center capitalize ${getStatusColor(order.status)}`}>
@@ -208,18 +208,16 @@ export default function KitchenOrders() {
                               <div className="flex-1"></div>
 
                               {/* Price and Quantity Row */}
-                              <div className="flex items-end justify-between mt-4 mb-2">
+                              <div className="flex justify-between items-center mt-4 mb-2">
                                 {/* Price on the left */}
                                 <h4 className="text-2xl font-semibold text-typography-heading">
                                   ₹{item.price}
                                 </h4>
 
                                 {/* Quantity on the right */}
-                                <div className="flex items-end">
-                                  <span className="text-2xl font-bold text-typography-inactive mr-2">
-                                    x{item.quantity}
-                                  </span>
-                                </div>
+                                <span className="text-lg text-typography-inactive">
+                                  Qty: {item.quantity}
+                                </span>
                               </div>
                             </div>
                           </div>
