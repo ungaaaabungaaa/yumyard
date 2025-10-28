@@ -200,10 +200,10 @@ export default function AdminOrders() {
                     <div>
                         <div className="space-y-1">
                           <div className="flex justify-between items-center">
-                            <span className="text-lg font-typography-disabled">
+                            <span className="text-sm font-typography-disabled">
                               Delivered on
                             </span>
-                            <span className="text-lg font-semibold text-typography-paragraph">
+                            <span className="text-sm font-semibold text-typography-paragraph">
                               {new Date(order.createdAt).toLocaleDateString('en-US', { 
                                 day: 'numeric', 
                                 month: 'long' 
@@ -212,12 +212,12 @@ export default function AdminOrders() {
                           </div>
 
                           <div className="flex justify-between items-start">
-                            <span className="text-lg font-typography-disabled">
+                            <span className="text-sm font-typography-disabled">
                               Order summary
                             </span>
                             <div className="flex flex-col items-end">
                               {order.items.map((item, index) => (
-                                <span key={index} className="text-lg font-semibold text-typography-paragraph">
+                                <span key={index} className="text-sm font-semibold text-typography-paragraph">
                                   {item.name} x{item.quantity}
                                 </span>
                               ))}
@@ -225,10 +225,10 @@ export default function AdminOrders() {
                           </div>
 
                           <div className="flex justify-between items-center">
-                            <span className="text-lg font-typography-disabled">
+                            <span className="text-sm font-typography-disabled">
                               Total price paid
                             </span>
-                            <span className="text-lg font-semibold text-typography-paragraph">
+                            <span className="text-sm font-semibold text-typography-paragraph">
                               ₹{order.totalAmount.toFixed(2)}
                             </span>
                           </div>
