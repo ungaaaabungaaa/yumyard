@@ -242,14 +242,14 @@ export default function Kitchen() {
                   {order.status === "order-received" ? (
                     <button
                       onClick={() => handleStartCooking(order._id)}
-                      className="w-full bg-transparent text-typography-heading border-2 rounded-3xl py-6 px-8 text-xl font-black"
+                      className="w-full bg-red-500 text-white border-2 border-red-500 rounded-3xl py-6 px-8 text-xl font-black"
                     >
                       Start Cooking
                     </button>
                   ) : (
                     <button
                       onClick={() => router.push(`/kitchen/vieworder?id=${order._id}`)}
-                      className="w-full bg-orange-500 text-white border-2 border-orange-500 rounded-3xl py-6 px-8 text-xl font-black"
+                      className="w-full bg-yellow-500 text-white border-2 border-yellow-500 rounded-3xl py-6 px-8 text-xl font-black"
                     >
                       Cooking
                     </button>
