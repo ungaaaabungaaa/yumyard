@@ -5,6 +5,7 @@ import { api } from "@/convex/_generated/api";
 import Image from "next/image";
 import { Spinner } from "@/components/ui/spinner";
 import { Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const kitchenSegments = [
   { label: 'New Orders', path: '/kitchen' },
@@ -12,6 +13,8 @@ const kitchenSegments = [
 ];
 
 export default function Kitchen() {
+  const router = useRouter();
+  
   // Fetch orders with "order-received" and "cooking" status
   const orders = useQuery(api.order.getKitchenOrdersWithMenuDetails);
   
@@ -245,6 +248,7 @@ export default function Kitchen() {
                     </button>
                   ) : (
                     <button
+                      onClick={() => router.push(`/kitchen/vieworder?id=${order._id}`)}
                       className="w-full bg-orange-500 text-white border-2 border-orange-500 rounded-3xl py-6 px-8 text-xl font-black"
                     >
                       Cooking
