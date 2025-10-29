@@ -1,7 +1,6 @@
 "use client";
 import { SegmentedControl } from "@/components/ui/segmented-control";
-import { useRouter } from 'next/navigation';
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Image from "next/image";
 import { Spinner } from "@/components/ui/spinner";
@@ -13,10 +12,25 @@ const kitchenSegments = [
 ];
 
 export default function Kitchen() {
-  const router = useRouter();
-  
   // Fetch orders with "order-received" and "cooking" status
   const orders = useQuery(api.order.getKitchenOrdersWithMenuDetails);
+  
+  // Mutation to update order status
+  const updateOrderStatus = useMutation(api.order.updateOrderStatus);
+
+  // Handle start cooking action
+  const handleStartCooking = async (orderId: string) => {
+    try {
+      await updateOrderStatus({
+        id: orderId as any,
+        status: "cooking",
+        staffName: "Kitchen Staff",
+        note: "Started cooking"
+      });
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+    }
+  };
 
   const getStatusText = (status: string) => {
     switch (status) {
@@ -220,14 +234,22 @@ export default function Kitchen() {
                   </div>
                 </div>
 
-                {/* View Details Button */}
+                {/* Action Button */}
                 <div className="mt-6">
-                  <button
-                    onClick={() => router.push(`/kitchen/vieworder?id=${order._id}`)}
-                    className="w-full bg-transparent text-typography-heading border-2 rounded-3xl py-6 px-8 text-xl font-black"
-                  >
-                    View Details
-                  </button>
+                  {order.status === "order-received" ? (
+                    <button
+                      onClick={() => handleStartCooking(order._id)}
+                      className="w-full bg-transparent text-typography-heading border-2 rounded-3xl py-6 px-8 text-xl font-black"
+                    >
+                      Start Cooking
+                    </button>
+                  ) : (
+                    <button
+                      className="w-full bg-orange-500 text-white border-2 border-orange-500 rounded-3xl py-6 px-8 text-xl font-black"
+                    >
+                      Cooking
+                    </button>
+                  )}
                 </div>
               </div>
             );
