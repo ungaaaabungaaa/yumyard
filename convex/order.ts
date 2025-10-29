@@ -469,6 +469,54 @@ export const updatePaymentInfo = mutation({
   },
 });
 
+// Query to get delivery orders (out-for-delivery and delivered) with menu details
+export const getDeliveryOrdersWithMenuDetails = query({
+  args: {},
+  handler: async (ctx) => {
+    // Get orders with "out-for-delivery" status
+    const outForDeliveryOrders = await ctx.db
+      .query("orders")
+      .withIndex("by_status", (q) => q.eq("status", "out-for-delivery"))
+      .collect();
+
+    // Get orders with "delivered" status
+    const deliveredOrders = await ctx.db
+      .query("orders")
+      .withIndex("by_status", (q) => q.eq("status", "delivered"))
+      .collect();
+
+    // Combine both arrays
+    const allOrders = [...outForDeliveryOrders, ...deliveredOrders];
+
+    // For each order, fetch menu item details for each item
+    const ordersWithMenuDetails = await Promise.all(
+      allOrders.map(async (order) => {
+        const itemsWithMenuDetails = await Promise.all(
+          order.items.map(async (item) => {
+            const menuItem = await ctx.db.get(item.menuId);
+            return {
+              ...item,
+              menuDetails: menuItem ? {
+                imageUrl: menuItem.imageUrl,
+                description: menuItem.description,
+                category: menuItem.category,
+              } : null,
+            };
+          })
+        );
+
+        return {
+          ...order,
+          items: itemsWithMenuDetails,
+        };
+      })
+    );
+
+    // Sort by creation date (newest first)
+    return ordersWithMenuDetails.sort((a, b) => b.createdAt - a.createdAt);
+  },
+});
+
 // Query to get dashboard statistics
 export const getDashboardStats = query({
   args: {},
