@@ -113,9 +113,10 @@ function ViewOrderContent() {
   const userDetails = orderWithUser.userDetails;
 
   return (
-    <div className="min-h-screen bg-white py-4">
-      <div className="w-full mx-auto px-4">
-        <div className="flex flex-col gap-4">
+    <div className="pb-20">
+      <div className="min-h-screen bg-white py-4">
+        <div className="w-full mx-auto px-4">
+          <div className="flex flex-col gap-4">
           {/* Order Number Header */}
           <div className="flex justify-between items-center">
             <span className="text-gray-500 text-sm">Order Number</span>
@@ -241,20 +242,6 @@ function ViewOrderContent() {
             </div>
           </div>
 
-          {/* Done Cooking Button */}
-          <div className="my-4 rounded-4xl flex flex-col items-center justify-center text-center">
-            <button
-              onClick={handleDoneCooking}
-              disabled={isUpdating || order.status === "delivered" || order.status === "out-for-delivery"}
-              className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
-                isUpdating || order.status === "delivered" || order.status === "out-for-delivery"
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-yellow-500 text-white hover:bg-yellow-600'
-              }`}
-            >
-              {isUpdating ? "Updating..." : "Done Cooking"}
-            </button>
-          </div>
         </div>
 
         {/* Extras Order Details */}
@@ -504,7 +491,22 @@ function ViewOrderContent() {
 
         </div>
       </div>
-   
+
+      {/* Sticky Bottom Button */}
+      <div className="fixed bottom-4 left-4 right-4 max-w-full py-4 z-40">
+        <button
+          onClick={handleDoneCooking}
+          disabled={isUpdating || order.status === "delivered" || order.status === "out-for-delivery"}
+          className={`w-full py-6 px-8 rounded-2xl text-lg font-bold transition-colors duration-200 ${
+            isUpdating || order.status === "delivered" || order.status === "out-for-delivery"
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-yellow-500 text-white hover:bg-yellow-600'
+          }`}
+        >
+          {isUpdating ? "Updating..." : "Done Cooking"}
+        </button>
+      </div>
+    </div>
   );
 }
 
