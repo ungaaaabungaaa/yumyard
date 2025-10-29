@@ -128,6 +128,99 @@ export const getOrdersByStatus = query({
   },
 });
 
+// Query to get orders by status with menu details
+export const getOrdersByStatusWithMenuDetails = query({
+  args: { 
+    status: v.union(
+      v.literal("order-received"),
+      v.literal("cooking"),
+      v.literal("out-for-delivery"),
+      v.literal("delivered"),
+      v.literal("cancelled")
+    )
+  },
+  handler: async (ctx, args) => {
+    const orders = await ctx.db
+      .query("orders")
+      .withIndex("by_status", (q) => q.eq("status", args.status))
+      .collect();
+
+    // For each order, fetch menu item details for each item
+    const ordersWithMenuDetails = await Promise.all(
+      orders.map(async (order) => {
+        const itemsWithMenuDetails = await Promise.all(
+          order.items.map(async (item) => {
+            const menuItem = await ctx.db.get(item.menuId);
+            return {
+              ...item,
+              menuDetails: menuItem ? {
+                imageUrl: menuItem.imageUrl,
+                description: menuItem.description,
+                category: menuItem.category,
+              } : null,
+            };
+          })
+        );
+
+        return {
+          ...order,
+          items: itemsWithMenuDetails,
+        };
+      })
+    );
+
+    return ordersWithMenuDetails;
+  },
+});
+
+// Query to get kitchen orders (order-received and cooking) with menu details
+export const getKitchenOrdersWithMenuDetails = query({
+  args: {},
+  handler: async (ctx) => {
+    // Get orders with "order-received" status
+    const orderReceivedOrders = await ctx.db
+      .query("orders")
+      .withIndex("by_status", (q) => q.eq("status", "order-received"))
+      .collect();
+
+    // Get orders with "cooking" status
+    const cookingOrders = await ctx.db
+      .query("orders")
+      .withIndex("by_status", (q) => q.eq("status", "cooking"))
+      .collect();
+
+    // Combine both arrays
+    const allOrders = [...orderReceivedOrders, ...cookingOrders];
+
+    // For each order, fetch menu item details for each item
+    const ordersWithMenuDetails = await Promise.all(
+      allOrders.map(async (order) => {
+        const itemsWithMenuDetails = await Promise.all(
+          order.items.map(async (item) => {
+            const menuItem = await ctx.db.get(item.menuId);
+            return {
+              ...item,
+              menuDetails: menuItem ? {
+                imageUrl: menuItem.imageUrl,
+                description: menuItem.description,
+                category: menuItem.category,
+              } : null,
+            };
+          })
+        );
+
+        return {
+          ...order,
+          items: itemsWithMenuDetails,
+        };
+      })
+    );
+
+    // Sort by creation date (newest first)
+    return ordersWithMenuDetails.sort((a, b) => b.createdAt - a.createdAt);
+  },
+});
+
 // Query to get a single order by ID
 export const getOrderById = query({
   args: { id: v.id("orders") },
