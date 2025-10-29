@@ -7,7 +7,7 @@ const kitchenSegments = [
 ];
 
 
-export default function Kitchen() {
+export default function OutForDelivery() {
   return(
     <>
      {/* Segmented Control Navigation */}
