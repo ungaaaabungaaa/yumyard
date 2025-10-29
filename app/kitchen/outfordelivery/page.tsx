@@ -2,6 +2,7 @@
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import Image from "next/image";
 import { Spinner } from "@/components/ui/spinner";
 import { Search } from 'lucide-react';
@@ -25,7 +26,7 @@ export default function OutForDelivery() {
   const handleMarkAsDelivered = async (orderId: string) => {
     try {
       await updateOrderStatus({
-        id: orderId as any,
+        id: orderId as Id<"orders">,
         status: "delivered",
         staffName: "Delivery Staff",
         note: "Order delivered"
