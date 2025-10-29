@@ -55,7 +55,7 @@ export default function AdminCreateOrder() {
         apartment: "Yumyard Cafe",
 
         // Order details (hardcoded for admin)
-        orderType: "walk-up",
+        orderType: "delivery",
         deliveryNote: "walk-up order",
         
         // Order items
