@@ -9,8 +9,8 @@ import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const kitchenSegments = [
-  { label: 'New Orders', path: '/kitchen' },
-  { label: 'Out For Delivery', path: '/kitchen/outfordelivery' }
+  { label: 'Orders', path: '/kitchen' },
+  { label: 'Delivery', path: '/kitchen/outfordelivery' }
 ];
 
 export default function Kitchen() {
