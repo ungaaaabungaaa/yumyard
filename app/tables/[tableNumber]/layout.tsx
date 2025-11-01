@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, useState, useEffect } from 'react'
+import { ReactNode } from 'react'
 import { useParams, usePathname } from 'next/navigation'
 
 interface TablesLayoutProps {
@@ -10,33 +10,27 @@ interface TablesLayoutProps {
 export default function TablesLayout({ children }: TablesLayoutProps) {
   const params = useParams()
   const pathname = usePathname()
-  const [tableNumber, setTableNumber] = useState('')
   
-  useEffect(() => {
-    const resolveParams = async () => {
-      if (params && typeof params === 'object' && 'then' in params) {
-        const resolved = await (params as unknown as Promise<{ tableNumber?: string | string[] }>)
-        const tableNum = Array.isArray(resolved?.tableNumber) ? resolved.tableNumber[0] : resolved?.tableNumber
-        setTableNumber(tableNum || '')
-      } else {
-        const tableNum = Array.isArray(params.tableNumber) ? params.tableNumber[0] : params.tableNumber
-        setTableNumber(tableNum || '')
-      }
-    }
-    resolveParams()
-  }, [params])
+  // Extract tableNumber synchronously from params (Next.js 15 supports this)
+  const tableNumber = params?.tableNumber 
+    ? (Array.isArray(params.tableNumber) ? params.tableNumber[0] : params.tableNumber)
+    : ''
+  
   const headerClassName = "sticky top-0 z-50 bg-white";
 
   // Validate table number is between 1-10
-  const tableNum = parseInt(tableNumber, 10);
-  const isValid = !isNaN(tableNum) && tableNum >= 1 && tableNum <= 10;
+  // Only validate if we have a tableNumber (don't show 404 while loading)
+  const tableNum = tableNumber ? parseInt(tableNumber, 10) : null;
+  const isValid = tableNum !== null && !isNaN(tableNum) && tableNum >= 1 && tableNum <= 10;
+  const hasTableNumber = tableNumber !== '';
 
   // Check if we're on a child route that has its own layout
   const childRoutes = ['/cart', '/checkout', '/details', '/explore']
   const isChildRoute = childRoutes.some(route => pathname?.includes(route))
 
-  // Show 404 if invalid table number
-  if (!isValid) {
+  // Show 404 only if we have a tableNumber but it's invalid
+  // Don't show 404 if tableNumber is still loading (empty string)
+  if (hasTableNumber && !isValid) {
     return (
       <div className="h-auto min-h-screen">
         <main className="max-w-full lg:max-w-2xl mx-auto py-6 px-2 sm:px-2 lg:px-4">

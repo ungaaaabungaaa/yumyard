@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, useState, useEffect } from 'react'
+import { ReactNode } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
 import { useParams } from 'next/navigation'
 
@@ -11,26 +11,11 @@ interface TablesLayoutProps {
 
 export default function TablesDetailsLayout({ children }: TablesLayoutProps) {
   const params = useParams()
-  const [tableNumber, setTableNumber] = useState('')
   
-  useEffect(() => {
-    const resolveParams = async () => {
-      try {
-        if (params && typeof params === 'object' && 'then' in params) {
-          const resolved = await (params as unknown as Promise<{ tableNumber?: string | string[] }>)
-          const tableNum = Array.isArray(resolved?.tableNumber) ? resolved.tableNumber[0] : resolved?.tableNumber
-          setTableNumber(tableNum || '')
-        } else if (params) {
-          const tableNum = Array.isArray(params.tableNumber) ? params.tableNumber[0] : params.tableNumber
-          setTableNumber(tableNum || '')
-        }
-      } catch {
-        // Handle error silently
-        setTableNumber('')
-      }
-    }
-    resolveParams()
-  }, [params])
+  // Extract tableNumber synchronously from params (Next.js 15 supports this)
+  const tableNumber = params?.tableNumber 
+    ? (Array.isArray(params.tableNumber) ? params.tableNumber[0] : params.tableNumber)
+    : ''
 
   return (
     <div className="h-auto min-h-screen">
