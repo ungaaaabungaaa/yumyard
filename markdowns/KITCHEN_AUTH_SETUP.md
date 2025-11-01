@@ -53,4 +53,4 @@ await fetch('/api/kitchen-auth', { method: 'DELETE' });
 - All tokens are HTTP-only cookies
 - Tokens expire after 24 hours
 - Invalid/expired tokens are automatically cleared
-- Middleware redirects to `/login` for authentication failures
+- Middleware redirects to `/admin-login` for admin authentication failures and `/kitchen-login` for kitchen authentication failures

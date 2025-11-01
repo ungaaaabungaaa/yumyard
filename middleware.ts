@@ -97,13 +97,13 @@ export function middleware(req: NextRequest) {
 
 function redirectToLogin(req: NextRequest) {
   // Redirect to kitchen login for kitchen routes, admin login for admin routes
-  const loginPath = req.nextUrl.pathname.startsWith('/kitchen') ? '/kitchen-login' : '/login';
+  const loginPath = req.nextUrl.pathname.startsWith('/kitchen') ? '/kitchen-login' : '/admin-login';
   return NextResponse.redirect(new URL(loginPath, req.url));
 }
 
 function redirectToLoginWithClearCookie(req: NextRequest, tokenType: 'admin_token' | 'kitchen_token') {
   // Redirect to appropriate login page based on token type
-  const loginPath = tokenType === 'kitchen_token' ? '/kitchen-login' : '/login';
+  const loginPath = tokenType === 'kitchen_token' ? '/kitchen-login' : '/admin-login';
   const response = NextResponse.redirect(new URL(loginPath, req.url));
   
   // Clear the invalid/expired cookie
