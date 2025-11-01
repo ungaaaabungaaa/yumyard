@@ -1,7 +1,6 @@
 "use client";
 
-import { useParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function TablePage() {
   const params = useParams();
