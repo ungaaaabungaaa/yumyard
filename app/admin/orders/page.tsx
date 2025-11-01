@@ -50,23 +50,8 @@ export default function AdminOrders() {
     }
   };
 
-  // Helper function to check if a date is today
-  const isToday = (timestamp: number) => {
-    const today = new Date();
-    const orderDate = new Date(timestamp);
-    
-    return (
-      orderDate.getDate() === today.getDate() &&
-      orderDate.getMonth() === today.getMonth() &&
-      orderDate.getFullYear() === today.getFullYear()
-    );
-  };
-
-  // Filter orders to show only today's orders
-  const todaysOrders = orders?.filter(order => isToday(order.createdAt)) || [];
-  
   // Filter orders based on search term (search by order ID)
-  const filteredOrders = todaysOrders.filter(order =>
+  const filteredOrders = (orders || []).filter(order =>
     order._id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -118,7 +103,7 @@ export default function AdminOrders() {
               {searchTerm ? 'No orders found' : 'No orders found'}
             </h3>
             <p className="text-gray-500">
-              {searchTerm ? 'Try adjusting your search terms' : 'No orders for today'}
+              {searchTerm ? 'Try adjusting your search terms' : 'No orders found'}
             </p>
           </div>
         ) : (
