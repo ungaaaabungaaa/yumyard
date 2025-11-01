@@ -252,7 +252,7 @@ export default function OutForDelivery() {
                   ) : (
                     <button
                       onClick={() => handleMarkAsDelivered(order._id)}
-                      className="w-full bg-green-500 text-white border-2 border-green-500 rounded-3xl py-6 px-8 text-xl font-black"
+                      className="w-full bg-background-primary text-white  rounded-3xl py-6 px-8 text-xl font-black"
                     >
                       Delivered
                     </button>

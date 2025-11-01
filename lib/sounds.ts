@@ -39,7 +39,7 @@ async function getAudioContext(): Promise<AudioContext> {
 }
 
 /**
- * Plays a buzz notification sound
+ * Plays a ping notification sound
  * This is used to alert staff when new orders arrive
  * Automatically requests browser audio permissions if needed
  */
@@ -47,27 +47,27 @@ export async function playNotificationSound(): Promise<void> {
   try {
     const audioContext = await getAudioContext();
     
-    // Oscillator for the buzz sound
+    // Oscillator for the ping notification sound
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
     
-    // Configure the oscillator for a buzz-like sound
+    // Configure the oscillator for a ping/notification sound
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
     
-    // Set the frequency for a buzzing sound (low frequency)
-    oscillator.frequency.value = 200;
-    oscillator.type = 'sawtooth';
+    // Set the frequency for a pleasant ping/notification sound (higher frequency)
+    oscillator.frequency.value = 800;
+    oscillator.type = 'sine'; // Clean, pleasant tone
     
-    // Set the gain (volume) envelope
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    // Keep volume steady for most of the duration, then fade out in the last second
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + 9);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 10);
+    // Set the gain (volume) envelope - fade in quickly, stay steady, fade out
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.4, audioContext.currentTime + 0.1); // Quick fade in
+    gainNode.gain.setValueAtTime(0.4, audioContext.currentTime + 7); // Stay steady
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 8); // Fade out
     
-    // Play the buzz sound for 10 seconds
+    // Play the ping sound for 8 seconds
     oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 10);
+    oscillator.stop(audioContext.currentTime + 8);
     
     // Clean up
     oscillator.onended = () => {
