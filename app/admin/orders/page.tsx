@@ -37,18 +37,6 @@ export default function AdminOrders() {
     }
   };
 
-  const formatOrderType = (orderType: string) => {
-    switch (orderType) {
-      case "dine-in":
-        return "Dine In";
-      case "walk-up":
-        return "Walk Up";
-      case "delivery":
-        return "Delivery";
-      default:
-        return orderType;
-    }
-  };
 
   // Filter orders based on search term (search by order ID)
   const filteredOrders = (orders || []).filter(order =>

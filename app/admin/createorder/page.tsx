@@ -3,7 +3,7 @@
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
-import { FileText, Image, Minus, Plus, Trash2 } from 'lucide-react';
+import { Image, Minus, Plus, Trash2 } from 'lucide-react';
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useState } from "react";
