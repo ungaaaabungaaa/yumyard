@@ -61,11 +61,13 @@ export async function playNotificationSound(): Promise<void> {
     
     // Set the gain (volume) envelope
     gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    // Keep volume steady for most of the duration, then fade out in the last second
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + 9);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 10);
     
-    // Play the buzz sound
+    // Play the buzz sound for 10 seconds
     oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
+    oscillator.stop(audioContext.currentTime + 10);
     
     // Clean up
     oscillator.onended = () => {
