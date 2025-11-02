@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
 import { useParams } from 'next/navigation'
 
@@ -11,11 +11,19 @@ interface TablesLayoutProps {
 
 export default function TablesCartLayout({ children }: TablesLayoutProps) {
   const params = useParams()
+  const [mounted, setMounted] = useState(false)
+  const [tableNumber, setTableNumber] = useState('')
   
-  // Extract tableNumber synchronously from params (Next.js 15 supports this)
-  const tableNumber = params?.tableNumber 
-    ? (Array.isArray(params.tableNumber) ? params.tableNumber[0] : params.tableNumber)
-    : ''
+  useEffect(() => {
+    setMounted(true)
+    // Extract tableNumber from params after mount to avoid hydration mismatch
+    if (params?.tableNumber) {
+      const tableNum = Array.isArray(params.tableNumber) 
+        ? params.tableNumber[0] 
+        : params.tableNumber
+      setTableNumber(tableNum || '')
+    }
+  }, [params])
 
   return (
     <div className="h-auto min-h-screen">
@@ -34,7 +42,7 @@ export default function TablesCartLayout({ children }: TablesLayoutProps) {
               Back
             </button>
             <h1 className="flex items-center text-typography-heading font-black text-2xl absolute left-1/2 transform -translate-x-1/2">
-              Table {tableNumber} Cart
+              {mounted && tableNumber ? `Table ${tableNumber} Cart` : 'Table Cart'}
             </h1>
           </div>
         </div>

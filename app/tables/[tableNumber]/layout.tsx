@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
 import { useParams, usePathname } from 'next/navigation'
 
 interface TablesLayoutProps {
@@ -10,11 +10,19 @@ interface TablesLayoutProps {
 export default function TablesLayout({ children }: TablesLayoutProps) {
   const params = useParams()
   const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
+  const [tableNumber, setTableNumber] = useState('')
   
-  // Extract tableNumber synchronously from params (Next.js 15 supports this)
-  const tableNumber = params?.tableNumber 
-    ? (Array.isArray(params.tableNumber) ? params.tableNumber[0] : params.tableNumber)
-    : ''
+  useEffect(() => {
+    setMounted(true)
+    // Extract tableNumber from params after mount to avoid hydration mismatch
+    if (params?.tableNumber) {
+      const tableNum = Array.isArray(params.tableNumber) 
+        ? params.tableNumber[0] 
+        : params.tableNumber
+      setTableNumber(tableNum || '')
+    }
+  }, [params])
   
   const headerClassName = "sticky top-0 z-50 bg-white";
 
@@ -22,15 +30,14 @@ export default function TablesLayout({ children }: TablesLayoutProps) {
   // Only validate if we have a tableNumber (don't show 404 while loading)
   const tableNum = tableNumber ? parseInt(tableNumber, 10) : null;
   const isValid = tableNum !== null && !isNaN(tableNum) && tableNum >= 1 && tableNum <= 10;
-  const hasTableNumber = tableNumber !== '';
+  const hasTableNumber = mounted && tableNumber !== '';
 
-  // Check if we're on a child route that has its own layout
+  // Check if we're on a child route that has its own layout (only after mount to avoid hydration mismatch)
   const childRoutes = ['/cart', '/checkout', '/details', '/explore']
-  const isChildRoute = childRoutes.some(route => pathname?.includes(route))
+  const isChildRoute = mounted && pathname ? childRoutes.some(route => pathname.includes(route)) : false
 
-  // Show 404 only if we have a tableNumber but it's invalid
-  // Don't show 404 if tableNumber is still loading (empty string)
-  if (hasTableNumber && !isValid) {
+  // Show 404 only if we have a tableNumber but it's invalid (and after mount)
+  if (mounted && hasTableNumber && !isValid) {
     return (
       <div className="h-auto min-h-screen">
         <main className="max-w-full lg:max-w-2xl mx-auto py-6 px-2 sm:px-2 lg:px-4">
@@ -53,33 +60,27 @@ export default function TablesLayout({ children }: TablesLayoutProps) {
   }
 
   // If it's a child route with its own layout, just pass through children
+  // Note: We only check this after mount to ensure consistent SSR/client render
   if (isChildRoute) {
     return <>{children}</>
   }
 
   // Otherwise, render the main table layout
+  // Always render the same structure initially to avoid hydration mismatch
   return (
-   
-
-
-<div className="h-auto min-h-screen">
-<header className={headerClassName}>
-  <div className="max-w-full lg:max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="flex items-center justify-between py-4">
-      
-      <h1 className="flex items-center text-typography-heading font-black text-2xl absolute left-1/2 transform -translate-x-1/2"> Table {tableNumber}</h1>
+    <div className="h-auto min-h-screen">
+      <header className={headerClassName}>
+        <div className="max-w-full lg:max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-4">
+            <h1 className="flex items-center text-typography-heading font-black text-2xl absolute left-1/2 transform -translate-x-1/2">
+              {mounted && tableNumber ? `Table ${tableNumber}` : 'Table'}
+            </h1>
+          </div>
+        </div>
+      </header>
+      <main className="max-w-full lg:max-w-2xl mx-auto py-6 px-2 sm:px-2 lg:px-4">
+        {children}
+      </main>
     </div>
-  </div>
-</header>
-<main className="max-w-full lg:max-w-2xl mx-auto py-6 px-2 sm:px-2 lg:px-4">
-  {children}
-</main>
-</div>
-
-
-
-
-
-
   )
 }
