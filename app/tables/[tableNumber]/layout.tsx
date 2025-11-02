@@ -2,6 +2,7 @@
 
 import { ReactNode, useState, useEffect } from 'react'
 import { useParams, usePathname } from 'next/navigation'
+import BottomNavigation from '@/components/ui/BottomNavigation'
 
 interface TablesLayoutProps {
   children: ReactNode
@@ -68,7 +69,7 @@ export default function TablesLayout({ children }: TablesLayoutProps) {
   // Otherwise, render the main table layout
   // Always render the same structure initially to avoid hydration mismatch
   return (
-    <div className="h-auto min-h-screen">
+    <div className="h-auto min-h-screen pb-20">
       <header className={headerClassName}>
         <div className="max-w-full lg:max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
@@ -81,6 +82,7 @@ export default function TablesLayout({ children }: TablesLayoutProps) {
       <main className="max-w-full lg:max-w-2xl mx-auto py-6 px-2 sm:px-2 lg:px-4">
         {children}
       </main>
+      <BottomNavigation />
     </div>
   )
 }
