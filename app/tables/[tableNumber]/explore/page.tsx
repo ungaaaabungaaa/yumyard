@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+import { Doc } from "../../../../convex/_generated/dataModel";
 import { Search } from "lucide-react";
 
 export default function TablesExplore() {
@@ -27,7 +28,7 @@ export default function TablesExplore() {
   // Show filtered categories
   const displayItems = filteredCategories;
 
-  const handleItemClick = (item: any) => {
+  const handleItemClick = (item: Doc<"categories">) => {
     console.log("Category clicked:", item);
   };
 

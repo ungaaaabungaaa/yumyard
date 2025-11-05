@@ -6,6 +6,7 @@ export const createCategory = mutation({
   args: {
     name: v.string(),
     imageUrl: v.string(), // mandatory
+    type: v.union(v.literal("veg"), v.literal("nonveg")), // mandatory: veg or nonveg
   },
   handler: async (ctx, args) => {
     const now = Date.now();
@@ -23,6 +24,7 @@ export const createCategory = mutation({
     const category = {
       name: args.name,
       imageUrl: args.imageUrl,
+      type: args.type,
       createdAt: now,
       updatedAt: now,
     };
@@ -38,6 +40,7 @@ export const updateCategory = mutation({
     id: v.id("categories"),
     name: v.optional(v.string()),
     imageUrl: v.optional(v.string()), // optional on update, but will be validated if provided
+    type: v.optional(v.union(v.literal("veg"), v.literal("nonveg"))), // optional on update
   },
   handler: async (ctx, args) => {
     const { id, ...updates } = args;

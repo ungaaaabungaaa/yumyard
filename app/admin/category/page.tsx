@@ -13,6 +13,7 @@ export default function AdminCategory() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
   const [newCategoryName, setNewCategoryName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [categoryType, setCategoryType] = useState<"veg" | "nonveg">("veg");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
 
@@ -24,8 +25,10 @@ export default function AdminCategory() {
   useEffect(() => {
     if (selectedCategory && !isCreatingNew) {
       setImageUrl(selectedCategory.imageUrl || "");
+      setCategoryType(selectedCategory.type || "veg");
     } else if (isCreatingNew) {
       setImageUrl("");
+      setCategoryType("veg");
     }
   }, [selectedCategory, isCreatingNew]);
 
@@ -56,6 +59,7 @@ export default function AdminCategory() {
         await createCategory({
           name: newCategoryName.trim(),
           imageUrl: imageUrl.trim(),
+          type: categoryType,
         });
         alert("Category created successfully!");
         setNewCategoryName("");
@@ -73,6 +77,7 @@ export default function AdminCategory() {
         await updateCategory({
           id: selectedCategoryId as Id<"categories">,
           imageUrl: imageUrl.trim(),
+          type: categoryType,
         });
         alert("Category updated successfully!");
       }
@@ -162,6 +167,18 @@ export default function AdminCategory() {
               className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
               placeholder="Image URL *"
             />
+          </div>
+
+          <div>
+            <select
+              value={categoryType}
+              onChange={(e) => setCategoryType(e.target.value as "veg" | "nonveg")}
+              required
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent appearance-none"
+            >
+              <option value="veg">Veg</option>
+              <option value="nonveg">Non-Veg</option>
+            </select>
           </div>
         </div>
 

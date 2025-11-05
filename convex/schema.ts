@@ -16,11 +16,6 @@ export default defineSchema({
     updatedAt: v.optional(v.number()),
 
     preparationTime: v.optional(v.number()), // in minutes
-    ingredients: v.optional(v.array(v.string())),
-    allergens: v.optional(v.array(v.string())),
-    isVegetarian: v.optional(v.boolean()),
-    isVegan: v.optional(v.boolean()),
-    isGlutenFree: v.optional(v.boolean()),
     spiceLevel: v.optional(
       v.union(
         v.literal("mild"),
@@ -31,18 +26,11 @@ export default defineSchema({
     ),
     calories: v.optional(v.number()),
     servingSize: v.optional(v.string()),
-    tags: v.optional(v.array(v.string())),
-    displayOrder: v.optional(v.number()),
-
-    // ⭐ Rating summary (for quick access)
-    avgRating: v.optional(v.number()),
-    totalReviews: v.optional(v.number()),
   })
     .index("by_category", ["category"])
     .index("by_categoryId", ["categoryId"])
     .index("by_availability", ["isAvailable"])
-    .index("by_created_at", ["createdAt"])
-    .index("by_display_order", ["displayOrder"]),
+    .index("by_created_at", ["createdAt"]),
 
   // 👤 USERS TABLE
   users: defineTable({
@@ -204,6 +192,7 @@ export default defineSchema({
   categories: defineTable({
     name: v.string(),
     imageUrl: v.string(), // mandatory image for category
+    type: v.union(v.literal("veg"), v.literal("nonveg")), // mandatory: veg or nonveg
     createdAt: v.number(),
     updatedAt: v.optional(v.number()),
   })

@@ -24,19 +24,12 @@ function AdminAddMenuContent() {
     price: "",
     categoryId: "",
     preparationTime: "",
-    displayOrder: "",
     description: "",
     imageUrl: "",
     imageUrls: ["", "", "", "", ""], // 5 fixed fields for additional images
     servingSize: "",
     calories: "",
     spiceLevel: "mild",
-    ingredients: "",
-    allergens: "",
-    tags: "",
-    isVegetarian: false,
-    isVegan: false,
-    isGlutenFree: false,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,19 +43,12 @@ function AdminAddMenuContent() {
         price: menuItem.price?.toString() || "",
         categoryId: menuItem.categoryId || "",
         preparationTime: menuItem.preparationTime?.toString() || "",
-        displayOrder: menuItem.displayOrder?.toString() || "",
         description: menuItem.description || "",
         imageUrl: menuItem.imageUrl || "",
         imageUrls: menuItem.imageUrls ? [...menuItem.imageUrls, "", "", "", "", ""].slice(0, 5) : ["", "", "", "", ""], // Load existing additional images, pad with empty strings
         servingSize: menuItem.servingSize || "",
         calories: menuItem.calories?.toString() || "",
         spiceLevel: menuItem.spiceLevel || "mild",
-        ingredients: menuItem.ingredients?.join(", ") || "",
-        allergens: menuItem.allergens?.join(", ") || "",
-        tags: menuItem.tags?.join(", ") || "",
-        isVegetarian: menuItem.isVegetarian || false,
-        isVegan: menuItem.isVegan || false,
-        isGlutenFree: menuItem.isGlutenFree || false,
       });
     }
   }, [menuItem, isEditMode]);
@@ -82,7 +68,7 @@ function AdminAddMenuContent() {
         const parts = numericValue.split('.');
         const validValue = parts.length > 2 ? parts[0] + '.' + parts.slice(1).join('') : numericValue;
         setFormData(prev => ({ ...prev, [name]: validValue }));
-      } else if (name === "preparationTime" || name === "displayOrder" || name === "calories") {
+      } else if (name === "preparationTime" || name === "calories") {
         // Allow only whole numbers
         const numericValue = value.replace(/[^0-9]/g, '');
         setFormData(prev => ({ ...prev, [name]: numericValue }));
@@ -116,19 +102,12 @@ function AdminAddMenuContent() {
         price: parseFloat(formData.price),
         categoryId: formData.categoryId as Id<"categories">,
         preparationTime: formData.preparationTime ? parseInt(formData.preparationTime) : undefined,
-        displayOrder: formData.displayOrder ? parseInt(formData.displayOrder) : undefined,
         description: formData.description || undefined,
         imageUrl: formData.imageUrl, // Now mandatory
         imageUrls: formData.imageUrls.filter(url => url.trim() !== ""), // Filter out empty URLs
         servingSize: formData.servingSize || undefined,
         calories: formData.calories ? parseInt(formData.calories) : undefined,
         spiceLevel: formData.spiceLevel as "mild" | "medium" | "hot" | "extra-hot",
-        ingredients: formData.ingredients ? formData.ingredients.split(',').map(item => item.trim()) : undefined,
-        allergens: formData.allergens ? formData.allergens.split(',').map(item => item.trim()) : undefined,
-        tags: formData.tags ? formData.tags.split(',').map(item => item.trim()) : undefined,
-        isVegetarian: formData.isVegetarian,
-        isVegan: formData.isVegan,
-        isGlutenFree: formData.isGlutenFree,
       };
 
       if (isEditMode && editId) {
@@ -228,18 +207,6 @@ function AdminAddMenuContent() {
           </div>
 
           <div>
-            <input
-              type="text"
-              name="displayOrder"
-              value={formData.displayOrder}
-              onChange={handleInputChange}
-              pattern="[0-9]+"
-              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
-              placeholder="Display Order"
-            />
-          </div>
-
-          <div>
             <textarea
               name="description"
               value={formData.description}
@@ -314,75 +281,6 @@ function AdminAddMenuContent() {
               <option value="extra-hot">Extra Hot</option>
             </select>
           </div>
-
-          <div>
-            <textarea
-              name="ingredients"
-              value={formData.ingredients}
-              onChange={handleInputChange}
-              rows={3}
-              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
-              placeholder="Ingredients"
-            />
-          </div>
-
-          <div>
-            <textarea
-              name="allergens"
-              value={formData.allergens}
-              onChange={handleInputChange}
-              rows={3}
-              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
-              placeholder="Allergens"
-            />
-          </div>
-
-          <div>
-            <textarea
-              name="tags"
-              value={formData.tags}
-              onChange={handleInputChange}
-              rows={3}
-              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent"
-              placeholder="Tags"
-            />
-          </div>
-
-          {/* Dietary Options */}
-          {/* <div className="space-y-3">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="isVegetarian"
-                checked={formData.isVegetarian}
-                onChange={handleInputChange}
-                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded "
-              />
-              <span className="ml-2 text-sm text-gray-700">Vegetarian</span>
-            </label>
-
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="isVegan"
-                checked={formData.isVegan}
-                onChange={handleInputChange}
-                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded "
-              />
-              <span className="ml-2 text-sm text-gray-700">Vegan</span>
-            </label>
-
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="isGlutenFree"
-                checked={formData.isGlutenFree}
-                onChange={handleInputChange}
-                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded "
-              />
-              <span className="ml-2 text-sm text-gray-700">Gluten Free</span>
-            </label>
-          </div> */}
         </div>
 
         {/* Save Button */}

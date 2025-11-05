@@ -130,30 +130,6 @@ export default function MenuItemDetails() {
         </div>
       )}
 
-      {/* Dietary Information */}
-      {(menuItem.isVegetarian || menuItem.isVegan || menuItem.isGlutenFree) && (
-        <div>
-          <h2 className="text-xl font-semibold text-typography-heading mb-2">Dietary Information</h2>
-          <div className="flex flex-wrap gap-2">
-            {menuItem.isVegetarian && (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                Vegetarian
-              </span>
-            )}
-            {menuItem.isVegan && (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-200 text-green-900">
-                Vegan
-              </span>
-            )}
-            {menuItem.isGlutenFree && (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                Gluten Free
-              </span>
-            )}
-          </div>
-        </div>
-      )}
-
       {/* Spice Level */}
       {menuItem.spiceLevel && (
         <div>
@@ -161,35 +137,6 @@ export default function MenuItemDetails() {
           <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 capitalize">
             {menuItem.spiceLevel}
           </span>
-        </div>
-      )}
-
-      {/* Ingredients */}
-      {menuItem.ingredients && menuItem.ingredients.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold text-typography-heading mb-2">Ingredients</h2>
-          <ul className="list-disc list-inside space-y-1 text-typography-paragraph">
-            {menuItem.ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Allergens */}
-      {menuItem.allergens && menuItem.allergens.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold text-typography-heading mb-2">Allergens</h2>
-          <div className="flex flex-wrap gap-2">
-            {menuItem.allergens.map((allergen, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800"
-              >
-                {allergen}
-              </span>
-            ))}
-          </div>
         </div>
       )}
 
@@ -213,38 +160,6 @@ export default function MenuItemDetails() {
         <div>
           <h2 className="text-xl font-semibold text-typography-heading mb-2">Preparation Time</h2>
           <p className="text-typography-paragraph">{menuItem.preparationTime} minutes</p>
-        </div>
-      )}
-
-      {/* Tags */}
-      {menuItem.tags && menuItem.tags.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold text-typography-heading mb-2">Tags</h2>
-          <div className="flex flex-wrap gap-2">
-            {menuItem.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-background-element-background text-typography-paragraph"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Rating */}
-      {(menuItem.avgRating || menuItem.totalReviews) && (
-        <div>
-          <h2 className="text-xl font-semibold text-typography-heading mb-2">Rating</h2>
-          <div className="flex items-center gap-2 text-typography-paragraph">
-            {menuItem.avgRating && (
-              <span className="text-2xl font-bold">{menuItem.avgRating.toFixed(1)}</span>
-            )}
-            {menuItem.totalReviews && (
-              <span>({menuItem.totalReviews} reviews)</span>
-            )}
-          </div>
         </div>
       )}
     </div>

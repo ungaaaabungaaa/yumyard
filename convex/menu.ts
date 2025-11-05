@@ -13,16 +13,9 @@ export const createMenuItem = mutation({
     categoryId: v.id("categories"), // mandatory
     isAvailable: v.optional(v.boolean()),
     preparationTime: v.optional(v.number()),
-    ingredients: v.optional(v.array(v.string())),
-    allergens: v.optional(v.array(v.string())),
-    isVegetarian: v.optional(v.boolean()),
-    isVegan: v.optional(v.boolean()),
-    isGlutenFree: v.optional(v.boolean()),
     spiceLevel: v.optional(v.union(v.literal("mild"), v.literal("medium"), v.literal("hot"), v.literal("extra-hot"))),
     calories: v.optional(v.number()),
     servingSize: v.optional(v.string()),
-    tags: v.optional(v.array(v.string())),
-    displayOrder: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const now = Date.now();
@@ -64,16 +57,9 @@ export const updateMenuItem = mutation({
     categoryId: v.optional(v.id("categories")), // optional on update, but must be provided if updating
     isAvailable: v.optional(v.boolean()),
     preparationTime: v.optional(v.number()),
-    ingredients: v.optional(v.array(v.string())),
-    allergens: v.optional(v.array(v.string())),
-    isVegetarian: v.optional(v.boolean()),
-    isVegan: v.optional(v.boolean()),
-    isGlutenFree: v.optional(v.boolean()),
     spiceLevel: v.optional(v.union(v.literal("mild"), v.literal("medium"), v.literal("hot"), v.literal("extra-hot"))),
     calories: v.optional(v.number()),
     servingSize: v.optional(v.string()),
-    tags: v.optional(v.array(v.string())),
-    displayOrder: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
@@ -167,26 +153,6 @@ export const getAvailableMenuItems = query({
   },
 });
 
-// Query to get menu items ordered by display order
-export const getMenuItemsByDisplayOrder = query({
-  args: {},
-  handler: async (ctx) => {
-    const items = await ctx.db
-      .query("menu")
-      .withIndex("by_display_order")
-      .collect();
-    
-    // Sort by displayOrder (nulls last), then by createdAt
-    return items.sort((a, b) => {
-      if (a.displayOrder === undefined && b.displayOrder === undefined) {
-        return b.createdAt - a.createdAt;
-      }
-      if (a.displayOrder === undefined) return 1;
-      if (b.displayOrder === undefined) return -1;
-      return a.displayOrder - b.displayOrder;
-    });
-  },
-});
 
 // Query to get a single menu item by ID
 export const getMenuItemById = query({
