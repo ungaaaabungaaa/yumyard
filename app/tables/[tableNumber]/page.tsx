@@ -117,7 +117,7 @@ export default function TablePage() {
                 key={item._id}
                 onClick={() => handleItemClick(item._id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-background-element-background transition-colors text-left ${
-                  index < filteredItems.length - 1 ? 'border-b border-border-secondary' : ''
+                  index < filteredItems.length - 1 ? '' : ''
                 }`}
               >
                 <TrendingUp className="w-5 h-5 text-typography-disabled flex-shrink-0" />
