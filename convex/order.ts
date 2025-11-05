@@ -535,10 +535,15 @@ export const getDashboardStats = query({
     const menuItems = await ctx.db.query("menu").collect();
     const totalMenuItems = menuItems.length;
     
+    // Get categories count
+    const categories = await ctx.db.query("categories").collect();
+    const totalCategories = categories.length;
+    
     return {
       totalEarnings,
       totalOrders,
       totalMenuItems,
+      totalCategories,
       completedOrders: completedOrders.length,
     };
   },

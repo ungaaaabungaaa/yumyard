@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { User , Logs , AppWindow } from 'lucide-react'
+import { User , Logs , AppWindow, Layers } from 'lucide-react'
 import { useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { Spinner } from '@/components/ui/spinner'
@@ -37,6 +37,12 @@ export default function AdminPage() {
       value: dashboardStats ? `${dashboardStats.totalMenuItems} items` : <Spinner className="w-4 h-4" />,
       icon: <AppWindow className="w-6 h-6" />,
       onClick: () => router.push('/admin/menu')
+    },
+    {
+      title: 'Categories',
+      value: dashboardStats ? dashboardStats.totalCategories.toString() : <Spinner className="w-4 h-4" />,
+      icon: <Layers className="w-6 h-6" />,
+      onClick: () => router.push('/admin/category')
     }
   ]
   return (
