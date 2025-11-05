@@ -3,11 +3,9 @@
 import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
 
 export default function AdminCategory() {
-  const router = useRouter();
   const createCategory = useMutation(api.categories.createCategory);
   const updateCategory = useMutation(api.categories.updateCategory);
   const categories = useQuery(api.categories.getAllCategories);
@@ -78,9 +76,10 @@ export default function AdminCategory() {
         });
         alert("Category updated successfully!");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`Error ${isCreatingNew ? 'creating' : 'updating'} category:`, error);
-      alert(error.message || `Failed to ${isCreatingNew ? 'create' : 'update'} category. Please try again.`);
+      const errorMessage = error instanceof Error ? error.message : `Failed to ${isCreatingNew ? 'create' : 'update'} category. Please try again.`;
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -91,7 +90,7 @@ export default function AdminCategory() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Image Preview */}
         <div className="flex justify-center">
-          <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 border-2 border-gray-200">
+          <div className="w-full  min-h-57 max-h-76 rounded-2xl overflow-hidden bg-gray-100 border-2 border-gray-200">
             {imageUrl ? (
               <img 
                 src={imageUrl} 
@@ -114,25 +113,15 @@ export default function AdminCategory() {
         {/* Input Fields */}
         <div className="space-y-4">
           {/* Toggle between edit and create */}
-          <div className="flex items-center space-x-4 mb-4">
-            <label className="flex items-center">
-              <input
-                type="radio"
-                checked={!isCreatingNew}
-                onChange={() => setIsCreatingNew(false)}
-                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300"
-              />
-              <span className="ml-2 text-typography-heading">Edit Existing</span>
-            </label>
-            <label className="flex items-center">
-              <input
-                type="radio"
-                checked={isCreatingNew}
-                onChange={() => setIsCreatingNew(true)}
-                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300"
-              />
-              <span className="ml-2 text-typography-heading">Create New</span>
-            </label>
+          <div>
+            <select
+              value={isCreatingNew ? "create" : "edit"}
+              onChange={(e) => setIsCreatingNew(e.target.value === "create")}
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent appearance-none"
+            >
+              <option value="edit">Edit Existing</option>
+              <option value="create">Create New</option>
+            </select>
           </div>
 
           {isCreatingNew ? (
