@@ -64,7 +64,7 @@ export default function BottomNavigation() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 ">
-      <div className="max-w-full lg:max-w-2xl mx-auto">
+      <div className="max-w-full mx-auto">
         <div className="flex items-center justify-around py-2">
           {navigationItems.map((item) => {
             const Icon = item.icon
@@ -72,7 +72,7 @@ export default function BottomNavigation() {
               <button
                 key={item.path}
                 onClick={() => router.push(item.path)}
-                className="flex flex-col items-center justify-center px-4 py-2 min-w-[80px] transition-colors relative"
+                className="flex flex-col items-center justify-center px-4 py-1 min-w-[80px] transition-colors relative"
                 aria-label={item.label}
               >
                 <Icon
