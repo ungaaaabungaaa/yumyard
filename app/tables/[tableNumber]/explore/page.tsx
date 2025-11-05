@@ -10,33 +10,25 @@ export default function TablesExplore() {
 
   // Fetch categories - Convex automatically caches queries
   const categories = useQuery(api.categories.getAllCategories);
-  
-  // Fetch menu items for search - Convex automatically caches queries
-  const menuItems = useQuery(api.menu.getAllMenuItems);
 
-  // Filter menu items based on search term
-  const filteredItems = useMemo(() => {
-    if (!menuItems || !searchTerm.trim()) return [];
+  // Filter categories based on search term
+  const filteredCategories = useMemo(() => {
+    if (!categories) return [];
+    
+    if (!searchTerm.trim()) return categories;
     
     const term = searchTerm.toLowerCase();
-    return menuItems.filter((item) => {
-      const nameMatch = item.name.toLowerCase().includes(term);
-      const descriptionMatch = item.description?.toLowerCase().includes(term);
-      const categoryMatch = item.category?.toLowerCase().includes(term);
-      
-      return nameMatch || descriptionMatch || categoryMatch;
+    return categories.filter((category) => {
+      const nameMatch = category.name.toLowerCase().includes(term);
+      return nameMatch;
     });
-  }, [menuItems, searchTerm]);
+  }, [categories, searchTerm]);
 
-  // Show categories when search is empty, show search results when searching
-  const displayItems = searchTerm.trim() ? filteredItems : categories || [];
+  // Show filtered categories
+  const displayItems = filteredCategories;
 
-  const handleItemClick = (item: any, type: "category" | "menuItem") => {
-    if (type === "category") {
-      console.log("Category clicked:", item);
-    } else {
-      console.log("Menu item clicked:", item);
-    }
+  const handleItemClick = (item: any) => {
+    console.log("Category clicked:", item);
   };
 
   return (
@@ -49,7 +41,7 @@ export default function TablesExplore() {
           </div>
           <input
             type="text"
-            placeholder="Search Menu Items"
+            placeholder="Search Categories"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-3 border border-borders-separators-default rounded-2xl outline-none focus:ring-2 focus:ring-background-primary focus:border-background-primary transition-all"
@@ -62,20 +54,19 @@ export default function TablesExplore() {
         {displayItems.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-typography-secondary">
-              {searchTerm.trim() ? "No items found" : "No categories available"}
+              {searchTerm.trim() ? "No categories found" : "No categories available"}
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {displayItems.map((item) => {
-              const isCategory = "name" in item && "imageUrl" in item && !("price" in item);
-              const imageUrl = isCategory ? item.imageUrl : item.imageUrl;
-              const name = isCategory ? item.name : item.name;
+              const imageUrl = item.imageUrl;
+              const name = item.name;
               
               return (
                 <button
                   key={item._id}
-                  onClick={() => handleItemClick(item, isCategory ? "category" : "menuItem")}
+                  onClick={() => handleItemClick(item)}
                   className="relative w-full h-78 rounded-2xl overflow-hidden group"
                   style={{
                     backgroundImage: `url(${imageUrl})`,
