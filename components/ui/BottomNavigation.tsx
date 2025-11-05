@@ -63,7 +63,7 @@ export default function BottomNavigation() {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 ">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background-surface-background ">
       <div className="max-w-full mx-auto">
         <div className="flex items-center justify-around py-2">
           {navigationItems.map((item) => {
