@@ -28,7 +28,7 @@ export default function TablesCartLayout({ children }: TablesLayoutProps) {
 
   return (
     <div className="h-auto min-h-screen pb-20 bg-background-surface-background">
-      <header className="sticky top-0 z-50 ">
+      <header className="sticky top-0 z-50 bg-background-surface-background">
         <div className="max-w-full lg:max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <button 
