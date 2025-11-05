@@ -43,7 +43,7 @@ export default function TablesCartLayout({ children }: TablesLayoutProps) {
               Back
             </button>
             <h1 className="flex items-center text-typography-heading font-black text-2xl absolute left-1/2 transform -translate-x-1/2">
-              {mounted && tableNumber ? `Table ${tableNumber} Cart` : 'Table Cart'}
+              { `Table ${tableNumber} ` }
             </h1>
           </div>
         </div>

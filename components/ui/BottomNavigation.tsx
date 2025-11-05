@@ -63,7 +63,7 @@ export default function BottomNavigation() {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 ">
       <div className="max-w-full lg:max-w-2xl mx-auto">
         <div className="flex items-center justify-around py-2">
           {navigationItems.map((item) => {
@@ -82,7 +82,7 @@ export default function BottomNavigation() {
                 />
                 
                 {item.active && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[4px] border-r-[4px] border-t-[4px] border-l-transparent border-r-transparent border-t-green-600" />
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[4px] border-l-transparent border-r-transparent border-b-green-600" />
                 )}
               </button>
             )
