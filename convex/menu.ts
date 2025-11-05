@@ -10,6 +10,7 @@ export const createMenuItem = mutation({
     imageUrls: v.optional(v.array(v.string())), // optional array of additional images (max 5)
     price: v.number(),
     category: v.optional(v.string()),
+    categoryId: v.id("categories"), // mandatory
     isAvailable: v.optional(v.boolean()),
     preparationTime: v.optional(v.number()),
     ingredients: v.optional(v.array(v.string())),
@@ -31,8 +32,15 @@ export const createMenuItem = mutation({
       throw new Error("Maximum 5 additional images allowed");
     }
     
+    // categoryId is required, so fetch the category name
+    const category = await ctx.db.get(args.categoryId);
+    if (!category) {
+      throw new Error("Category not found");
+    }
+    
     const menuItem = {
       ...args,
+      category: category.name, // Set category name from categoryId
       isAvailable: args.isAvailable ?? true, // default to available
       createdAt: now,
       updatedAt: now,
@@ -53,6 +61,7 @@ export const updateMenuItem = mutation({
     imageUrls: v.optional(v.array(v.string())), // optional array of additional images (max 5)
     price: v.optional(v.number()),
     category: v.optional(v.string()),
+    categoryId: v.optional(v.id("categories")), // optional on update, but must be provided if updating
     isAvailable: v.optional(v.boolean()),
     preparationTime: v.optional(v.number()),
     ingredients: v.optional(v.array(v.string())),
@@ -72,6 +81,19 @@ export const updateMenuItem = mutation({
     // Validate imageUrls array length (max 5 images)
     if (updates.imageUrls && updates.imageUrls.length > 5) {
       throw new Error("Maximum 5 additional images allowed");
+    }
+    
+    // If categoryId is provided, fetch the category name
+    if (updates.categoryId !== undefined) {
+      if (updates.categoryId) {
+        const category = await ctx.db.get(updates.categoryId);
+        if (category) {
+          updates.category = category.name;
+        }
+      } else {
+        // If categoryId is set to null/undefined, clear category
+        updates.category = undefined;
+      }
     }
     
     const updatedItem = {

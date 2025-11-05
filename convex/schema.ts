@@ -9,7 +9,8 @@ export default defineSchema({
     imageUrl: v.string(), // mandatory main image
     imageUrls: v.optional(v.array(v.string())), // optional array of additional images (max 5)
     price: v.number(),
-    category: v.optional(v.string()), // e.g., "Pizza", "Drinks"
+    category: v.optional(v.string()), // e.g., "Pizza", "Drinks" (kept for backward compatibility)
+    categoryId: v.id("categories"), // mandatory link to categories table
     isAvailable: v.boolean(),
     createdAt: v.number(),
     updatedAt: v.optional(v.number()),
@@ -38,6 +39,7 @@ export default defineSchema({
     totalReviews: v.optional(v.number()),
   })
     .index("by_category", ["category"])
+    .index("by_categoryId", ["categoryId"])
     .index("by_availability", ["isAvailable"])
     .index("by_created_at", ["createdAt"])
     .index("by_display_order", ["displayOrder"]),
@@ -196,5 +198,15 @@ export default defineSchema({
   })
     .index("by_order", ["orderId"])
     .index("by_staff", ["staffName"])
+    .index("by_created_at", ["createdAt"]),
+
+  // 📁 CATEGORIES TABLE
+  categories: defineTable({
+    name: v.string(),
+    imageUrl: v.string(), // mandatory image for category
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+  })
+    .index("by_name", ["name"])
     .index("by_created_at", ["createdAt"]),
 });

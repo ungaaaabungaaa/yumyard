@@ -17,11 +17,12 @@ function AdminAddMenuContent() {
     api.menu.getMenuItemById, 
     editId ? { id: editId } : "skip"
   );
+  const categories = useQuery(api.categories.getAllCategories);
   
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    category: "",
+    categoryId: "",
     preparationTime: "",
     displayOrder: "",
     description: "",
@@ -47,7 +48,7 @@ function AdminAddMenuContent() {
       setFormData({
         name: menuItem.name || "",
         price: menuItem.price?.toString() || "",
-        category: menuItem.category || "",
+        categoryId: menuItem.categoryId || "",
         preparationTime: menuItem.preparationTime?.toString() || "",
         displayOrder: menuItem.displayOrder?.toString() || "",
         description: menuItem.description || "",
@@ -104,10 +105,16 @@ function AdminAddMenuContent() {
     setIsSubmitting(true);
 
     try {
+      if (!formData.categoryId) {
+        alert("Please select a category");
+        setIsSubmitting(false);
+        return;
+      }
+
       const menuItemData = {
         name: formData.name,
         price: parseFloat(formData.price),
-        category: formData.category || undefined,
+        categoryId: formData.categoryId as Id<"categories">,
         preparationTime: formData.preparationTime ? parseInt(formData.preparationTime) : undefined,
         displayOrder: formData.displayOrder ? parseInt(formData.displayOrder) : undefined,
         description: formData.description || undefined,
@@ -192,14 +199,20 @@ function AdminAddMenuContent() {
           </div>
 
           <div>
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
+            <select
+              name="categoryId"
+              value={formData.categoryId}
               onChange={handleInputChange}
-              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
-              placeholder="Category"
-            />
+              required
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent appearance-none"
+            >
+              <option value="">Select Category *</option>
+              {categories?.map((category: { _id: string; name: string }) => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>

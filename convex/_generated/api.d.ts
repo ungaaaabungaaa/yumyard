@@ -13,6 +13,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as categories from "../categories.js";
 import type * as menu from "../menu.js";
 import type * as order from "../order.js";
 
@@ -25,6 +26,7 @@ import type * as order from "../order.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  categories: typeof categories;
   menu: typeof menu;
   order: typeof order;
 }>;
