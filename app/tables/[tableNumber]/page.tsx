@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
+import { Cards } from '@/components/ui/card';
 
 export default function TablePage() {
   const params = useParams();
@@ -129,8 +130,60 @@ export default function TablePage() {
           </div>
         )}
       </div>
-    <div>Cards</div>
-    <div>Menu Items</div>
+      
+      {/* Cards Section */}
+      <Cards
+        cards={[
+          {
+            mainImage: "/Burger.png",
+            title: (
+              <>
+                Free Wifi!<br />
+                <span className="text-sm font-normal">password: OrderNow</span>
+              </>
+            ),
+            buttonLink: "/tables/1/explore",
+            buttonText: "Connect",
+          },
+          {
+            mainImage: "/Burger.png",
+            title: (
+              <div>
+                <strong>Special Burger</strong>
+                <br />
+                <span className="text-base font-normal opacity-80">Premium Quality</span>
+              </div>
+            ),
+            buttonLink: "/tables/1/explore",
+            buttonText: "Buy now",
+          },
+          {
+            mainImage: "/Burger.png",
+            title: (
+              <>
+                <span className="text-3xl">Delicious</span>
+                <br />
+                <span className="text-xl">Pasta</span>
+              </>
+            ),
+            buttonLink: "/tables/1/explore",
+            buttonText: "Order now",
+          },
+          {
+            mainImage: "/Burger.png",
+            title: (
+              <div className="space-y-1">
+                <div className="font-bold">Fresh Salad</div>
+                <div className="text-sm font-normal text-gray-600">Healthy & Tasty</div>
+              </div>
+            ),
+            buttonLink: "/tables/1/explore",
+            buttonText: "Buy now",
+          },
+        ]}
+      />
+      
+      <div>Menu Items</div>
     </div>
     </>
   );
