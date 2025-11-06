@@ -1,17 +1,18 @@
 import * as React from "react";
 import Image from "next/image";
+import Lottie from "lottie-react";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
-import CardBackgroundImage from "@/public/cardbackground/CardBg.png"
+import CardBackgroundImage from "@/public/cardbackground/CardBg.webp"
 
 export interface CardProps {
-  mainImage: string;
+  lottieAnimation: any; // Lottie animation JSON data
   title: React.ReactNode;
   buttonLink: string;
   buttonText: string;
 }
 
-export function Card({ mainImage, title, buttonLink, buttonText }: CardProps) {
+export function Card({ lottieAnimation, title, buttonLink, buttonText }: CardProps) {
   // Helper to extract text from ReactNode for alt attribute
   const getTitleText = (node: React.ReactNode): string => {
     if (typeof node === 'string') return node;
@@ -50,26 +51,24 @@ export function Card({ mainImage, title, buttonLink, buttonText }: CardProps) {
 
       {/* Left Section - Text and Button (45%) */}
       <div className="flex flex-col items-start justify-center pl-6 z-10 w-[45%] min-w-0">
-        <h2 className="text-2xl font-bold text-[#333333] mb-4 leading-tight">
+        <h2 className="text-2xl font-black text-typography-heading mb-4 leading-tight">
           {title}
         </h2>
         <Button
           asChild
-          className="bg-gradient-to-r from-[#66b33b] to-[#4a8a2a] text-white font-bold rounded-xl px-6 py-2 shadow-md hover:shadow-lg transition-shadow"
+          className="w-auto  bg-background-primary hover:bg-background-primary   text-typography-white py-6 px-8 rounded-2xl text-lg font-bold"
         >
           <a href={buttonLink}>{buttonText}</a>
         </Button>
       </div>
 
-      {/* Right Section - Main Image (55%) */}
+      {/* Right Section - Lottie Animation (55%) */}
       <div className="relative w-[55%] h-full flex items-center justify-center z-10">
         <div className="relative w-[92%] h-full">
-          <Image
-            src={mainImage}
-            alt={titleText}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 55vw"
+          <Lottie
+            animationData={lottieAnimation}
+            loop={true}
+            className="w-full h-full"
           />
           {/* Decorative sparkles */}
           <div className="absolute top-2 right-2 w-2 h-2 bg-white rounded-full opacity-80 animate-pulse" />

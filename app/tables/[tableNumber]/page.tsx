@@ -7,6 +7,8 @@ import { useQuery } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
 import { Cards } from '@/components/ui/card';
+import PAN from '@/public/lottie/Prepare Food.json';
+import CHIEF from '@/public/lottie/Cooking.json';
 
 export default function TablePage() {
   const params = useParams();
@@ -135,51 +137,26 @@ export default function TablePage() {
       <Cards
         cards={[
           {
-            mainImage: "/Burger.png",
+            lottieAnimation: PAN,
             title: (
               <>
-                Free Wifi!<br />
-                <span className="text-sm font-normal">password: OrderNow</span>
+                Try Out <br /> BBQ Burger!
               </>
             ),
             buttonLink: "/tables/1/explore",
-            buttonText: "Connect",
+            buttonText: "Try Now",
           },
           {
-            mainImage: "/Burger.png",
-            title: (
-              <div>
-                <strong>Special Burger</strong>
-                <br />
-                <span className="text-base font-normal opacity-80">Premium Quality</span>
-              </div>
-            ),
-            buttonLink: "/tables/1/explore",
-            buttonText: "Buy now",
-          },
-          {
-            mainImage: "/Burger.png",
+            lottieAnimation: CHIEF,
             title: (
               <>
-                <span className="text-3xl">Delicious</span>
-                <br />
-                <span className="text-xl">Pasta</span>
+                 Delicious <br /> Pasta!
               </>
             ),
             buttonLink: "/tables/1/explore",
             buttonText: "Order now",
           },
-          {
-            mainImage: "/Burger.png",
-            title: (
-              <div className="space-y-1">
-                <div className="font-bold">Fresh Salad</div>
-                <div className="text-sm font-normal text-gray-600">Healthy & Tasty</div>
-              </div>
-            ),
-            buttonLink: "/tables/1/explore",
-            buttonText: "Buy now",
-          },
+         
         ]}
       />
       
