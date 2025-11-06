@@ -5,7 +5,7 @@ import { Search, TrendingUp, Plus } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
-import { Id } from '../../../convex/_generated/dataModel';
+import { Id, Doc } from '../../../convex/_generated/dataModel';
 import { Cards } from '@/components/ui/card';
 import { ChipList } from '@/components/ui/chip-list';
 import Image from 'next/image';
@@ -22,9 +22,21 @@ export default function TablePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  // Cache menu items to persist on refresh
+  const cachedMenuItemsRef = useRef<Doc<"menu">[]>([]);
 
   // Fetch all menu items once
-  const allMenuItems = useQuery(api.menu.getAllMenuItems);
+  const allMenuItemsQuery = useQuery(api.menu.getAllMenuItems);
+  
+  // Use cached items if query is undefined (during refresh/loading)
+  const allMenuItems = allMenuItemsQuery ?? cachedMenuItemsRef.current;
+  
+  // Update cache when new data arrives
+  useEffect(() => {
+    if (allMenuItemsQuery) {
+      cachedMenuItemsRef.current = allMenuItemsQuery;
+    }
+  }, [allMenuItemsQuery]);
 
   // Extract unique categories from menu items
   const categories = useMemo(() => {
@@ -210,15 +222,8 @@ export default function TablePage() {
       {/* Menu Items Grid */}
       <div className="w-full px-4">
         <h2 className="text-xl font-bold text-typography-heading mb-4">Menu Items</h2>
-        {categoryFilteredItems.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-typography-secondary">
-              {selectedCategory ? `No items found in ${selectedCategory}` : "No menu items available"}
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-4">
-            {categoryFilteredItems.map((item) => (
+        <div className="grid grid-cols-2 gap-4">
+          {categoryFilteredItems.map((item) => (
               <div
                 key={item._id}
                 onClick={() => handleItemClick(item._id)}
@@ -276,7 +281,7 @@ export default function TablePage() {
               </div>
             ))}
           </div>
-        )}
+        
       </div>
     </div>
     </>
