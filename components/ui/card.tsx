@@ -14,7 +14,7 @@ export function Card({ lottieAnimation, title }: CardProps) {
     <div
       className={cn(
         "relative flex flex-row items-center justify-between rounded-3xl overflow-hidden",
-        "h-52 w-[82%] flex-shrink-0"
+        "h-52 w-[94%] flex-shrink-0"
       )}
     >
       {/* Background Image */}
@@ -61,8 +61,8 @@ export interface CardsProps {
 export function Cards({ cards }: CardsProps) {
   return (
     <div className="w-full overflow-x-auto scrollbar-hide mb-4">
-      <div className="flex flex-row gap-4">
-        {cards.map((card, index) => (
+      <div className="flex w-full flex-row gap-4">
+      {cards.map((card, index) => (
           <Card key={index} {...card} />
         ))}
       </div>

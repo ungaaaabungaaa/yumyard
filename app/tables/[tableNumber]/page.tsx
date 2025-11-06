@@ -9,7 +9,7 @@ import { Id } from '../../../convex/_generated/dataModel';
 import { Cards } from '@/components/ui/card';
 import PAN from '@/public/lottie/Prepare Food.json';
 import CHIEF from '@/public/lottie/Cooking.json';
-import DELIVERY from '@/public/lottie/Delivery.json';
+import DELIVERY from '@/public/lottie/Cooking egg.json';
 
 export default function TablePage() {
   const params = useParams();
@@ -158,7 +158,7 @@ export default function TablePage() {
             lottieAnimation: DELIVERY,
             title: (
               <>
-                 Free Home  <br /> Delivery!
+                 Free Home  <br /> Delivery! 
               </>
             ),
            
