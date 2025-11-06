@@ -141,7 +141,7 @@ export default function TablePage() {
             lottieAnimation: PAN,
             title: (
               <>
-                Try Out <br /> BBQ Burger!
+                Try Out <br /> BBQ <br></br> Burger!
               </>
             ),
            
@@ -150,7 +150,7 @@ export default function TablePage() {
             lottieAnimation: CHIEF,
             title: (
               <>
-                 Delicious <br /> Pasta!
+                 Delicious <br /> Pasta! 
               </>
             ),
           },
@@ -158,7 +158,7 @@ export default function TablePage() {
             lottieAnimation: DELIVERY,
             title: (
               <>
-                 Free Home  <br /> Delivery! 
+                 Free Home  <br /> Delivery! <br></br> 10Min+
               </>
             ),
            
