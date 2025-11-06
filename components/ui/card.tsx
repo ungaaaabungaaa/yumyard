@@ -60,13 +60,21 @@ export interface CardsProps {
 
 export function Cards({ cards }: CardsProps) {
   return (
-    <div className="w-full overflow-x-auto scrollbar-hide mb-4">
-      <div className="flex w-full flex-row gap-4">
-      {cards.map((card, index) => (
-          <Card key={index} {...card} />
-        ))}
+    <>
+      <div className="w-full overflow-x-auto scrollbar-hide mb-4">
+        <div className="flex w-full flex-row gap-4">
+        {cards.map((card, index) => (
+            <Card key={index} {...card} />
+          ))}
+        </div>
       </div>
-    </div>
+      {/* Scroll indicator */}
+      <div className="flex justify-center items-center gap-1.5 mb-4">
+        <div className="w-2 h-2 rounded-full bg-typography-disabled opacity-60" />
+        <div className="w-2 h-2 rounded-full bg-typography-disabled opacity-60" />
+        <div className="w-2 h-2 rounded-full bg-typography-disabled opacity-60" />
+      </div>
+    </>
   );
 }
 
