@@ -9,6 +9,7 @@ import { Id } from '../../../convex/_generated/dataModel';
 import { Cards } from '@/components/ui/card';
 import PAN from '@/public/lottie/Prepare Food.json';
 import CHIEF from '@/public/lottie/Cooking.json';
+import DELIVERY from '@/public/lottie/Delivery.json';
 
 export default function TablePage() {
   const params = useParams();
@@ -143,8 +144,7 @@ export default function TablePage() {
                 Try Out <br /> BBQ Burger!
               </>
             ),
-            buttonLink: "/tables/1/explore",
-            buttonText: "Try Now",
+           
           },
           {
             lottieAnimation: CHIEF,
@@ -153,8 +153,15 @@ export default function TablePage() {
                  Delicious <br /> Pasta!
               </>
             ),
-            buttonLink: "/tables/1/explore",
-            buttonText: "Yummy",
+          },
+          {
+            lottieAnimation: DELIVERY,
+            title: (
+              <>
+                 Free Home  <br /> Delivery!
+              </>
+            ),
+           
           },
          
         ]}

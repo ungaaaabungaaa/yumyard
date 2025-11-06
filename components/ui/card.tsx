@@ -1,18 +1,15 @@
 import * as React from "react";
 import Image from "next/image";
 import Lottie from "lottie-react";
-import { Button } from "./button";
 import { cn } from "@/lib/utils";
 import CardBackgroundImage from "@/public/cardbackground/CardBg.webp"
 
 export interface CardProps {
   lottieAnimation: object; // Lottie animation JSON data
   title: React.ReactNode;
-  buttonLink: string;
-  buttonText: string;
 }
 
-export function Card({ lottieAnimation, title, buttonLink, buttonText }: CardProps) {
+export function Card({ lottieAnimation, title }: CardProps) {
   return (
     <div
       className={cn(
@@ -33,20 +30,15 @@ export function Card({ lottieAnimation, title, buttonLink, buttonText }: CardPro
       </div>
 
       {/* Left Section - Text and Button (45%) */}
-      <div className="flex flex-col items-start justify-center pl-6 z-10 w-[45%] min-w-0">
+      <div className="flex flex-col items-start justify-center pl-6 z-10 w-[50%] min-w-0">
         <h2 className="text-2xl font-black text-typography-heading mb-4 leading-tight">
           {title}
         </h2>
-        <Button
-          asChild
-          className="w-auto  bg-background-primary hover:bg-background-primary   text-typography-white py-6 px-8 rounded-2xl text-lg font-bold"
-        >
-          <a href={buttonLink}>{buttonText}</a>
-        </Button>
+     
       </div>
 
       {/* Right Section - Lottie Animation (55%) */}
-      <div className="relative w-[55%] h-full flex items-center justify-center z-10">
+      <div className="relative w-[50%] h-full flex items-center justify-center z-10">
         <div className="relative w-[92%] h-full">
           <Lottie
             animationData={lottieAnimation}
@@ -69,7 +61,7 @@ export interface CardsProps {
 export function Cards({ cards }: CardsProps) {
   return (
     <div className="w-full overflow-x-auto scrollbar-hide mb-4">
-      <div className="flex flex-row gap-8">
+      <div className="flex flex-row gap-4">
         {cards.map((card, index) => (
           <Card key={index} {...card} />
         ))}
