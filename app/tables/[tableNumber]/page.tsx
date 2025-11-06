@@ -154,7 +154,7 @@ export default function TablePage() {
               </>
             ),
             buttonLink: "/tables/1/explore",
-            buttonText: "Order now",
+            buttonText: "Yummy",
           },
          
         ]}

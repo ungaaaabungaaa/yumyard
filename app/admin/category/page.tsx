@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
+import Image from "next/image";
 
 export default function AdminCategory() {
   const createCategory = useMutation(api.categories.createCategory);
@@ -95,12 +96,13 @@ export default function AdminCategory() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Image Preview */}
         <div className="flex justify-center">
-          <div className="w-full  min-h-57 max-h-76 rounded-2xl overflow-hidden bg-gray-100 border-2 border-gray-200">
+          <div className="w-full  min-h-57 max-h-76 rounded-2xl overflow-hidden bg-gray-100 border-2 border-gray-200 relative">
             {imageUrl ? (
-              <img 
+              <Image 
                 src={imageUrl} 
                 alt="Category preview"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/placeholder-food.jpg';
                 }}

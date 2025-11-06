@@ -12,11 +12,9 @@ interface TablesLayoutProps {
 
 export default function TablesCartLayout({ children }: TablesLayoutProps) {
   const params = useParams()
-  const [mounted, setMounted] = useState(false)
   const [tableNumber, setTableNumber] = useState('')
   
   useEffect(() => {
-    setMounted(true)
     // Extract tableNumber from params after mount to avoid hydration mismatch
     if (params?.tableNumber) {
       const tableNum = Array.isArray(params.tableNumber) 

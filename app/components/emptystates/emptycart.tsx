@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function EmptyCart() {
   const router = useRouter();
@@ -12,10 +13,8 @@ export default function EmptyCart() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 py-8">
       {/* Illustration Section */}
-      <div className="relative mb-8">
-        
-        <img src="/Emptystate.png" alt="Empty Cart" className="w-full h-42 object-cover" />
-        
+      <div className="relative mb-8 w-full h-42">
+        <Image src="/Emptystate.png" alt="Empty Cart" fill className="object-cover" />
       </div>
       
       {/* Text Content */}

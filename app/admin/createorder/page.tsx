@@ -3,10 +3,11 @@
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
-import { Image, Minus, Plus, Trash2 } from 'lucide-react';
+import { Image as ImageIcon, Minus, Plus, Trash2 } from 'lucide-react';
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function AdminCreateOrder() {
   const { selectedItems, removeItem, updateQuantity, getTotalAmount, clearOrder } = useOrder();
@@ -107,19 +108,20 @@ export default function AdminCreateOrder() {
                   <div className="flex items-start space-x-4">
                     {/* Image */}
                     <div className="flex-shrink-0">
-                      <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
+                      <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden relative">
                         {item.imageUrl ? (
-                          <img
+                          <Image
                             src={item.imageUrl}
                             alt={item.name}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = '/placeholder-food.jpg';
                             }}
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-400">
-                            <Image className="w-8 h-8" />
+                            <ImageIcon className="w-8 h-8" />
                           </div>
                         )}
                       </div>

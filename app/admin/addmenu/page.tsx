@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
+import Image from "next/image";
 
 function AdminAddMenuContent() {
   const router = useRouter();
@@ -130,12 +131,13 @@ function AdminAddMenuContent() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Image Preview */}
         <div className="flex justify-center">
-          <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 border-2 border-gray-200">
+          <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 border-2 border-gray-200 relative">
             {formData.imageUrl ? (
-              <img 
+              <Image 
                 src={formData.imageUrl} 
                 alt="Menu item preview"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/placeholder-food.jpg';
                 }}

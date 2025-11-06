@@ -8,6 +8,7 @@ import { Id } from "../../../convex/_generated/dataModel";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { Spinner } from "@/components/ui/spinner";
 import { Search } from 'lucide-react';
+import Image from "next/image";
 
 export default function AdminMenu() {
   const router = useRouter();
@@ -106,12 +107,13 @@ export default function AdminMenu() {
                 <div className="flex items-start justify-center space-x-4">
                   {/* Image */}
                   <div className="flex-shrink-0">
-                    <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center">
+                    <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden flex items-center justify-center relative">
                       {item.imageUrl ? (
-                        <img
+                        <Image
                           src={item.imageUrl}
                           alt={item.name}
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = '/placeholder-food.jpg';
                           }}

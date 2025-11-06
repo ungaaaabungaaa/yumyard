@@ -5,9 +5,10 @@ import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
-import { Search, Plus, Image, Minus, Trash } from 'lucide-react';
+import { Search, Plus, Image as ImageIcon, Minus, Trash } from 'lucide-react';
 import { Id } from "../../../convex/_generated/dataModel";
 import { Spinner } from "@/components/ui/spinner";
+import Image from "next/image";
 
 export default function AdminAddOrder() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -101,19 +102,20 @@ export default function AdminAddOrder() {
                 <div className="flex items-start space-x-4">
                   {/* Image */}
                   <div className="flex-shrink-0">
-                    <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden">
+                    <div className="w-32 h-32 rounded-tl-3xl rounded-bl-3xl rounded-tr-lg rounded-br-lg overflow-hidden relative">
                       {item.imageUrl ? (
-                        <img
+                        <Image
                           src={item.imageUrl}
                           alt={item.name}
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = '/placeholder-food.jpg';
                           }}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-400">
-                          <Image className="w-8 h-8" />
+                          <ImageIcon className="w-8 h-8" />
                         </div>
                       )}
                     </div>

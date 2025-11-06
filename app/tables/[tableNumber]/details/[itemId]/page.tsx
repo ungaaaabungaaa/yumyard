@@ -5,6 +5,7 @@ import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { Spinner } from '@/components/ui/spinner';
+import Image from 'next/image';
 
 export default function MenuItemDetails() {
   const params = useParams();
@@ -55,12 +56,13 @@ export default function MenuItemDetails() {
   return (
     <div className="space-y-6">
       {/* Main Image */}
-      <div className="w-full aspect-square rounded-2xl overflow-hidden bg-background-element-background">
+      <div className="w-full aspect-square rounded-2xl overflow-hidden bg-background-element-background relative">
         {menuItem.imageUrl ? (
-          <img
+          <Image
             src={menuItem.imageUrl}
             alt={menuItem.name}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
             onError={(e) => {
               (e.target as HTMLImageElement).src = '/placeholder-food.jpg';
             }}
@@ -78,11 +80,12 @@ export default function MenuItemDetails() {
       {menuItem.imageUrls && menuItem.imageUrls.length > 0 && (
         <div className="grid grid-cols-3 gap-2">
           {menuItem.imageUrls.map((url, index) => (
-            <div key={index} className="aspect-square rounded-xl overflow-hidden bg-background-element-background">
-              <img
+            <div key={index} className="aspect-square rounded-xl overflow-hidden bg-background-element-background relative">
+              <Image
                 src={url}
                 alt={`${menuItem.name} ${index + 1}`}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
           ))}

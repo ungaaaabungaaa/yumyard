@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function EmptyMyOrder() {
   const router = useRouter();
@@ -12,10 +13,8 @@ export default function EmptyMyOrder() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 py-8">
       {/* Illustration Section */}
-      <div className="relative mb-8">
-        
-        <img src="/Chefcookingdarkmode.png" alt="Empty Orders" className="w-full h-42 object-cover" />
-        
+      <div className="relative mb-8 w-full h-42">
+        <Image src="/Chefcookingdarkmode.png" alt="Empty Orders" fill className="object-cover" />
       </div>
       
       {/* Text Content */}

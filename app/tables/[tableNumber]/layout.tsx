@@ -25,8 +25,6 @@ export default function TablesLayout({ children }: TablesLayoutProps) {
       setTableNumber(tableNum || '')
     }
   }, [params])
-  
-  const headerClassName = "sticky top-0 z-50 bg-white";
 
   // Validate table number is between 1-10
   // Only validate if we have a tableNumber (don't show 404 while loading)

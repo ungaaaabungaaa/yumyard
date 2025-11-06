@@ -6,30 +6,13 @@ import { cn } from "@/lib/utils";
 import CardBackgroundImage from "@/public/cardbackground/CardBg.webp"
 
 export interface CardProps {
-  lottieAnimation: any; // Lottie animation JSON data
+  lottieAnimation: object; // Lottie animation JSON data
   title: React.ReactNode;
   buttonLink: string;
   buttonText: string;
 }
 
 export function Card({ lottieAnimation, title, buttonLink, buttonText }: CardProps) {
-  // Helper to extract text from ReactNode for alt attribute
-  const getTitleText = (node: React.ReactNode): string => {
-    if (typeof node === 'string') return node;
-    if (typeof node === 'number') return String(node);
-    if (Array.isArray(node)) {
-      return node.map(getTitleText).join(' ');
-    }
-    if (React.isValidElement(node)) {
-      const props = node.props as { children?: React.ReactNode };
-      if (props.children) {
-        return getTitleText(props.children);
-      }
-    }
-    return 'Card image';
-  };
-  
-  const titleText = getTitleText(title);
   return (
     <div
       className={cn(
