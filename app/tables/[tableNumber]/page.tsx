@@ -211,7 +211,7 @@ export default function TablePage() {
       </div>
       
       {/* Chip List */}
-      <div className="w-full px-4">
+      <div className="w-full">
         <ChipList
           categories={categories}
           selectedCategory={selectedCategory}
@@ -220,8 +220,7 @@ export default function TablePage() {
       </div>
       
       {/* Menu Items Grid */}
-      <div className="w-full px-4">
-        <h2 className="text-xl font-bold text-typography-heading mb-4">Menu Items</h2>
+      <div className="w-full">
         <div className="grid grid-cols-2 gap-4">
           {categoryFilteredItems.map((item) => (
               <div
