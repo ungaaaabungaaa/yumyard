@@ -234,7 +234,7 @@ export default function TablePage() {
                     handleItemClick(item._id);
                   }
                 }}
-                className="flex flex-col bg-background-element-background rounded-2xl overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                className="flex flex-col  rounded-2xl border p-1 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
               >
                 {/* Image */}
                 <div className="relative w-full aspect-square">
@@ -243,7 +243,7 @@ export default function TablePage() {
                       src={item.imageUrl}
                       alt={item.name}
                       fill
-                      className="object-cover"
+                      className="object-cover rounded-t-2xl rounded-b-xl"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = '/placeholder-food.jpg';
                       }}
@@ -259,11 +259,11 @@ export default function TablePage() {
                 
                 {/* Content */}
                 <div className="p-3 flex flex-col gap-2">
-                  <h3 className="text-sm font-semibold text-typography-heading text-left line-clamp-2">
+                  <h3 className="text-2xl font-medium text-typography-heading text-left line-clamp-2">
                     {item.name}
                   </h3>
                   <div className="flex items-center justify-between">
-                    <span className="text-base font-bold text-typography-primary">
+                    <span className="text-xl  font-medium text-typography-heading">
                       {formatPrice(item.price)}
                     </span>
                     <button
@@ -271,9 +271,9 @@ export default function TablePage() {
                         e.stopPropagation();
                         console.log('Item clicked:', item);
                       }}
-                      className="w-8 h-8 rounded-full bg-background-primary flex items-center justify-center hover:bg-background-primary/90 transition-colors"
+                      className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center hover:bg-background-primary/90 transition-colors"
                     >
-                      <Plus className="w-5 h-5 text-typography-white" />
+                      <Plus className="w-5 h-5 text-typography-primary" />
                     </button>
                   </div>
                 </div>

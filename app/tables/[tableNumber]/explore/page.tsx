@@ -68,7 +68,7 @@ export default function TablesExplore() {
                 <button
                   key={item._id}
                   onClick={() => handleItemClick(item)}
-                  className="relative w-full h-78 rounded-2xl overflow-hidden group"
+                  className="relative w-full h-78 rounded-3xl overflow-hidden group"
                   style={{
                     backgroundImage: `url(${imageUrl})`,
                     backgroundSize: "cover",
