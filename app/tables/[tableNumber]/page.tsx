@@ -234,7 +234,7 @@ export default function TablePage() {
                     handleItemClick(item._id);
                   }
                 }}
-                className="flex flex-col  rounded-2xl border p-1 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                className="flex flex-col  rounded-2xl border p-1 overflow-hidden"
               >
                 {/* Image */}
                 <div className="relative w-full aspect-square">
@@ -271,7 +271,7 @@ export default function TablePage() {
                         e.stopPropagation();
                         console.log('Item clicked:', item);
                       }}
-                      className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center hover:bg-background-primary/90 transition-colors"
+                      className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center"
                     >
                       <Plus className="w-5 h-5 text-typography-primary" />
                     </button>
