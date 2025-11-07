@@ -16,7 +16,7 @@ export function ChipList({ categories, selectedCategory, onCategorySelect }: Chi
         <button
           onClick={() => onCategorySelect(null)}
           className={cn(
-            "px-4 py-2  text-sm rounded-lg font-medium whitespace-nowrap transition-all",
+            "px-4 py-2  rounded-lg text-sm font-medium whitespace-nowrap transition-all",
             selectedCategory === null
               ? "bg-background-primary text-typography-white"
               : "bg-background-element-background text-typography-disabled hover:bg-background-element-background/80"
@@ -31,10 +31,10 @@ export function ChipList({ categories, selectedCategory, onCategorySelect }: Chi
             key={category}
             onClick={() => onCategorySelect(category)}
             className={cn(
-              "px-4 py-2  rounded-md text-sm font-medium whitespace-nowrap transition-all",
+              "px-4 py-2  rounded-lg text-sm font-medium whitespace-nowrap transition-all",
               selectedCategory === category
                 ? "bg-background-primary text-typography-white"
-                : "bg-background-element-background text-typography-disabled hover:bg-background-element-background/80"
+                : "bg-transparent border  text-typography-disabled"
             )}
           >
             {category}
