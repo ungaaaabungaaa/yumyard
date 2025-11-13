@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { Search, TrendingUp, Plus } from 'lucide-react';
+import { Search, TrendingUp, Plus, Minus, Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
@@ -23,7 +23,7 @@ export default function TablePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { addToCart } = useCart();
+  const { addToCart, cartItems, updateQuantity, removeFromCart } = useCart();
   // Cache menu items to persist on refresh
   const cachedMenuItemsRef = useRef<Doc<"menu">[]>([]);
 
@@ -268,22 +268,69 @@ export default function TablePage() {
                     <span className="text-lg  font-medium text-typography-heading">
                       {formatPrice(item.price)}
                     </span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart({
-                          menuId: item._id,
-                          name: item.name,
-                          price: item.price,
-                          imageUrl: item.imageUrl,
-                          description: item.description,
-                          category: item.category,
-                        });
-                      }}
-                      className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center hover:bg-background-primary transition-colors"
-                    >
-                      <Plus className="w-5 h-5 text-typography-primary" />
-                    </button>
+                    {(() => {
+                      const cartItem = cartItems.find(cartItem => cartItem.menuId === item._id);
+                      if (cartItem) {
+                        return (
+                          <div className="flex items-center justify-end space-x-2">
+                            {cartItem.quantity > 1 ? (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updateQuantity(item._id, cartItem.quantity - 1);
+                                }}
+                                className="w-8 h-8 bg-background-secondary text-background-primary rounded-full flex items-center justify-center transition-colors"
+                              >
+                                <Minus className="w-4 h-4" />
+                              </button>
+                            ) : (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  removeFromCart(item._id);
+                                }}
+                                className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
+                              >
+                                <Trash className="w-4 h-4" />
+                              </button>
+                            )}
+                            
+                            <span className="text-lg font-medium text-typography-heading min-w-[1.5rem] text-center">
+                              {cartItem.quantity}
+                            </span>
+                            
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateQuantity(item._id, cartItem.quantity + 1);
+                              }}
+                              className="w-8 h-8 bg-background-secondary text-background-primary rounded-full flex items-center justify-center transition-colors"
+                            >
+                              <Plus className="w-4 h-4" />
+                            </button>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              addToCart({
+                                menuId: item._id,
+                                name: item.name,
+                                price: item.price,
+                                imageUrl: item.imageUrl,
+                                description: item.description,
+                                category: item.category,
+                              });
+                            }}
+                            className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center"
+                          >
+                            <Plus className="w-5 h-5 text-typography-primary" />
+                          </button>
+                        );
+                      }
+                    })()}
                   </div>
                 </div>
               </div>

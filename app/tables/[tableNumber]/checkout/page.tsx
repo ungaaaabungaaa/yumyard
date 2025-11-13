@@ -6,10 +6,10 @@ import { useParams, useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import Image from 'next/image';
-import { Minus, Plus } from 'lucide-react';
+import { Minus, Plus, Trash } from 'lucide-react';
 
 export default function TablesCheckout() {
-  const { cartItems, updateQuantity, getTotalAmount, getTotalItems, clearCart } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, getTotalAmount, getTotalItems, clearCart } = useCart();
   const params = useParams();
   const router = useRouter();
   const tableNumber = params?.tableNumber as string || '';
@@ -242,22 +242,32 @@ export default function TablesCheckout() {
                 {/* Quantity Controls */}
                 <div className="flex items-center justify-between mt-auto">
                   <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => updateQuantity(item.menuId, item.quantity - 1)}
-                      className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center hover:bg-background-primary transition-colors"
-                      aria-label="Decrease quantity"
-                    >
-                      <Minus className="w-4 h-4 text-typography-primary" />
-                    </button>
-                    <span className="text-base font-medium text-typography-heading min-w-[24px] text-center">
+                    {item.quantity > 1 ? (
+                      <button
+                        onClick={() => updateQuantity(item.menuId, item.quantity - 1)}
+                        className="w-8 h-8 bg-background-secondary text-background-primary rounded-full flex items-center justify-center transition-colors"
+                        aria-label="Decrease quantity"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => removeFromCart(item.menuId)}
+                        className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
+                        aria-label="Remove item"
+                      >
+                        <Trash className="w-4 h-4" />
+                      </button>
+                    )}
+                    <span className="text-base font-medium text-typography-heading min-w-[1.5rem] text-center">
                       {item.quantity}
                     </span>
                     <button
                       onClick={() => updateQuantity(item.menuId, item.quantity + 1)}
-                      className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center hover:bg-background-primary transition-colors"
+                      className="w-8 h-8 bg-background-secondary text-background-primary rounded-full flex items-center justify-center transition-colors"
                       aria-label="Increase quantity"
                     >
-                      <Plus className="w-4 h-4 text-typography-primary" />
+                      <Plus className="w-4 h-4" />
                     </button>
                   </div>
                   <span className="text-lg font-semibold text-typography-heading">
