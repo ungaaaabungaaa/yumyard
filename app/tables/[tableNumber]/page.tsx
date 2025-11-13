@@ -12,6 +12,7 @@ import Image from 'next/image';
 import PAN from '@/public/lottie/Prepare Food.json';
 import CHIEF from '@/public/lottie/Cooking.json';
 import DELIVERY from '@/public/lottie/Cooking egg.json';
+import { useCart } from './context/CartContext';
 
 export default function TablePage() {
   const params = useParams();
@@ -22,6 +23,7 @@ export default function TablePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { addToCart } = useCart();
   // Cache menu items to persist on refresh
   const cachedMenuItemsRef = useRef<Doc<"menu">[]>([]);
 
@@ -269,9 +271,16 @@ export default function TablePage() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        console.log('Item clicked:', item);
+                        addToCart({
+                          menuId: item._id,
+                          name: item.name,
+                          price: item.price,
+                          imageUrl: item.imageUrl,
+                          description: item.description,
+                          category: item.category,
+                        });
                       }}
-                      className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center"
+                      className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center hover:bg-background-primary transition-colors"
                     >
                       <Plus className="w-5 h-5 text-typography-primary" />
                     </button>

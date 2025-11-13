@@ -3,6 +3,24 @@
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import { Home, Compass, ShoppingCart } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useCart } from '@/app/tables/[tableNumber]/context/CartContext'
+
+// Create a separate component for cart badge
+function CartBadge() {
+  // Since BottomNavigation is only used in tables layout (wrapped with CartProvider),
+  // we can safely use the hook here
+  const { getTotalItems } = useCart()
+  const cartCount = getTotalItems()
+  
+  if (cartCount > 0) {
+    return (
+      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+        {cartCount > 9 ? '9+' : cartCount}
+      </span>
+    )
+  }
+  return null
+}
 
 export default function BottomNavigation() {
   const params = useParams()
@@ -68,6 +86,7 @@ export default function BottomNavigation() {
         <div className="flex items-center justify-around py-2">
           {navigationItems.map((item) => {
             const Icon = item.icon
+            const isCart = item.label === 'Cart'
             return (
               <button
                 key={item.path}
@@ -75,11 +94,14 @@ export default function BottomNavigation() {
                 className="flex flex-col items-center justify-center px-4 py-1 min-w-[80px] transition-colors relative"
                 aria-label={item.label}
               >
-                <Icon
-                  className={`w-6 h-6 mb-1 transition-colors ${
-                    item.active ? 'text-green-600' : 'text-gray-500'
-                  }`}
-                />
+                <div className="relative">
+                  <Icon
+                    className={`w-6 h-6 mb-1 transition-colors ${
+                      item.active ? 'text-green-600' : 'text-gray-500'
+                    }`}
+                  />
+                  {isCart && <CartBadge />}
+                </div>
                 
                 {item.active && (
                   <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[4px] border-l-transparent border-r-transparent border-b-green-600" />
