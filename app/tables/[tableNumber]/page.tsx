@@ -131,7 +131,7 @@ export default function TablePage() {
     <>
     <div className='w-full min-h-full bg-background-surface-background flex flex-col items-center'>
     {/* Search Bar */}
-    <div className="w-full mb-4 px-4 relative">
+    <div className="w-full mb-4 relative">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
             <Search className="w-6 h-6 text-typography-disabled" />
@@ -176,7 +176,7 @@ export default function TablePage() {
       </div>
       
       {/* Cards Section */}
-      <div className="w-full px-4">
+      <div className="w-full">
         <Cards
         cards={[
           {
@@ -221,7 +221,7 @@ export default function TablePage() {
       
       {/* Menu Items Grid */}
       <div className="w-full">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2">
           {categoryFilteredItems.map((item) => (
               <div
                 key={item._id}
@@ -259,11 +259,11 @@ export default function TablePage() {
                 
                 {/* Content */}
                 <div className="p-3 flex flex-col gap-2">
-                  <h3 className="text-2xl font-medium text-typography-heading text-left line-clamp-2">
+                  <h3 className="text-xl font-medium text-typography-heading text-left line-clamp-2">
                     {item.name}
                   </h3>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl  font-medium text-typography-heading">
+                    <span className="text-lg  font-medium text-typography-heading">
                       {formatPrice(item.price)}
                     </span>
                     <button
