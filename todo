@@ -1,11 +1,11 @@
 Tables 
 
-1.Add to Cart | Count in Bottom Navigation 
-2.Checkout Auth OTP Better Auth session 
-3. place Order 
+1. Cart | Checkout | Details 
+2. Auth Session Just Verify OTP No Need Of AuthSession As its Tables 
+3. Explore | Explore Details | Add to Cart 
+ 
 
-Load Menu - Live Test 
-
+Load Menu - Live Test - Auth & Speed Test
 
 
 
