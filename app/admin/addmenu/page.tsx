@@ -31,6 +31,7 @@ function AdminAddMenuContent() {
     servingSize: "",
     calories: "",
     spiceLevel: "mild",
+    packingCost: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,6 +51,7 @@ function AdminAddMenuContent() {
         servingSize: menuItem.servingSize || "",
         calories: menuItem.calories?.toString() || "",
         spiceLevel: menuItem.spiceLevel || "mild",
+        packingCost: menuItem.packingCost?.toString() || "",
       });
     }
   }, [menuItem, isEditMode]);
@@ -62,7 +64,7 @@ function AdminAddMenuContent() {
       setFormData(prev => ({ ...prev, [name]: checked }));
     } else {
       // Validate numeric fields
-      if (name === "price") {
+      if (name === "price" || name === "packingCost") {
         // Allow numbers and decimal point only
         const numericValue = value.replace(/[^0-9.]/g, '');
         // Prevent multiple decimal points
@@ -109,6 +111,7 @@ function AdminAddMenuContent() {
         servingSize: formData.servingSize || undefined,
         calories: formData.calories ? parseInt(formData.calories) : undefined,
         spiceLevel: formData.spiceLevel as "mild" | "medium" | "hot" | "extra-hot",
+        packingCost: formData.packingCost ? parseFloat(formData.packingCost) : undefined,
       };
 
       if (isEditMode && editId) {
@@ -267,6 +270,18 @@ function AdminAddMenuContent() {
               pattern="[0-9]+"
               className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
               placeholder="Calories"
+            />
+          </div>
+
+          <div>
+            <input
+              type="text"
+              name="packingCost"
+              value={formData.packingCost}
+              onChange={handleInputChange}
+              pattern="[0-9]+(\.[0-9]+)?"
+              className="w-full py-6 px-6 border-2 rounded-3xl text-2xl font-normal text-typography-heading placeholder-typography-light-grey focus:outline-none focus:ring-2 focus:border-transparent "
+              placeholder="Packing Cost"
             />
           </div>
 

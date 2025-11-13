@@ -26,6 +26,7 @@ export default defineSchema({
     ),
     calories: v.optional(v.number()),
     servingSize: v.optional(v.string()),
+    packingCost: v.optional(v.number()),
   })
     .index("by_category", ["category"])
     .index("by_categoryId", ["categoryId"])

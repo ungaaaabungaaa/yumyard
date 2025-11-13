@@ -16,6 +16,7 @@ export const createMenuItem = mutation({
     spiceLevel: v.optional(v.union(v.literal("mild"), v.literal("medium"), v.literal("hot"), v.literal("extra-hot"))),
     calories: v.optional(v.number()),
     servingSize: v.optional(v.string()),
+    packingCost: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const now = Date.now();
@@ -60,6 +61,7 @@ export const updateMenuItem = mutation({
     spiceLevel: v.optional(v.union(v.literal("mild"), v.literal("medium"), v.literal("hot"), v.literal("extra-hot"))),
     calories: v.optional(v.number()),
     servingSize: v.optional(v.string()),
+    packingCost: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
