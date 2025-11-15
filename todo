@@ -1,8 +1,7 @@
 Tables 
 
-1. Cart | Checkout | Details 
-2. Auth Session Just Verify OTP No Need Of AuthSession As its Tables 
-3. Explore | Explore Details | Add to Cart 
+1. Checkout | Details 
+2. Explore | Explore Details | Add to Cart - Auth Still Missing 
  
 
 Load Menu - Live Test - Auth & Speed Test
